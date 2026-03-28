@@ -1,0 +1,216 @@
+<!DOCTYPE html><html><head>
+      <title>rj45 blink and phy link</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.19\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1>二十二、RJ45黄绿指示灯闪烁的“底层逻辑”</h1>
+
+<div class="md-toc">
+<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#一-目的概述" class="md-toc-link">
+            <p>一、目的/概述</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#二-资料来源" class="md-toc-link">
+            <p>二、资料来源</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#三-phy芯片的led模式和led引脚" class="md-toc-link">
+            <p>三、PHY芯片的LED模式和LED引脚</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#四-phy-link状态和phy-link引脚" class="md-toc-link">
+            <p>四、PHY link状态和PHY Link引脚</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#五-通信协议和硬件设计带来的影响" class="md-toc-link">
+            <p>五、通信协议和硬件设计带来的影响</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#六-rj45黄绿灯到底哪个闪烁" class="md-toc-link">
+            <p>六、RJ45黄绿灯到底哪个闪烁？</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#七-rj45指示灯与ethercat指示灯" class="md-toc-link">
+            <p>七、RJ45指示灯与ethercat指示灯</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#八-总结" class="md-toc-link">
+            <p>八、总结</p>
+
+          </a></div>
+</div>
+<h1 id="一-目的概述">一、目的/概述 </h1>
+<ul>
+<li>1、一般来说，绿灯常亮表示连接Link，黄灯闪烁表示数据通讯Activity。但是也经常会看到反着来的。</li>
+<li>2、硬件如何设计、软件如何配置可以达到任意切换效果吗？</li>
+<li>3、是否与以太网多协议有关系呢？<br>
+什么是phylink？<br>
+stm32F407为什么没有phylink？<br>
+phylink、phy地址、RJ45黄绿指示灯、LED引脚功能，四者又有什么关系？</li>
+<li>4、该问题涉及/影响的功能较多，需要根据不同phy芯片进行硬件设计和软件配置,<br>
+<strong>总结一条原则：优先link接RJ45绿灯</strong><br>
+<img src="./images/Totem_Pol.gif" alt=""></li>
+</ul>
+<h1 id="二-资料来源">二、资料来源 </h1>
+<p>似乎没有什么组织或标准规定RJ45黄绿指示灯闪烁规则，我们参考半导体公司开发板参考设计</p>
+<h1 id="三-phy芯片的led模式和led引脚">三、PHY芯片的LED模式和LED引脚 </h1>
+<ul>
+<li>
+<p>1、百兆PHY通常有2个LED引脚，千兆PHY通常3个LED引脚</p>
+</li>
+<li>
+<p>2、PHY寄存器可以配置LED MODE，即LED引脚指示的功能</p>
+</li>
+<li>
+<p>3、百兆PHY的LED引脚通常有3个功能：Link(连接)、Activity(数据通信)、Speed(10、100M)，注意不同品牌的phy措词不一样，不能弄混了</p>
+</li>
+<li>
+<p>4、引用文章：<a href="https://kb.hpmicro.com/2025/03/28/esc%e9%85%8d%e7%bd%aephy%e7%9a%84%e7%a4%ba%e4%be%8b/">https://kb.hpmicro.com/2025/03/28/esc配置phy的示例/</a></p>
+</li>
+<li>
+<p>例子1：KSZ8081<br>
+LED Mode默认0，LED0 LED1指示了speed、Link、Activity三种状态<br>
+LED Mode    1，LED0 LED1指示了Link、Activity两种状态</p>
+</li>
+</ul>
+<p><img src="./images/ksz8081-ledmode.png" alt=""></p>
+<ul>
+<li>例子2：YT8512H<br>
+配置1：<br>
+参见文章<a href="https://mp.weixin.qq.com/s/gqh21Vyu1u9zX1DuiSvQfg">十九、瑞萨RZN2L适配YT8522H/YT8512H</a><br>
+寄存器0x40C0配置0x0030---&gt;LED0---&gt;常亮---&gt;Link<br>
+寄存器0x40C3配置0x0320---&gt;LED1---&gt;闪烁---&gt;Activity<br>
+LED0 LED1还有phy地址选择功能</li>
+</ul>
+<p><img src="./images/yt8512h-led.png" alt=""></p>
+<p>配置2：<br>
+寄存器0x40C0配置0x1300---&gt;LED0---&gt;闪烁---&gt;Activity<br>
+寄存器0x40C3配置0x0020---&gt;LED1---&gt;闪烁---&gt;Link</p>
+<ul>
+<li>5、<strong>总结：phy寄存器可以配置LED引脚的功能，主要是就LED0/1对应Link/Activity，但未涉及到RJ45的黄绿指示灯</strong>。部分phy芯片LED引脚还复用了phy地址选择功能。</li>
+</ul>
+<h1 id="四-phy-link状态和phy-link引脚">四、PHY link状态和PHY Link引脚 </h1>
+<ul>
+<li>1、多种获取PHY link状态的方式：
+<ul>
+<li>
+<ol>
+<li>mcu可以通过MDIO接口读取PHY状态寄存器，从而获取PHY link状态</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>mcu可以通过PHY Link引脚获取PHY link状态</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>RJ45指示灯也可以指示PHY link状态</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>2、stm32f407 h563灯没有PHY Link引脚，瑞萨的ra6 ra8等有</li>
+</ul>
+<p>Ra6m5 phylink引脚：<br>
+<a href="https://doc.embedfire.com/mcu/renesas/fsp_ra/zh/latest/doc/chapter34/chapter34.html?highlight=linksta#id16">https://doc.embedfire.com/mcu/renesas/fsp_ra/zh/latest/doc/chapter34/chapter34.html?highlight=linksta#id16</a></p>
+<p><img src="./images/ra6m5-phy-1.png" alt=""><br>
+<img src="./images/ra6m5-phy-2.png" alt=""></p>
+<ul>
+<li>PHY Link引脚的优势在哪里？<br>
+稍微权威一点的资料可以找到TI的文档：</li>
+</ul>
+<p><img src="./images/dp83848-3.png" alt=""><br>
+<img src="./images/dp83848-4.png" alt=""></p>
+<h1 id="五-通信协议和硬件设计带来的影响">五、通信协议和硬件设计带来的影响 </h1>
+<p>1、测试lwip协议栈工程，可修改LED引脚功能，驱动RJ45黄绿灯不同闪烁模式<br>
+2、ethercat、profinet工程，需要修改硬件设计，无法通过软件修改<br>
+3、分析可能的原因就是ESC必须通过PHY Link引脚获取Link状态，传统的LWIP通过MDIO接口获取Link状态</p>
+<h1 id="六-rj45黄绿灯到底哪个闪烁">六、RJ45黄绿灯到底哪个闪烁？ </h1>
+<ul>
+<li>1、F28P65X黄灯常亮(Link)，绿灯闪烁(Activity)<br>
+<a href="https://www.ti.com.cn/lit/df/sprr478a/sprr478a.pdf?ts=1757397346621">https://www.ti.com.cn/lit/df/sprr478a/sprr478a.pdf?ts=1757397346621</a></li>
+</ul>
+<p><img src="./images/F28P65X-1.png" alt=""><br>
+<img src="./images/F28P65X-2.png" alt=""></p>
+<ul>
+<li>2、AM243x黄灯常亮(Link)，绿灯闪烁(Activity)</li>
+</ul>
+<p><img src="./images/AM243x%E7%9A%84rj45%E6%8C%87%E7%A4%BA%E7%81%AF.png" alt=""></p>
+<ul>
+<li>3、AM243x以太网多协议专用指示灯：</li>
+</ul>
+<p><img src="./images/AM243x-1.png" alt=""></p>
+<ul>
+<li>4、TMDX654IDKEVM黄灯闪烁(Activity)，绿灯常亮(Link)<br>
+<a href="https://www.ti.com.cn/lit/ug/spruim6a/spruim6a.pdf?ts=1757904582598">https://www.ti.com.cn/lit/ug/spruim6a/spruim6a.pdf?ts=1757904582598</a></li>
+</ul>
+<p><img src="./images/TMDX654IDKEVM.png" alt=""></p>
+<ul>
+<li>5、stm32h563没有phylink<br>
+<a href="https://www.st.com.cn/resource/en/schematic_pack/mb1404-h563zi-c01-schematic.pdf">https://www.st.com.cn/resource/en/schematic_pack/mb1404-h563zi-c01-schematic.pdf</a></li>
+</ul>
+<p><img src="./images/h563.png" alt=""></p>
+<ul>
+<li>
+<p>6、hpm6e80提到esc有phy link Activity等专用引脚，link也有极性<br>
+<img src="./images/hmp6e80.png" alt=""></p>
+</li>
+<li>
+<p>7、GD32H75E内置phy，但rj45似乎只有一个灯</p>
+</li>
+</ul>
+<p><img src="./images/gd32h75e-1.png" alt=""><br>
+<img src="./images/gd32h75e-2.png" alt=""></p>
+<h1 id="七-rj45指示灯与ethercat指示灯">七、RJ45指示灯与ethercat指示灯 </h1>
+<p>二者有重叠，但不是一回事。RJ45指示灯未有明确标准规定，ethercat指示灯beckoff有规定</p>
+<ul>
+<li>1、ethercat指示灯beckoff有明确规定，并且esc有对应的引脚</li>
+</ul>
+<p><img src="./images/escled.png" alt=""><br>
+<img src="./images/escled2.png" alt=""><br>
+<img src="./images/escled3.png" alt=""></p>
+<ul>
+<li>2、RJ45指示灯在交换机、电脑灯似乎有行业默认，但仍然要看说明书。一般来说，绿灯常亮表示连接Link，黄灯闪烁表示数据通讯Activity。</li>
+</ul>
+<p><img src="./images/bingrj45.png" alt=""></p>
+<h1 id="八-总结">八、总结 </h1>
+<p>1、RJ45黄绿灯似乎没有明确标准，推荐绿灯常亮表示连接Link，黄灯闪烁表示数据通讯Activity<br>
+2、phy芯片的硬件设计和软件配置均有影响<br>
+3、部分phy芯片的phy地址复用了LED0/1引脚<br>
+4、ethercat依赖esc的phylink引脚，所以多协议产品需优先考虑ethercat设计<br>
+5、<strong>总结一条原则：优先link接RJ45绿灯</strong>，然后phylink、LED引脚功能、phy地址</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

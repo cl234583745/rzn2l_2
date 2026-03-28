@@ -1,0 +1,365 @@
+<!DOCTYPE html><html><head>
+      <title>rzn2l_multi-protocol_fw_upgrade</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.20\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.20\crossnote\dependencies\mermaid\mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1>二十四、RZN2L多协议双BANK升级SDK V0.1</h1>
+
+<div class="md-toc">
+<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#一-目的概述" class="md-toc-link">
+            <p>一、目的/概述</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#二-资料来源" class="md-toc-link">
+            <p>二、资料来源</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#三-目录结构" class="md-toc-link">
+            <p>三、目录结构</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#四-环境要求" class="md-toc-link">
+            <p>四、环境要求</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#五-flash地址划分" class="md-toc-link">
+            <p>五、Flash地址划分</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#六-启动流程图" class="md-toc-link">
+            <p>六、启动流程图</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#七-测试日志" class="md-toc-link">
+            <p>七、测试日志</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#八-已知问题或不足" class="md-toc-link">
+            <p>八、已知问题或不足</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
+          <a href="#九-总结" class="md-toc-link">
+            <p>九、总结</p>
+
+          </a></div>
+</div>
+<h1 id="一-目的概述">一、目的/概述 </h1>
+<p>1、设备部署后不便于通过USB、串口、Jlink、返厂等方式升级固件，ECAT选择FOE升级<br>
+2、FOE升级希望通过双BANK可以回滚上一个版本<br>
+3、硬件一致性、生产、维护等因素考虑多协议，也需要多协议切换和升级<br>
+4、官方相关文档大概5个，但一定程度无法兼容或统一，需要统一的SDK便于开发和维护<br>
+5、FOE FSP 1.3和FOE FSP 2.0以上存在差异，也可能存在无法启动的可能性<br>
+6、介绍RZN2L多协议双BANK升级SDK V0.1架构和测试</p>
+<h1 id="二-资料来源">二、资料来源 </h1>
+<ul>
+<li><a href="./doc/r01an6471ej0300-rzt2-n2-flashboot.pdf">r01an6471ej0300-rzt2-n2-flashboot.pdf</a></li>
+<li><a href="./doc/r01an6472ej0230-rzt2-n2-fwupdate.pdf">r01an6472ej0230-rzt2-n2-fwupdate.pdf</a></li>
+<li><a href="./doc/r01an6737ej0210-rzn2l-separating-loader-and-application.pdf">r01an6737ej0210-rzn2l-separating-loader-and-application.pdf</a></li>
+<li><a href="./doc/r01an7217ee0100-rzn2l-ethernet-protocol-auto-detection.pdf">r01an7217ee0100-rzn2l-ethernet-protocol-auto-detection.pdf</a></li>
+<li><a href="./doc/r01an7423ej0200-rzn2l-ecat-cia402-foe.pdf">r01an7423ej0200-rzn2l-ecat-cia402-foe.pdf</a></li>
+</ul>
+<h1 id="三-目录结构">三、目录结构 </h1>
+<p><img src="./images/1.png" alt=""></p>
+<pre>RZN2L_Multi-protocol_FW_Upgrade/
+├── 0200-rzn2l-ethercat/ [HIDDEN]
+├── <strong>common/
+│   ├── bsp_r52_global_counter.c
+│   ├── bsp_r52_global_counter.h
+│   ├── circular_queue.c
+│   ├── circular_queue.h
+│   ├── crc32_table.c
+│   ├── crc32_table.h
+│   ├── ecat_foe_data.h
+│   ├── flash_config.h
+│   ├── log.h
+│   ├── sbl_params.c
+│   └── sbl_params.h</strong>
+├── RZN2L_xspi0_app1/
+│   ├── BANK0/
+│   │   └── <strong>RZN2L_xspi0_app1_bank0_with_crc.bin</strong>
+│   ├── BANK1/
+│   │   └── <strong>RZN2L_xspi0_app1_bank1_with_crc.bin</strong>
+│   ├── rzn/ [HIDDEN]
+│   ├── rzn_cfg/ [HIDDEN]
+│   ├── rzn_gen/ [HIDDEN]
+│   ├── script/
+│   │   ├── <strong>fsp_xspi0_boot_app1_bank0.ld</strong>
+│   │   └── <strong>fsp_xspi0_boot_app1_bank1.ld</strong>
+│   ├── src/
+│   │   ├── ethercat/
+│   │   │   ├── beckhoff/
+│   │   │   │   └── Src/
+│   │   │   │       ├── <strong>bootmode.c</strong>
+│   │   │   │       ├── <strong>bootmode.h</strong>
+│   │   │   │       ├── ecatfoe.c
+│   │   │   │       ├── ecatfoe.h
+│   │   │   │       ├── foeappl.c
+│   │   │   │       ├── foeappl.h
+│   │   │   └── renesas/
+│   │   │       ├── samplefoe.c
+│   │   │       ├── samplefoe.h
+│   │   ├── r_fw_up_rz/ [HIDDEN]
+│   │   ├── hal_entry.c
+│   │   └── syscall.c
+│   ├── <strong>attach_crc_bank0.py</strong>
+│   ├── <strong>attach_crc_bank1.py</strong>
+│   ├── configuration.xml
+│   ├── RZN2L_xspi0_app1.sbd.backup0
+│   ├── RZN2L_xspi0_app1.sbd.backup1
+│   └── rzn_cfg.txt
+├── RZN2L_xspi0_boot_sbl/
+│   ├── rzn/ [HIDDEN]
+│   ├── rzn_cfg/ [HIDDEN]
+│   ├── rzn_gen/ [HIDDEN]
+│   ├── script/
+│   │   └── <strong>fsp_xspi0_boot_loader.ld</strong>
+│   ├── src/
+│   │   ├── <strong>APP1_BANK0_Flash_section.s</strong>
+│   │   ├── <strong>APP1_BANK1_Flash_section.s</strong>
+│   │   ├── hal_entry.c
+│   │   ├── <strong>loader_table.c</strong>
+│   │   ├── <strong>loader_table.h</strong>
+│   │   └── syscall.c
+│   ├── configuration.xml
+│   ├── RZN2L_xspi0_boot_sbl.srec.backup
+│   └── rzn_cfg.txt
+├── mytree.sh
+└── README.MD
+<strong></strong>
+<span style="color:red; font-weight:bold"></span>
+</pre>
+<h1 id="四-环境要求">四、环境要求 </h1>
+<ul>
+<li>Window 10/11</li>
+<li>Renesas e² studio Version: 2025-07 (25.7.0)</li>
+<li>RZN FSP 2.0.0</li>
+<li>TwinCAT v3.1.4024.65</li>
+<li>Python 3.12.12</li>
+<li>CN032开发板(RZN2L+KSZ8081+w25q128)</li>
+</ul>
+<h1 id="五-flash地址划分">五、Flash地址划分 </h1>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>FLASH MEMORY MAP (起始地址: 0x6000 0000)
+═══════════════════════════════════════════════════════════
+             SBL:   
+0x6000 0000  ┌─────────────────────────────────────┐
+             │ loader_param                        │ 0x4C
+0x6000 004c  ├─────────────────────────────────────┤
+             │ sbl code                            │ ~512KB
+0x6008 0000  ├─────────────────────────────────────┤
+             │ sbl LOADER_TABLE                    │ ~508KB
+0x600F F000  ├─────────────────────────────────────┤
+             │ sbl boot params                     │ 4KB
+0x600F FFFF  └─────────────────────────────────────┘
+             APP1BANK0：   
+0x6010 0000  ┌─────────────────────────────────────┐
+             │ .header                             │
+             │  ├─ "APP1BANK0" (9B)                │
+             │  ├─ app1bank0 length (4B)           │ 0x4C
+             │  └─ reserved (0x4C-0x1C=0x30)       │
+0x6010 004c  ├─────────────────────────────────────┤
+             │ .identify (4x4B)                    │ 16B
+0x6010 005c  ├─────────────────────────────────────┤
+             │         app1 bank0 code             │
+0x601F FFFC  ├─────────────────────────────────────┤
+             │ 整区 CRC32 (0x6010_0000-0x6020_0000)│ 4B
+0x601F FFFF  └─────────────────────────────────────┘
+             APP1BANK1:
+0x6020 0000  ┌─────────────────────────────────────┐
+             │ .header                             │
+             │  ├─ "APP1BANK1" (9B)                │
+             │  ├─ app1bank1 length (4B)           │ 0x4C
+             │  └─ reserved (0x4C-0x1C=0x30)       │
+0x6020 004c  ├─────────────────────────────────────┤
+             │ .identify (4x4B)                    │ 16B
+0x6020 005c  ├─────────────────────────────────────┤
+             │         app1 bank1 code             │
+0x602F FFFC  ├─────────────────────────────────────┤
+             │ 整区 CRC32 (0x6020_0000-0x6030_0000)│ 4B
+0x602F FFFF  └─────────────────────────────────────┘
+
+0x6030 0000  ┌─────────────────────────────────────┐
+             │         剩余保留区域                 │
+             └─────────────────────────────────────┘
+</code></pre><h1 id="六-启动流程图">六、启动流程图 </h1>
+<div class="mermaid">flowchart TB
+    %% 紧凑布局配置
+    %%{init: {'flowchart': {'nodeSpacing': 30, 'rankSpacing': 30}}}%%
+    
+    subgraph FLASH[&lt;b&gt;FLASH 存储器&lt;/b&gt;]
+        direction TB
+        F1["Boot ROM"]
+        F2["Loader Params"]
+        F3["SBL"]
+        F4["APP1 Bank0"]
+        F5["APP1 Bank1"]
+    end
+
+    subgraph RAM[&lt;b&gt;RAM 存储器&lt;/b&gt;]
+        direction TB
+        R1["ATCM"]
+        R2["BTCM"]
+        R3["SRAM"]
+    end
+
+    Start["⚡上电"] --&gt; BootROM
+    BootROM --&gt;|读取| F2
+    F2 --&gt; BootROM
+    BootROM --&gt;|复制| F3
+    F3 -.-&gt;|加载| R2
+    
+    R2 --&gt; SBLExec["SBL运行"]
+    SBLExec --&gt; Choice{选择}
+    Choice --&gt;|0| F4
+    Choice --&gt;|1| F5
+    
+    F4 -.-&gt;|复制| R3
+    F5 -.-&gt;|复制| R3
+    R3 --&gt; AppRun["APP运行"]
+    AppRun --&gt; Done["✅完成"]
+
+    classDef flash fill:#FFE6E6,stroke:#CC0000,stroke-width:1px
+    classDef ram fill:#E6F3FF,stroke:#0066CC,stroke-width:1px
+    class F1,F2,F3,F4,F5 flash
+    class R1,R2,R3 ram
+</div><h1 id="七-测试日志">七、测试日志 </h1>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>g_uart0.p_api-&gt;open
+[INFO] date:Feb 12 2026
+time:16:27:50
+file:../src/hal_entry.c
+func:hal_entry,line:132
+hello world!
+[INFO] PI=3.141593
+[INFO] Built with RZ/N Flexible Software Package version 2.0.0
+[INFO] BootBankParams check OK!!!
+[INFO] Loader start! 0.1.0
+*****
+Ready to Jump to the app!
+
+[INFO] ****************************
+App start!
+[INFO] App start! 0.1.0
+[INFO] date:Feb 12 2026
+time:16:27:30
+file:../src/hal_entry.c
+func:hal_entry,line:148
+hello world!
+[INFO] PI=3.141593
+[INFO] Built with RZ/N Flexible Software Package version 2.0.0
+[INFO] RZ/N2L EtherCAT sample program starts on BANK0.
+[INFO] BL_Start State=3
+[INFO] BootBankParams check OK!!!
+[INFO] P:0% [INFO] P:0% [INFO] P:0% [INFO] P:0% [INFO] P:0% [INFO] P:1% [INFO] P:1% [INFO] P:1% [INFO] P:1% [INFO] P:1% [INFO] P:1% [INFO] P:1% [INFO] P:2% [INFO] P:2% [INFO] P:2% [INFO] P:2% [INFO] P:2% [INFO] P:2% [INFO] P:3% [INFO] P:3% [INFO] P:3% [INFO] P:3% [INFO] P:3% [INFO] P:3% [INFO] P:3% [INFO] P:4% [INFO] P:4% [INFO] P:4% [INFO] P:4% [INFO] P:4% [INFO] P:4% [INFO] P:4% [INFO] P:5% [INFO] P:5% [INFO] P:5% [INFO] P:5% [INFO] P:5% [INFO] P:5% [INFO] P:6% [INFO] P:6% [INFO] P:6% [INFO] P:6% [INFO] P:6% [INFO] P:6% [INFO] P:6% [INFO] P:7% [INFO] P:7% [INFO] P:7% [INFO] P:7% [INFO] P:7% [INFO] P:7% [INFO] P:8% [INFO] P:8% [INFO] P:8% [INFO] P:8% [INFO] P:8% [INFO] P:8% [INFO] P:8% [INFO] P:9% [INFO] P:9% [INFO] P:9% [INFO] P:9% [INFO] P:10% [INFO] P:10% [INFO] P:10% [INFO] P:10% [INFO] P:10% [INFO] P:10% [INFO] P:10% [INFO] P:11% [INFO] P:11% [INFO] P:11% [INFO] P:11% [INFO] P:11% [INFO] P:11% [INFO] P:11% [INFO] P:12% [INFO] P:12% [INFO] P:12% [INFO] P:12% [INFO] P:12% [INFO] P:12% [INFO] P:13% [INFO] P:13% [INFO] P:13% [INFO] P:13% [INFO] P:13% [INFO] P:13% [INFO] P:13% [INFO] P:14% [INFO] P:14% [INFO] P:14% [INFO] P:14% [INFO] P:14% [INFO] P:14% [INFO] P:14% [INFO] P:15% [INFO] P:15% [INFO] P:15% [INFO] P:15% [INFO] P:15% [INFO] P:15% [INFO] P:16% [INFO] P:16% [INFO] P:16% [INFO] P:16% [INFO] P:16% [INFO] P:16% [INFO] P:16% [INFO] P:17% [INFO] P:17% [INFO] P:17% [INFO] P:17% [INFO] P:17% [INFO] P:17% [INFO] P:18% [INFO] P:18% [INFO] P:18% [INFO] P:18% [INFO] P:18% [INFO] P:19% [INFO] P:19% [INFO] P:19% [INFO] P:19% [INFO] P:19% [INFO] P:19% [INFO] P:20% [INFO] P:20% [INFO] P:20% [INFO] P:20% [INFO] P:20% [INFO] P:20% [INFO] P:20% [INFO] P:21% [INFO] P:21% [INFO] P:21% [INFO] P:21% [INFO] P:21% [INFO] P:21% [INFO] P:21% [INFO] P:22% [INFO] P:22% [INFO] P:22% [INFO] P:22% [INFO] P:22% [INFO] P:22% [INFO] P:23% [INFO] P:23% [INFO] P:23% [INFO] P:23% [INFO] P:23% [INFO] P:23% [INFO] P:23% [INFO] P:24% [INFO] P:24% [INFO] P:24% [INFO] P:24% [INFO] P:24% [INFO] P:24% [INFO] P:24% [INFO] P:25% [INFO] P:25% [INFO] P:25% [INFO] P:25% [INFO] P:25% [INFO] P:25% [INFO] P:26% [INFO] P:26% [INFO] P:26% [INFO] P:26% [INFO] P:26% [INFO] P:26% [INFO] P:26% [INFO] P:27% [INFO] P:27% [INFO] P:27% [INFO] P:27% [INFO] P:28% [INFO] P:28% [INFO] P:28% [INFO] P:28% [INFO] P:28% [INFO] P:28% [INFO] P:28% [INFO] P:29% [INFO] P:29% [INFO] P:29% [INFO] P:29% [INFO] P:29% [INFO] P:29% [INFO] P:30% [INFO] P:30% [INFO] P:30% [INFO] P:30% [INFO] P:30% [INFO] P:30% [INFO] P:30% [INFO] P:31% [INFO] P:31% [INFO] P:31% [INFO] P:31% [INFO] P:31% [INFO] P:31% [INFO] P:31% [INFO] P:32% [INFO] P:32% [INFO] P:32% [INFO] P:32% [INFO] P:32% [INFO] P:32% [INFO] P:33% [INFO] P:33% [INFO] P:33% [INFO] P:33% [INFO] P:33% [INFO] P:33% [INFO] P:33% [INFO] P:34% [INFO] P:34% [INFO] P:34% [INFO] P:34% [INFO] P:34% [INFO] P:34% [INFO] P:34% [INFO] P:35% [INFO] P:35% [INFO] P:35% [INFO] P:35% [INFO] P:35% [INFO] P:35% [INFO] P:36% [INFO] P:36% [INFO] P:36% [INFO] P:36% [INFO] P:36% [INFO] P:37% [INFO] P:37% [INFO] P:37% [INFO] P:37% [INFO] P:37% [INFO] P:37% [INFO] P:38% [INFO] P:38% [INFO] P:38% [INFO] P:38% [INFO] P:38% [INFO] P:38% [INFO] P:38% [INFO] P:39% [INFO] P:39% [INFO] P:39% [INFO] P:39% [INFO] P:39% [INFO] P:39% [INFO] P:40% [INFO] P:40% [INFO] P:40% [INFO] P:40% [INFO] P:40% [INFO] P:40% [INFO] P:40% [INFO] P:41% [INFO] P:41% [INFO] P:41% [INFO] P:41% [INFO] P:41% [INFO] P:41% [INFO] P:41% [INFO] P:42% [INFO] P:42% [INFO] P:42% [INFO] P:42% [INFO] P:42% [INFO] P:42% [INFO] P:43% [INFO] P:43% [INFO] P:43% [INFO] P:43% [INFO] P:43% [INFO] P:43% [INFO] P:43% [INFO] P:44% [INFO] P:44% [INFO] P:44% [INFO] P:44% [INFO] P:44% [INFO] P:44% [INFO] P:44% [INFO] P:45% [INFO] P:45% [INFO] P:45% [INFO] P:45% [INFO] P:46% [INFO] P:46% [INFO] P:46% [INFO] P:46% [INFO] P:46% [INFO] P:46% [INFO] P:46% [INFO] P:47% [INFO] P:47% [INFO] P:47% [INFO] P:47% [INFO] P:47% [INFO] P:47% [INFO] P:48% [INFO] P:48% [INFO] P:48% [INFO] P:48% [INFO] P:48% [INFO] P:48% [INFO] P:48% [INFO] P:49% [INFO] P:49% [INFO] P:49% [INFO] P:49% [INFO] P:49% [INFO] P:49% [INFO] P:50% [INFO] P:50% [INFO] P:50% [INFO] P:50% [INFO] P:50% [INFO] P:50% [INFO] P:50% [INFO] P:51% [INFO] P:51% [INFO] P:51% [INFO] P:51% [INFO] P:51% [INFO] P:51% [INFO] P:51% [INFO] P:52% [INFO] P:52% [INFO] P:52% [INFO] P:52% [INFO] P:52% [INFO] P:52% [INFO] P:53% [INFO] P:53% [INFO] P:53% [INFO] P:53% [INFO] P:53% [INFO] P:53% [INFO] P:53% [INFO] P:54% [INFO] P:54% [INFO] P:54% [INFO] P:54% [INFO] P:55% [INFO] P:55% [INFO] P:55% [INFO] P:55% [INFO] P:55% [INFO] P:55% [INFO] P:55% [INFO] P:56% [INFO] P:56% [INFO] P:56% [INFO] P:56% [INFO] P:56% [INFO] P:56% [INFO] P:56% [INFO] P:57% [INFO] P:57% [INFO] P:57% [INFO] P:57% [INFO] P:57% [INFO] P:57% [INFO] P:58% [INFO] P:58% [INFO] P:58% [INFO] P:58% [INFO] P:58% [INFO] P:58% [INFO] P:58% [INFO] P:59% [INFO] P:59% [INFO] P:59% [INFO] P:59% [INFO] P:59% [INFO] P:59% [INFO] P:60% [INFO] P:60% [INFO] P:60% [INFO] P:60% [INFO] P:60% [INFO] P:60% [INFO] P:60% [INFO] P:61% [INFO] P:61% [INFO] P:61% [INFO] P:61% [INFO] P:61% [INFO] P:61% [INFO] P:61% [INFO] P:62% [INFO] P:62% [INFO] P:62% [INFO] P:62% [INFO] P:62% [INFO] P:62% [INFO] P:63% [INFO] P:63% [INFO] P:63% [INFO] P:63% [INFO] P:63% [INFO] P:64% [INFO] P:64% [INFO] P:64% [INFO] P:64% [INFO] P:64% [INFO] P:64% [INFO] P:65% [INFO] P:65% [INFO] P:65% [INFO] P:65% [INFO] P:65% [INFO] P:65% [INFO] P:65% [INFO] P:66% [INFO] P:66% [INFO] P:66% [INFO] P:66% [INFO] P:66% [INFO] P:66% [INFO] P:66% [INFO] P:67% [INFO] P:67% [INFO] P:67% [INFO] P:67% [INFO] P:67% [INFO] P:67% [INFO] P:68% [INFO] P:68% [INFO] P:68% [INFO] P:68% [INFO] P:68% [INFO] P:68% [INFO] P:68% [INFO] P:69% [INFO] P:69% [INFO] P:69% [INFO] P:69% [INFO] P:69% [INFO] P:69% [INFO] P:70% [INFO] P:70% [INFO] P:70% [INFO] P:70% [INFO] P:70% [INFO] P:70% [INFO] P:70% [INFO] P:71% [INFO] P:71% [INFO] P:71% [INFO] P:71% [INFO] P:71% [INFO] P:71% [INFO] P:71% [INFO] P:72% [INFO] P:72% [INFO] P:72% [INFO] P:72% [INFO] P:73% [INFO] P:73% [INFO] P:73% [INFO] P:73% [INFO] P:73% [INFO] P:73% [INFO] P:73% [INFO] P:74% [INFO] P:74% [INFO] P:74% [INFO] P:74% [INFO] P:74% [INFO] P:74% [INFO] P:75% [INFO] P:75% [INFO] P:75% [INFO] P:75% [INFO] P:75% [INFO] P:75% [INFO] P:75% [INFO] P:76% [INFO] P:76% [INFO] P:76% [INFO] P:76% [INFO] P:76% [INFO] P:76% [INFO] P:76% [INFO] P:77% [INFO] P:77% [INFO] P:77% [INFO] P:77% [INFO] P:77% [INFO] P:77% [INFO] P:78% [INFO] P:78% [INFO] P:78% [INFO] P:78% [INFO] P:78% [INFO] P:78% [INFO] P:78% [INFO] P:79% [INFO] P:79% [INFO] P:79% [INFO] P:79% [INFO] P:79% [INFO] P:79% [INFO] P:80% [INFO] P:80% [INFO] P:80% [INFO] P:80% [INFO] P:80% [INFO] P:80% [INFO] P:80% [INFO] P:81% [INFO] P:81% [INFO] P:81% [INFO] P:81% [INFO] P:81% [INFO] P:82% [INFO] P:82% [INFO] P:82% [INFO] P:82% [INFO] P:82% [INFO] P:82% [INFO] P:83% [INFO] P:83% [INFO] P:83% [INFO] P:83% [INFO] P:83% [INFO] P:83% [INFO] P:83% [INFO] P:84% [INFO] P:84% [INFO] P:84% [INFO] P:84% [INFO] P:84% [INFO] P:84% [INFO] P:85% [INFO] P:85% [INFO] P:85% [INFO] P:85% [INFO] P:85% [INFO] P:85% [INFO] P:85% [INFO] P:86% [INFO] P:86% [INFO] P:86% [INFO] P:86% [INFO] P:86% [INFO] P:86% [INFO] P:86% [INFO] P:87% [INFO] P:87% [INFO] P:87% [INFO] P:87% [INFO] P:87% [INFO] P:87% [INFO] P:88% [INFO] P:88% [INFO] P:88% [INFO] P:88% [INFO] P:88% [INFO] P:88% [INFO] P:88% [INFO] P:89% [INFO] P:89% [INFO] P:89% [INFO] P:89% [INFO] P:89% [INFO] P:89% [INFO] P:90% [INFO] P:90% [INFO] P:90% [INFO] P:90% [INFO] P:90% [INFO] P:91% [INFO] P:91% [INFO] P:91% [INFO] P:91% [INFO] P:91% [INFO] P:91% [INFO] P:91% [INFO] P:92% [INFO] P:92% [INFO] P:92% [INFO] P:92% [INFO] P:92% [INFO] P:92% [INFO] P:93% [INFO] P:93% [INFO] P:93% [INFO] P:93% [INFO] P:93% [INFO] P:93% [INFO] P:93% [INFO] P:94% [INFO] P:94% [INFO] P:94% [INFO] P:94% [INFO] P:94% [INFO] P:94% [INFO] P:95% [INFO] P:95% [INFO] P:95% [INFO] P:95% [INFO] P:95% [INFO] P:95% [INFO] P:95% [INFO] P:96% [INFO] P:96% [INFO] P:96% [INFO] P:96% [INFO] P:96% [INFO] P:96% [INFO] P:96% [INFO] P:97% [INFO] P:97% [INFO] P:97% [INFO] P:97% [INFO] P:97% [INFO] P:97% [INFO] P:98% [INFO] P:98% [INFO] P:98% [INFO] P:98% [INFO] P:98% [INFO] P:98% [INFO] P:98% [INFO] P:99% [INFO] P:99% [INFO] P:99% [INFO] P:99% [INFO] Last P:100%
+[INFO] write flash finished!!!
+[INFO] Flash crc check succeed!!!
+[INFO] BL_DATA_STATUS_SII_UPDATE Buffer.word[SII_EEP_REVESIONNO]=300
+[INFO] ECAT FOE Total Time:5000ms!!!
+
+[INFO] BL_Stopg_uart0.p_api-&gt;open
+[INFO] date:Feb 12 2026
+time:16:27:50
+file:../src/hal_entry.c
+func:hal_entry,line:132
+hello world!
+[INFO] PI=3.141593
+[INFO] Built with RZ/N Flexible Software Package version 2.0.0
+[INFO] BootBankParams check OK!!!
+[INFO] Loader start! 0.1.0
+*****
+Ready to Jump to the app!
+
+[INFO] ****************************
+App start!
+[INFO] App start! 0.1.0
+[INFO] date:Feb 12 2026
+time:16:27:30
+file:../src/hal_entry.c
+func:hal_entry,line:148
+hello world!
+[INFO] PI=3.141593
+[INFO] Built with RZ/N Flexible Software Package version 2.0.0
+[INFO] RZ/N2L EtherCAT sample program starts on BANK0.
+</code></pre><h1 id="八-已知问题或不足">八、已知问题或不足 </h1>
+<ul>
+<li>FOE测试可升级，但未完成双BANK切换</li>
+<li>只支持e2studo</li>
+<li>暂不支持其他协议</li>
+<li>SBL暂不支持RTOS、LWIP</li>
+<li>仅仅可测试验证，无法保证稳定性</li>
+<li>暂不支持RZ其他芯片</li>
+</ul>
+<h1 id="九-总结">九、总结 </h1>
+<ul>
+<li>参考了官方5个文档，该SDK理论支持RZN2L多协议双BANK升级SDK(V0.1)</li>
+<li>通过构建后指令、Python等指令或工具，尽量做到自动化</li>
+<li>年前发布V0.1，根据大家反馈情况，再决定是否继续维护</li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>
