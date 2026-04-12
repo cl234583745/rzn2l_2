@@ -1,0 +1,449 @@
+1、-o1
+
+Toolchain ver:13.3.1 20240614
+SystemCoreClock: 400000000 Hz
+date:Apr 11 2026
+time:12:13:47
+file:../src/hal_entry.c
+func:hal_entry,line:99
+hello world!
+
+================================================
+   NEON/DSP Performance Test on RZN CR52
+================================================
+System Core Clock: 400000000 Hz
+GSC Clock: 25000000 Hz
+
+Test Configuration:
+  General DSP Test: ON
+  FOC Algorithm Test: ON
+  CMSIS-DSP Library: OFF
+  Array Size: 1024
+  Matrix Size: 8x8
+  FIR Taps: 16
+  Iterations: 10
+  FOC Samples: 256
+  FOC Iterations: 1000
+================================================
+
+[General DSP Tests]
+
+  [Test 1] Array Addition (1024 elements)
+    C:      6096 cycles, avg: 609/iter
+    NEON:   3014 cycles, avg: 301/iter
+
+  [Test 2] Multiply-Accumulate (1024 elements)
+    C:      1935 cycles, avg: 193/iter
+    NEON:   655 cycles, avg: 65/iter
+
+  [Test 3] Matrix Multiplication (8x8)
+    C:      26566 cycles, avg: 265/iter
+    NEON:   13197 cycles, avg: 131/iter
+
+  [Test 4] FIR Filter (1024 samples, 16 taps)
+    C:      932217 cycles, avg: 9322/iter
+    NEON:   414398 cycles, avg: 4143/iter
+
+  [Test 5] Int32 to Float (1024 elements)
+    C:      8979 cycles, avg: 897/iter
+    NEON:   3060 cycles, avg: 306/iter
+
+[FOC Algorithm Tests]
+
+  [Test 6] Clarke Transform (3P->2P, 256 samples)
+    C:      49188 cycles, avg: 49/iter
+    NEON:   49373 cycles, avg: 49/iter
+
+  [Test 7] Park Transform (2P->DQ, 256 samples)
+    C:      69943 cycles, avg: 69/iter
+    NEON:   342975 cycles, avg: 342/iter
+
+  [Test 8] Inverse Park Transform (DQ->2P, 256 samples)
+    C:      54078 cycles, avg: 54/iter
+    NEON:   54141 cycles, avg: 54/iter
+
+  [Test 9] SVPWM (2P->3P, 256 samples)
+    C:      196747 cycles, avg: 196/iter
+    NEON:   194996 cycles, avg: 194/iter
+
+  [Test 10] PI Controller (1000 iterations)
+    C:      241302 cycles, avg: 241/iter
+    NEON:   209302 cycles, avg: 209/iter
+
+================================================
+              Summary Table
+================================================
+Test        |C(avg)    |NEON(avg) |Speedup   
+------------|----------|----------|----------
+Arr Add     |      609|      301|2.02x
+Mul-Acc     |      193|       65|2.96x
+Mat Mul     |      265|      131|2.02x
+FIR         |     9322|     4143|2.25x
+Int->Float  |      897|      306|2.93x
+Clarke      |       49|       49|1.00x
+Park        |       69|      342|0.20x
+Inv Park    |       54|       54|1.00x
+SVPWM       |      196|      194|1.01x
+PI Ctrl     |      241|      209|1.15x
+================================================
+         Benchmark Complete!
+================================================
+
+
+2、-o2
+
+Toolchain ver:13.3.1 20240614
+SystemCoreClock: 400000000 Hz
+date:Apr 11 2026
+time:11:50:36
+file:../src/hal_entry.c
+func:hal_entry,line:99
+hello world!
+
+================================================
+   NEON/DSP Performance Test on RZN CR52
+================================================
+System Core Clock: 400000000 Hz
+GSC Clock: 25000000 Hz
+
+Test Configuration:
+  General DSP Test: ON
+  FOC Algorithm Test: ON
+  CMSIS-DSP Library: OFF
+  Array Size: 1024
+  Matrix Size: 8x8
+  FIR Taps: 16
+  Iterations: 10
+  FOC Samples: 256
+  FOC Iterations: 1000
+================================================
+
+[General DSP Tests]
+
+  [Test 1] Array Addition (1024 elements)
+    C:      6096 cycles, avg: 609/iter
+    NEON:   3014 cycles, avg: 301/iter
+
+  [Test 2] Multiply-Accumulate (1024 elements)
+    C:      1935 cycles, avg: 193/iter
+    NEON:   655 cycles, avg: 65/iter
+
+  [Test 3] Matrix Multiplication (8x8)
+    C:      26566 cycles, avg: 265/iter
+    NEON:   13197 cycles, avg: 131/iter
+
+  [Test 4] FIR Filter (1024 samples, 16 taps)
+    C:      932217 cycles, avg: 9322/iter
+    NEON:   414398 cycles, avg: 4143/iter
+
+  [Test 5] Int32 to Float (1024 elements)
+    C:      8979 cycles, avg: 897/iter
+    NEON:   3060 cycles, avg: 306/iter
+
+[FOC Algorithm Tests]
+
+  [Test 6] Clarke Transform (3P->2P, 256 samples)
+    C:      49188 cycles, avg: 49/iter
+    NEON:   49373 cycles, avg: 49/iter
+
+  [Test 7] Park Transform (2P->DQ, 256 samples)
+    C:      69943 cycles, avg: 69/iter
+    NEON:   342975 cycles, avg: 342/iter
+
+  [Test 8] Inverse Park Transform (DQ->2P, 256 samples)
+    C:      54078 cycles, avg: 54/iter
+    NEON:   54141 cycles, avg: 54/iter
+
+  [Test 9] SVPWM (2P->3P, 256 samples)
+    C:      196747 cycles, avg: 196/iter
+    NEON:   194996 cycles, avg: 194/iter
+
+  [Test 10] PI Controller (1000 iterations)
+    C:      241302 cycles, avg: 241/iter
+    NEON:   209302 cycles, avg: 209/iter
+
+================================================
+              Summary Table
+================================================
+Test        |C(avg)    |NEON(avg) |Speedup   
+------------|----------|----------|----------
+Arr Add     |      609|      301|2.02x
+Mul-Acc     |      193|       65|2.96x
+Mat Mul     |      265|      131|2.02x
+FIR         |     9322|     4143|2.25x
+Int->Float  |      897|      306|2.93x
+Clarke      |       49|       49|1.00x
+Park        |       69|      342|0.20x
+Inv Park    |       54|       54|1.00x
+SVPWM       |      196|      194|1.01x
+PI Ctrl     |      241|      209|1.15x
+================================================
+         Benchmark Complete!
+================================================
+
+Toolchain ver:13.3.1 20240614
+SystemCoreClock: 400000000 Hz
+date:Apr 11 2026
+time:11:51:24
+file:../src/hal_entry.c
+func:hal_entry,line:99
+hello world!
+
+================================================
+   NEON/DSP Performance Test on RZN CR52
+================================================
+System Core Clock: 400000000 Hz
+GSC Clock: 25000000 Hz
+
+Test Configuration:
+  General DSP Test: ON
+  FOC Algorithm Test: ON
+  CMSIS-DSP Library: OFF
+  Array Size: 1024
+  Matrix Size: 8x8
+  FIR Taps: 16
+  Iterations: 10
+  FOC Samples: 256
+  FOC Iterations: 1000
+================================================
+
+[General DSP Tests]
+
+  [Test 1] Array Addition (1024 elements)
+    C:      22437 cycles, avg: 2243/iter
+    NEON:   2915 cycles, avg: 291/iter
+
+  [Test 2] Multiply-Accumulate (1024 elements)
+    C:      19878 cycles, avg: 1987/iter
+    NEON:   2093 cycles, avg: 209/iter
+
+  [Test 3] Matrix Multiplication (8x8)
+    C:      147648 cycles, avg: 1476/iter
+    NEON:   17574 cycles, avg: 175/iter
+
+  [Test 4] FIR Filter (1024 samples, 16 taps)
+    C:      3977643 cycles, avg: 39776/iter
+    NEON:   465405 cycles, avg: 4654/iter
+
+  [Test 5] Int32 to Float (1024 elements)
+    C:      25634 cycles, avg: 2563/iter
+    NEON:   3071 cycles, avg: 307/iter
+
+[FOC Algorithm Tests]
+
+  [Test 6] Clarke Transform (3P->2P, 256 samples)
+    C:      1010589 cycles, avg: 1010/iter
+    NEON:   1042601 cycles, avg: 1042/iter
+
+  [Test 7] Park Transform (2P->DQ, 256 samples)
+    C:      1177237 cycles, avg: 1177/iter
+    NEON:   1577237 cycles, avg: 1577/iter
+
+  [Test 8] Inverse Park Transform (DQ->2P, 256 samples)
+    C:      1129124 cycles, avg: 1129/iter
+    NEON:   1129238 cycles, avg: 1129/iter
+
+  [Test 9] SVPWM (2P->3P, 256 samples)
+    C:      2979078 cycles, avg: 2979/iter
+    NEON:   2611052 cycles, avg: 2611/iter
+
+  [Test 10] PI Controller (1000 iterations)
+    C:      2068823 cycles, avg: 2068/iter
+    NEON:   2052952 cycles, avg: 2052/iter
+
+================================================
+              Summary Table
+================================================
+Test        |C(avg)    |NEON(avg) |Speedup   
+------------|----------|----------|----------
+Arr Add     |     2243|      291|7.70x
+Mul-Acc     |     1987|      209|9.50x
+Mat Mul     |     1476|      175|8.43x
+FIR         |    39776|     4654|8.54x
+Int->Float  |     2563|      307|8.34x
+Clarke      |     1010|     1042|0.96x
+Park        |     1177|     1577|0.74x
+Inv Park    |     1129|     1129|1.00x
+SVPWM       |     2979|     2611|1.14x
+PI Ctrl     |     2068|     2052|1.00x
+================================================
+         Benchmark Complete!
+================================================
+
+Toolchain ver:13.3.1 20240614
+SystemCoreClock: 400000000 Hz
+date:Apr 11 2026
+time:11:54:07
+file:../src/hal_entry.c
+func:hal_entry,line:99
+hello world!
+
+================================================
+   NEON/DSP Performance Test on RZN CR52
+================================================
+System Core Clock: 400000000 Hz
+GSC Clock: 25000000 Hz
+
+Test Configuration:
+  General DSP Test: ON
+  FOC Algorithm Test: ON
+  CMSIS-DSP Library: OFF
+  Array Size: 1024
+  Matrix Size: 8x8
+  FIR Taps: 16
+  Iterations: 10
+  FOC Samples: 256
+  FOC Iterations: 1000
+================================================
+
+[General DSP Tests]
+
+  [Test 1] Array Addition (1024 elements)
+    C:      581 cycles, avg: 58/iter
+    NEON:   1788 cycles, avg: 178/iter
+
+  [Test 2] Multiply-Accumulate (1024 elements)
+    C:      11 cycles, avg: 1/iter
+    NEON:   1466 cycles, avg: 146/iter
+
+  [Test 3] Matrix Multiplication (8x8)
+    C:      45 cycles, avg: 0/iter
+    NEON:   14858 cycles, avg: 148/iter
+
+  [Test 4] FIR Filter (1024 samples, 16 taps)
+    C:      724578 cycles, avg: 7245/iter
+    NEON:   474973 cycles, avg: 4749/iter
+
+  [Test 5] Int32 to Float (1024 elements)
+    C:      710 cycles, avg: 71/iter
+    NEON:   2270 cycles, avg: 227/iter
+
+[FOC Algorithm Tests]
+
+  [Test 6] Clarke Transform (3P->2P, 256 samples)
+    C:      947 cycles, avg: 0/iter
+    NEON:   885 cycles, avg: 0/iter
+
+  [Test 7] Park Transform (2P->DQ, 256 samples)
+    C:      7259 cycles, avg: 7/iter
+    NEON:   246718 cycles, avg: 246/iter
+
+  [Test 8] Inverse Park Transform (DQ->2P, 256 samples)
+    C:      7260 cycles, avg: 7/iter
+    NEON:   7259 cycles, avg: 7/iter
+
+  [Test 9] SVPWM (2P->3P, 256 samples)
+    C:      1201 cycles, avg: 1/iter
+    NEON:   1199 cycles, avg: 1/iter
+
+  [Test 10] PI Controller (1000 iterations)
+    C:      241225 cycles, avg: 241/iter
+    NEON:   209239 cycles, avg: 209/iter
+
+================================================
+              Summary Table
+================================================
+Test        |C(avg)    |NEON(avg) |Speedup   
+------------|----------|----------|----------
+Arr Add     |       58|      178|0.32x
+Mul-Acc     |        1|      146|0.00x
+Mat Mul     |        0|      148|0.00x
+FIR         |     7245|     4749|1.52x
+Int->Float  |       71|      227|0.31x
+Clarke      |        0|        0|0.00x
+Park        |        7|      246|0.02x
+Inv Park    |        7|        7|1.00x
+SVPWM       |        1|        1|1.00x
+PI Ctrl     |      241|      209|1.15x
+================================================
+         Benchmark Complete!
+================================================
+
+Toolchain ver:13.3.1 20240614
+SystemCoreClock: 400000000 Hz
+date:Apr 11 2026
+time:11:54:55
+file:../src/hal_entry.c
+func:hal_entry,line:99
+hello world!
+
+================================================
+   NEON/DSP Performance Test on RZN CR52
+================================================
+System Core Clock: 400000000 Hz
+GSC Clock: 25000000 Hz
+
+Test Configuration:
+  General DSP Test: ON
+  FOC Algorithm Test: ON
+  CMSIS-DSP Library: OFF
+  Array Size: 1024
+  Matrix Size: 8x8
+  FIR Taps: 16
+  Iterations: 10
+  FOC Samples: 256
+  FOC Iterations: 1000
+================================================
+
+[General DSP Tests]
+
+  [Test 1] Array Addition (1024 elements)
+    C:      1775 cycles, avg: 177/iter
+    NEON:   1789 cycles, avg: 178/iter
+
+  [Test 2] Multiply-Accumulate (1024 elements)
+    C:      11 cycles, avg: 1/iter
+    NEON:   1466 cycles, avg: 146/iter
+
+  [Test 3] Matrix Multiplication (8x8)
+    C:      7912 cycles, avg: 79/iter
+    NEON:   14850 cycles, avg: 148/iter
+
+  [Test 4] FIR Filter (1024 samples, 16 taps)
+    C:      909359 cycles, avg: 9093/iter
+    NEON:   474995 cycles, avg: 4749/iter
+
+  [Test 5] Int32 to Float (1024 elements)
+    C:      7060 cycles, avg: 706/iter
+    NEON:   2269 cycles, avg: 226/iter
+
+[FOC Algorithm Tests]
+
+  [Test 6] Clarke Transform (3P->2P, 256 samples)
+    C:      947 cycles, avg: 0/iter
+    NEON:   885 cycles, avg: 0/iter
+
+  [Test 7] Park Transform (2P->DQ, 256 samples)
+    C:      7259 cycles, avg: 7/iter
+    NEON:   246718 cycles, avg: 246/iter
+
+  [Test 8] Inverse Park Transform (DQ->2P, 256 samples)
+    C:      7260 cycles, avg: 7/iter
+    NEON:   7259 cycles, avg: 7/iter
+
+  [Test 9] SVPWM (2P->3P, 256 samples)
+    C:      196041 cycles, avg: 196/iter
+    NEON:   210289 cycles, avg: 210/iter
+
+  [Test 10] PI Controller (1000 iterations)
+    C:      241152 cycles, avg: 241/iter
+    NEON:   209362 cycles, avg: 209/iter
+
+================================================
+              Summary Table
+================================================
+Test        |C(avg)    |NEON(avg) |Speedup   
+------------|----------|----------|----------
+Arr Add     |      177|      178|0.99x
+Mul-Acc     |        1|      146|0.00x
+Mat Mul     |       79|      148|0.53x
+FIR         |     9093|     4749|1.91x
+Int->Float  |      706|      226|3.12x
+Clarke      |        0|        0|0.00x
+Park        |        7|      246|0.02x
+Inv Park    |        7|        7|1.00x
+SVPWM       |      196|      210|0.93x
+PI Ctrl     |      241|      209|1.15x
+================================================
+         Benchmark Complete!
+================================================
