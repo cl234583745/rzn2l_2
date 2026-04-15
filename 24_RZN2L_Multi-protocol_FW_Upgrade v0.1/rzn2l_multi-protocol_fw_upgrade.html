@@ -3,10 +3,10 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.20\crossnote\dependencies\katex\katex.min.css">
+      <link rel="stylesheet" href="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.22\crossnote\dependencies\katex\katex.min.css">
       
       
-      <script type="text/javascript" src="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.20\crossnote\dependencies\mermaid\mermaid.min.js" charset="UTF-8"></script>
+      <script type="text/javascript" src="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.22\crossnote\dependencies\mermaid\mermaid.min.js" charset="UTF-8"></script>
       
       
       <style>
@@ -15,13 +15,13 @@
 /*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
 
       </style>
-      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+      <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function () {
     // your code here
   });
-</script></head><body for="html-export">
-    
-    
+</script>
+    </head>
+    <body for="html-export">
       <div class="crossnote markdown-preview  ">
       
 <h1>二十四、RZN2L多协议双BANK升级SDK V0.1</h1>
@@ -72,6 +72,11 @@
 4、官方相关文档大概5个，但一定程度无法兼容或统一，需要统一的SDK便于开发和维护<br>
 5、FOE FSP 1.3和FOE FSP 2.0以上存在差异，也可能存在无法启动的可能性<br>
 6、介绍RZN2L多协议双BANK升级SDK V0.1架构和测试</p>
+<ul>
+<li>GitHub仓库：<br>
+<a href="https://github.com/cl234583745/rzn2l_multi-protocol_fw_upgrade">https://github.com/cl234583745/rzn2l_multi-protocol_fw_upgrade</a><br>
+<a href="https://gitee.com/292812832/rzn2l_multi-protocol_fw_upgrade">https://gitee.com/292812832/rzn2l_multi-protocol_fw_upgrade</a></li>
+</ul>
 <h1 id="二-资料来源">二、资料来源 </h1>
 <ul>
 <li><a href="./doc/r01an6471ej0300-rzt2-n2-flashboot.pdf">r01an6471ej0300-rzt2-n2-flashboot.pdf</a></li>
@@ -337,7 +342,7 @@ mermaid.initialize(MERMAID_CONFIG || {})
 if (typeof(window['Reveal']) !== 'undefined') {
   function mermaidRevealHelper(event) {
     var currentSlide = event.currentSlide
-    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    var diagrams = currentSlide.querySelectorAll('div.mermaid')
     for (var i = 0; i < diagrams.length; i++) {
       var diagram = diagrams[i]
       if (!diagram.hasAttribute('data-processed')) {
@@ -350,11 +355,11 @@ if (typeof(window['Reveal']) !== 'undefined') {
   Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
   Reveal.addEventListener('ready', mermaidRevealHelper)
   await mermaid.run({
-    nodes: document.querySelectorAll('.mermaid')
+    nodes: document.querySelectorAll('div.mermaid')
   })
 } else {
   await mermaid.run({
-    nodes: document.querySelectorAll('.mermaid')
+    nodes: document.querySelectorAll('div.mermaid')
   })
 }
 </script>

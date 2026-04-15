@@ -9,6 +9,10 @@
 5、FOE FSP 1.3和FOE FSP 2.0以上存在差异，也可能存在无法启动的可能性
 6、介绍RZN2L多协议双BANK升级SDK V0.1架构和测试
 
+- GitHub仓库：
+https://github.com/cl234583745/rzn2l_multi-protocol_fw_upgrade
+https://gitee.com/292812832/rzn2l_multi-protocol_fw_upgrade
+
 # 二、资料来源
 - [r01an6471ej0300-rzt2-n2-flashboot.pdf](./doc/r01an6471ej0300-rzt2-n2-flashboot.pdf)
 - [r01an6472ej0230-rzt2-n2-fwupdate.pdf](./doc/r01an6472ej0230-rzt2-n2-fwupdate.pdf)
