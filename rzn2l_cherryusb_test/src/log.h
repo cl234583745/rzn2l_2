@@ -12,6 +12,15 @@
 #define LOG_H
 
 #include <stdio.h>
+#include "SEGGER_RTT/SEGGER_RTT.h"
+
+#define SEGGER_INDEX (0)
+
+#define USE_RTT_PRINT
+
+#if defined(USE_RTT_PRINT)
+    #define printf(...) SEGGER_RTT_printf(SEGGER_INDEX, __VA_ARGS__)
+#endif
 
 // ---------- 日志级别定义 ----------
 #define LOG_LEVEL_NONE  0

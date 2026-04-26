@@ -6,6 +6,7 @@
 #include "bsp_api.h"
 #include "bsp_irq.h"
 #include "usb_dc_rzn2l.h"
+#include "usb_log.h"
 
 void usr_usbfs_interrupt_handler(void)
 {
@@ -20,7 +21,9 @@ void usb_interrupt_init(void)
 
     R_BSP_IrqClearPending(usb_irq);
 
-    R_BSP_IrqCfg(usb_irq, 5, NULL);
+    R_BSP_IrqDetectTypeSet(usb_irq, 0);
+
+    R_BSP_IrqCfg(usb_irq, 12, NULL);
 
     R_BSP_IrqEnable(usb_irq);
 }

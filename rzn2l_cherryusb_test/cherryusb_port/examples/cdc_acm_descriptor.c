@@ -28,11 +28,8 @@ const uint8_t cdc_acm_device_descriptor[] = {
 };
 
 /* ========== 配置描述符 ========== */
-#define CDC_ACM_TOTAL_LEN  (USB_DT_CONFIG_SIZE + USB_DT_INTERFACE_SIZE + \
-                            USB_DT_CS_INTERFACE_SIZE + USB_DT_CS_INTERFACE_SIZE + \
-                            USB_DT_CS_INTERFACE_SIZE + USB_DT_CS_INTERFACE_SIZE + \
-                            USB_DT_ENDPOINT_SIZE + USB_DT_INTERFACE_SIZE + \
-                            USB_DT_ENDPOINT_SIZE + USB_DT_ENDPOINT_SIZE)
+/* Config(9) + IAD(8) + Intf0(9) + Header(5) + CallMgmt(5) + ACM(4) + Union(5) + EPint(7) + Intf1(9) + EPout(7) + EPin(7) */
+#define CDC_ACM_TOTAL_LEN  75
 
 const uint8_t cdc_acm_config_descriptor[] = {
     /* Configuration Descriptor */

@@ -20,70 +20,72 @@ typedef volatile uint32_t* usb_reg32_t;
 #define R_USBF                     ((R_USBF_Type *)R_USBF_BASE)
 
 typedef struct {
-    volatile uint16_t SYSCFG0;
-    volatile uint16_t SYSCFG1;
-    volatile uint16_t SYSSTS0;
-    volatile uint16_t RESERVED0;
-    volatile uint16_t DVSTCTR0;
-    volatile uint16_t RESERVED1;
-    volatile uint16_t TESTMODE;
-    volatile uint16_t RESERVED2;
-    volatile uint32_t RESERVED3;
-    volatile uint32_t CFIFO;
-    volatile uint16_t CFIFOSEL;
-    volatile uint16_t CFIFOCTR;
-    volatile uint16_t RESERVED4;
-    volatile uint32_t D0FIFO;
-    volatile uint16_t D0FIFOSEL;
-    volatile uint16_t D0FIFOCTR;
-    volatile uint16_t RESERVED5;
-    volatile uint32_t D1FIFO;
-    volatile uint16_t D1FIFOSEL;
-    volatile uint16_t D1FIFOCTR;
-    volatile uint16_t RESERVED6;
-    volatile uint16_t INTENB0;
-    volatile uint16_t INTENB1;
-    volatile uint16_t BRDYENB;
-    volatile uint16_t NRDYENB;
-    volatile uint16_t BEMPENB;
-    volatile uint16_t SOFCFG;
-    volatile uint16_t INTSTS0;
-    volatile uint16_t INTSTS1;
-    volatile uint16_t FRMNUM;
-    volatile uint16_t UFRMNUM;
-    volatile uint16_t USBADDR;
-    volatile uint16_t USBREQ;
-    volatile uint16_t USBVAL;
-    volatile uint16_t USBINDX;
-    volatile uint16_t USBLENG;
-    volatile uint16_t DCPCFG;
-    volatile uint16_t DCPMAXP;
-    volatile uint16_t DCPCTR;
-    volatile uint16_t PIPESEL;
-    volatile uint16_t PIPECFG;
-    volatile uint16_t PIPEBUF;
-    volatile uint16_t PIPEMAXP;
-    volatile uint16_t PIPEPERI;
-    volatile uint16_t PIPE1CTR;
-    volatile uint16_t PIPE2CTR;
-    volatile uint16_t PIPE3CTR;
-    volatile uint16_t PIPE4CTR;
-    volatile uint16_t PIPE5CTR;
-    volatile uint16_t PIPE6CTR;
-    volatile uint16_t PIPE7CTR;
-    volatile uint16_t PIPE8CTR;
-    volatile uint16_t PIPE9CTR;
-    volatile uint16_t RESERVED7[8];
-    volatile uint16_t DEVADD0;
-    volatile uint16_t DEVADD1;
-    volatile uint16_t DEVADD2;
-    volatile uint16_t DEVADD3;
-    volatile uint16_t DEVADD4;
-    volatile uint16_t DEVADD5;
-    volatile uint16_t DEVADD6;
-    volatile uint16_t DEVADD7;
-    volatile uint16_t DEVADD8;
-    volatile uint16_t DEVADD9;
+    volatile uint16_t SYSCFG0;          /* 0x00 */
+    volatile uint16_t SYSCFG1;          /* 0x02 */
+    volatile uint16_t SYSSTS0;          /* 0x04 */
+    volatile uint16_t RESERVED0;        /* 0x06 */
+    volatile uint16_t DVSTCTR0;         /* 0x08 */
+    volatile uint16_t RESERVED1;        /* 0x0A */
+    volatile uint16_t TESTMODE;         /* 0x0C */
+    volatile uint16_t RESERVED2;        /* 0x0E */
+    volatile uint32_t RESERVED3;        /* 0x10 */
+    volatile uint32_t CFIFO;            /* 0x14 - FIFO data */
+    volatile uint32_t D0FIFO;           /* 0x18 - FIFO data */
+    volatile uint32_t D1FIFO;           /* 0x1C - FIFO data */
+    volatile uint16_t CFIFOSEL;         /* 0x20 */
+    volatile uint16_t CFIFOCTR;         /* 0x22 */
+    volatile uint32_t RESERVED7;        /* 0x24 */
+    volatile uint16_t D0FIFOSEL;        /* 0x28 */
+    volatile uint16_t D0FIFOCTR;        /* 0x2A */
+    volatile uint16_t D1FIFOSEL;        /* 0x2C */
+    volatile uint16_t D1FIFOCTR;        /* 0x2E */
+    volatile uint16_t INTENB0;          /* 0x30 */
+    volatile uint16_t INTENB1;          /* 0x32 */
+    volatile uint16_t RESERVED8;        /* 0x34 */
+    volatile uint16_t BRDYENB;          /* 0x36 */
+    volatile uint16_t NRDYENB;          /* 0x38 */
+    volatile uint16_t BEMPENB;          /* 0x3A */
+    volatile uint16_t SOFCFG;           /* 0x3C */
+    volatile uint16_t RESERVED9;        /* 0x3E */
+    volatile uint16_t INTSTS0;          /* 0x40 */
+    volatile uint16_t INTSTS1;          /* 0x42 */
+    volatile uint16_t RESERVED10;       /* 0x44 */
+    volatile uint16_t BRDYSTS;          /* 0x46 - per-pipe BRDY status */
+    volatile uint16_t NRDYSTS;          /* 0x48 - per-pipe NRDY status */
+    volatile uint16_t BEMPSTS;          /* 0x4A - per-pipe BEMP status */
+    volatile uint16_t FRMNUM;           /* 0x4C */
+    volatile uint16_t UFRMNUM;          /* 0x4E */
+    volatile uint16_t USBADDR;          /* 0x50 */
+    volatile uint16_t RESERVED11;       /* 0x52 */
+    volatile uint16_t USBREQ;           /* 0x54 */
+    volatile uint16_t USBVAL;           /* 0x56 */
+    volatile uint16_t USBINDX;          /* 0x58 */
+    volatile uint16_t USBLENG;          /* 0x5A */
+    volatile uint16_t DCPCFG;           /* 0x5C */
+    volatile uint16_t DCPMAXP;          /* 0x5E */
+    volatile uint16_t DCPCTR;           /* 0x60 */
+    volatile uint16_t RESERVED12;       /* 0x62 */
+    volatile uint16_t PIPESEL;          /* 0x64 */
+    volatile uint16_t RESERVED13;       /* 0x66 */
+    volatile uint16_t PIPECFG;          /* 0x68 */
+    volatile uint16_t PIPEBUF;          /* 0x6A */
+    volatile uint16_t PIPEMAXP;         /* 0x6C */
+    volatile uint16_t PIPEPERI;         /* 0x6E */
+    volatile uint16_t PIPE1CTR;         /* 0x70 */
+    volatile uint16_t PIPE2CTR;         /* 0x72 */
+    volatile uint16_t PIPE3CTR;         /* 0x74 */
+    volatile uint16_t PIPE4CTR;         /* 0x76 */
+    volatile uint16_t PIPE5CTR;         /* 0x78 */
+    volatile uint16_t PIPE6CTR;         /* 0x7A */
+    volatile uint16_t PIPE7CTR;         /* 0x7C */
+    volatile uint16_t PIPE8CTR;         /* 0x7E */
+    volatile uint16_t PIPE9CTR;         /* 0x80 */
+    volatile uint16_t RESERVED14;       /* 0x82 */
+    volatile uint32_t RESERVED15[3];    /* 0x84 */
+    volatile uint32_t RESERVED_TR[5];   /* 0x90 */
+    volatile uint32_t RESERVED16[23];   /* 0xA4 */
+    volatile uint16_t RESERVED17;       /* 0x100 */
+    volatile uint16_t LPSTS;            /* 0x102 - Low Power Status */
 } R_USBF_Type;
 
 #define USB0  R_USBF
@@ -195,6 +197,48 @@ typedef struct {
 
 #define USB_MAXP                  (0x007FU)
 #define USB_MXPS                  (0x07FFU)
+
+#define USB_SUSPM                 (0x4000U)
+
+/* USBHC (USB Host Controller) at 0x80200000 */
+#define USBHC_BASE                (0x80200000UL)
+#define USBHC_COMMCTRL            (*((volatile uint32_t *)(USBHC_BASE + 0x800)))
+#define USBHC_USBCTR              (*((volatile uint32_t *)(USBHC_BASE + 0x20C)))
+#define USBHC_COMMCTRL_PERI       (0x80000000UL)
+#define USBHC_USBCTR_PLL_RST      (0x00000002UL)
+
+/* SYSC (System Control) at 0x80280000 */
+#define SYSC_BASE                 (0x80280000UL)
+#define SYSC_MSTPCRE              (*((volatile uint32_t *)(SYSC_BASE + 0x310)))
+
+#define SYSC_MSTPCRE_USB_BIT      (1UL << 8)
+
+/* RWP (Register Write Protection)
+ *   Non-Secure: PRCRN at 0x80281A10 (16-bit)
+ *   Secure:     PRCRS at 0x81281A00 (32-bit)
+ */
+#define RWP_NS_PRCRN              (*((volatile uint16_t *)(0x80281A10UL)))
+#define RWP_S_PRCRS               (*((volatile uint32_t *)(0x81281A00UL)))
+#define RWP_PRCR_KEY              (0xA500U)
+#define RWP_PRCR_PRC1             (0x0002U)
+
+static inline void usb_prcr_unlock_lpc_reset(void)
+{
+    uint16_t tmp_ns = RWP_NS_PRCRN;
+    uint32_t tmp_s  = RWP_S_PRCRS;
+    RWP_NS_PRCRN = (tmp_ns | RWP_PRCR_KEY | RWP_PRCR_PRC1);
+    RWP_S_PRCRS  = (tmp_s  | RWP_PRCR_KEY | RWP_PRCR_PRC1);
+    __asm volatile ("dsb sy" : : : "memory");
+}
+
+static inline void usb_prcr_lock_lpc_reset(void)
+{
+    uint16_t tmp_ns = RWP_NS_PRCRN;
+    uint32_t tmp_s  = RWP_S_PRCRS;
+    RWP_NS_PRCRN = (uint16_t)((tmp_ns | RWP_PRCR_KEY) & ~RWP_PRCR_PRC1);
+    RWP_S_PRCRS  = ((tmp_s  | RWP_PRCR_KEY) & ~RWP_PRCR_PRC1);
+    __asm volatile ("dsb sy" : : : "memory");
+}
 
 static inline uint16_t usb_read_syscfg(void)
 {

@@ -375,7 +375,8 @@ SECTIONS
     {
         . = ALIGN(32);
         _ncbuffer_start = .;
-        KEEP(*(.noncache_buffer*))
+        KEEP(*(.noncache_buffer))
+        *(.noncache_buffer*)
         _ncbuffer_end = .;
     } > NONCACHE_BUFFER
 }

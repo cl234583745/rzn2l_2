@@ -19,6 +19,8 @@
 #define CONFIG_USBDEV_EP0_BUFFER_SIZE   64      /* EP0缓冲区大小 */
 #define CONFIG_USBDEV_REQUEST_BUFFER_SIZE 256   /* 请求缓冲区大小 */
 
+#include "log.h"
+
 /* ========== 调试配置 ========== */
 /* 注意: USB中断内不要使用日志打印，避免与串口中断优先级冲突 */
 #define CONFIG_USBDEV_DEBUG_LEVEL       3       /* 调试级别: 0=无, 1=错误, 2=警告, 3=信息 */
