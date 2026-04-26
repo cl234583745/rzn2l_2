@@ -1,0 +1,374 @@
+<!DOCTYPE html><html><head>
+      <title>rzn2l_rtt_print_address</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.24\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-details{margin:0;padding:0;border:none}.markdown-preview .md-toc summary.md-toc-link-wrapper{cursor:pointer;list-style-position:outside}.markdown-preview .md-toc summary.md-toc-link-wrapper::marker{font-size:.85em}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='0']{margin-left:12px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='1']{margin-left:28px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='2']{margin-left:44px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='3']{margin-left:60px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='4']{margin-left:76px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='5']{margin-left:80px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-details{margin:0;padding:0;border:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='0']{padding-left:0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='1']{padding-left:16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='2']{padding-left:32px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='3']{padding-left:48px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='4']{padding-left:64px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='5']{padding-left:80px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
+      <div class="crossnote markdown-preview  ">
+      
+<h1>二十六、RZN2L CR52 RTT打印移植与固定地址</h1>
+<div class="md-toc">
+<div class="md-toc-link-wrapper" data-level="0">
+  <a href="#一-目的概述" class="md-toc-link"><p>一、目的/概述</p>
+</a>
+</div>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#二-问题背景" class="md-toc-link"><p>二、问题背景</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#21-为什么需要nocache地址" class="md-toc-link"><p>2.1 为什么需要nocache地址？</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#22-地址不固定的问题" class="md-toc-link"><p>2.2 地址不固定的问题</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#三-移植步骤" class="md-toc-link"><p>三、移植步骤</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#31-复制rtt文件到工程" class="md-toc-link"><p>3.1 复制RTT文件到工程</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#32-配置logh" class="md-toc-link"><p>3.2 配置log.h</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#33-修改segger_rttc" class="md-toc-link"><p>3.3 修改SEGGER_RTT.c</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#34-修改链接脚本" class="md-toc-link"><p>3.4 修改链接脚本</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#35-定义起始标记" class="md-toc-link"><p>3.5 定义起始标记</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#四-验证方法" class="md-toc-link"><p>四、验证方法</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#41-查看map文件" class="md-toc-link"><p>4.1 查看map文件</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#42-j-link连接测试" class="md-toc-link"><p>4.2 J-Link连接测试</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#五-常见问题" class="md-toc-link"><p>五、常见问题</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#51-rtt不打印" class="md-toc-link"><p>5.1 RTT不打印</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#52-地址不固定" class="md-toc-link"><p>5.2 地址不固定</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#53-有cache和无cache的区别" class="md-toc-link"><p>5.3 有cache和无cache的区别</p>
+</a>
+</div>
+</details>
+<div class="md-toc-link-wrapper" data-level="0">
+  <a href="#六-总结" class="md-toc-link"><p>六、总结</p>
+</a>
+</div>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#七-附录" class="md-toc-link"><p>七、附录</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#测试环境" class="md-toc-link"><p>测试环境</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#相关地址定义" class="md-toc-link"><p>相关地址定义</p>
+</a>
+</div>
+</details>
+</div>
+<h1 id="一-目的概述">一、目的/概述 </h1>
+<p>1、在RZN2L CR52内核上移植SEGGER RTT打印功能</p>
+<p>2、解决RTT地址不固定的问题确保J-Link能稳定连接</p>
+<p>3、强制放置到nocache SRAM地址保证数据一致性</p>
+<h1 id="二-问题背景">二、问题背景 </h1>
+<h2 id="21-为什么需要nocache地址">2.1 为什么需要nocache地址？ </h2>
+<p>RZN2L使用的是Cortex-R52内核，有多块内存区域，其中部分使用了Cache：</p>
+<table>
+<thead>
+<tr>
+<th>内存区域</th>
+<th>地址</th>
+<th>是否Cache</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ATCM</td>
+<td>0x00000000</td>
+<td>无</td>
+</tr>
+<tr>
+<td>BTCM</td>
+<td>0x00100000</td>
+<td>无</td>
+</tr>
+<tr>
+<td>SYSTEM_RAM_MIRROR</td>
+<td>0x30000000</td>
+<td>有</td>
+</tr>
+<tr>
+<td>NONCACHE_BUFFER</td>
+<td>0x30160000</td>
+<td>无（nocache）</td>
+</tr>
+</tbody>
+</table>
+<p>RTT需要放在nocache区域，否则J-Link读取时数据可能还在Cache里未刷到RAM。</p>
+<h2 id="22-地址不固定的问题">2.2 地址不固定的问题 </h2>
+<p>默认情况下，RTT的三个变量在<code>.noncache_buffer</code> section中按链接顺序排列：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>.noncache_buffer
+                0x30160000      0x4b8
+                0x30160410                _SEGGER_RTT    ← 不是起始地址！
+</code></pre><p>每次编译顺序不同，地址也会变化，导致J-Link无法稳定连接。</p>
+<h1 id="三-移植步骤">三、移植步骤 </h1>
+<h2 id="31-复制rtt文件到工程">3.1 复制RTT文件到工程 </h2>
+<p>从SEGGER官网下载RTT源码，复制以下文件到工程：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>src/SEGGER_RTT/
+├── SEGGER_RTT.c
+├── SEGGER_RTT.h
+├── SEGGER_RTT_Conf.h
+└── SEGGER_RTT_printf.c
+</code></pre><h2 id="32-配置logh">3.2 配置log.h </h2>
+<p>在<code>src/log.h</code>中配置打印方式：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token comment">/*
+ * 打印方式选择: 0=UART, 1=RTT
+ */</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">PRINTF_METHOD</span>  <span class="token expression"><span class="token number">1</span></span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression"><span class="token punctuation">(</span>PRINTF_METHOD <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span></span></span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">USE_RTT_PRINT</span>       <span class="token expression"><span class="token number">1</span></span></span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">SEGGER_INDEX</span>     <span class="token expression"><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span></span></span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"SEGGER_RTT/SEGGER_RTT.h"</span></span>
+    <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">printf</span><span class="token expression"><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token function">SEGGER_RTT_printf</span><span class="token punctuation">(</span>SEGGER_INDEX<span class="token punctuation">,</span> __VA_ARGS__<span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+</code></pre><h2 id="33-修改segger_rttc">3.3 修改SEGGER_RTT.c </h2>
+<p>修改<code>src/SEGGER_RTT/SEGGER_RTT.c</code>第274-276行，使用nocache section：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression">SEGGER_RTT_CPU_CACHE_LINE_SIZE</span></span>
+  <span class="token comment">// 有cache的系统使用对齐</span>
+  SEGGER_RTT_CB _SEGGER_RTT <span class="token keyword keyword-__attribute__">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">section</span> <span class="token punctuation">(</span><span class="token string">".noncache_buffer"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">aligned</span> <span class="token punctuation">(</span>SEGGER_RTT_CPU_CACHE_LINE_SIZE<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// ...</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">else</span></span>
+  <span class="token comment">// 无cache的系统直接放到nocache段</span>
+  SEGGER_RTT_CB _SEGGER_RTT <span class="token keyword keyword-__attribute__">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">section</span> <span class="token punctuation">(</span><span class="token string">".noncache_buffer"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-char">char</span> _acUpBuffer<span class="token punctuation">[</span>BUFFER_SIZE_UP<span class="token punctuation">]</span> <span class="token keyword keyword-__attribute__">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">section</span> <span class="token punctuation">(</span><span class="token string">".noncache_buffer"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-char">char</span> _acDownBuffer<span class="token punctuation">[</span>BUFFER_SIZE_DOWN<span class="token punctuation">]</span> <span class="token keyword keyword-__attribute__">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">section</span> <span class="token punctuation">(</span><span class="token string">".noncache_buffer"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+</code></pre><h2 id="34-修改链接脚本">3.4 修改链接脚本 </h2>
+<p>在<code>script/fsp_xspi0_boot.ld</code>中固定顺序：</p>
+<pre data-role="codeBlock" data-info="ld" class="language-ld ld"><code><span class="token section keyword">.noncache_buffer</span> <span class="token function">NONCACHE_BUFFER_START</span> <span class="token punctuation">(</span>NOLOAD<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">AT</span> <span class="token punctuation">(</span>NONCACHE_BUFFER_START<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token location-counter important">.</span> <span class="token operator">=</span> <span class="token function">ALIGN</span><span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    _ncbuffer_start <span class="token operator">=</span> <span class="token location-counter important">.</span><span class="token punctuation">;</span>
+
+    <span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token section keyword">._SEGGER_RTT</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token section keyword">._acUpBuffer</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token section keyword">._acDownBuffer</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    _ncbuffer_end <span class="token operator">=</span> <span class="token location-counter important">.</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token operator">&gt;</span> NONCACHE_BUFFER
+</code></pre><h2 id="35-定义起始标记">3.5 定义起始标记 </h2>
+<p>为了确保<code>_SEGGER_RTT</code>在section起始位置，需要添加一个起始标记：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token comment">// 在RTT控制块前面添加一个标记变量</span>
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-char">char</span> _SEGGER_RTT_Start<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token keyword keyword-__attribute__">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">section</span> <span class="token punctuation">(</span><span class="token string">".noncache_buffer"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+SEGGER_RTT_CB _SEGGER_RTT <span class="token keyword keyword-__attribute__">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">section</span> <span class="token punctuation">(</span><span class="token string">".noncache_buffer"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">aligned</span><span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-char">char</span> _acUpBuffer<span class="token punctuation">[</span>BUFFER_SIZE_UP<span class="token punctuation">]</span> <span class="token keyword keyword-__attribute__">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">section</span> <span class="token punctuation">(</span><span class="token string">".noncache_buffer"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-char">char</span> _acDownBuffer<span class="token punctuation">[</span>BUFFER_SIZE_DOWN<span class="token punctuation">]</span> <span class="token keyword keyword-__attribute__">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">section</span> <span class="token punctuation">(</span><span class="token string">".noncache_buffer"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>链接脚本更新为：</p>
+<pre data-role="codeBlock" data-info="ld" class="language-ld ld"><code><span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token section keyword">._SEGGER_RTT_Start</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token section keyword">._SEGGER_RTT</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token section keyword">._acUpBuffer</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token section keyword">._acDownBuffer</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token function">KEEP</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token section keyword">.noncache_buffer</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><h1 id="四-验证方法">四、验证方法 </h1>
+<h2 id="41-查看map文件">4.1 查看map文件 </h2>
+<p>编译后在map文件中确认地址：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>.noncache_buffer
+                0x30160000      0x4b8
+                0x30160000                        . = ALIGN (0x20)
+                0x30160000                        _ncbuffer_start = .
+ *(.noncache_buffer._SEGGER_RTT_Start)
+ *(.noncache_buffer._SEGGER_RTT)
+ *(.noncache_buffer._acUpBuffer)
+ *(.noncache_buffer._acDownBuffer)
+ .noncache_buffer
+                0x30160000      0x4b8 ./src/SEGGER_RTT/SEGGER_RTT.o
+                0x30160000                _SEGGER_RTT    ← 固定在起始地址
+                0x301604b8                        _ncbuffer_end = .
+</code></pre><h2 id="42-j-link连接测试">4.2 J-Link连接测试 </h2>
+<p>在J-Link Commander中验证：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>J-Link&gt; exec device = R52
+J-Link&gt; mem 0x30160000, 4
+</code></pre><h1 id="五-常见问题">五、常见问题 </h1>
+<h2 id="51-rtt不打印">5.1 RTT不打印 </h2>
+<p>检查项：</p>
+<ol>
+<li>是否正确包含<code>SEGGER_RTT.h</code></li>
+<li>缓冲区是否放到nocache section</li>
+<li>J-Link是否连接正确</li>
+</ol>
+<h2 id="52-地址不固定">5.2 地址不固定 </h2>
+<p>原因：变量未放到相同的section或链接脚本ORDER不对</p>
+<p>解决：按本文第3.5节添加起始标记</p>
+<h2 id="53-有cache和无cache的区别">5.3 有cache和无cache的区别 </h2>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有L1 Cache</td>
+<td>必须放nocache，否则数据不一致</td>
+</tr>
+<tr>
+<td>无Cache</td>
+<td>可以放普通RAM，nocache可选</td>
+</tr>
+</tbody>
+</table>
+<h1 id="六-总结">六、总结 </h1>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>关键操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>复制RTT源文件到工程</td>
+</tr>
+<tr>
+<td>2</td>
+<td>配置log.h，使用RTT打印</td>
+</tr>
+<tr>
+<td>3</td>
+<td>修改SEGGER_RTT.c，放到noncache_buffer section</td>
+</tr>
+<tr>
+<td>4</td>
+<td>添加起始标记_SEGGER_RTT_Start</td>
+</tr>
+<tr>
+<td>5</td>
+<td>修改链接脚本，固定排列顺序</td>
+</tr>
+<tr>
+<td>6</td>
+<td>验证map文件确认地址固定</td>
+</tr>
+</tbody>
+</table>
+<p>核心要点：<strong>必须定义起始标记 + 链接脚本固定ORDER</strong>，才能保证<code>_SEGGER_RTT</code>固定在0x30160000地址。</p>
+<h1 id="七-附录">七、附录 </h1>
+<h2 id="测试环境">测试环境 </h2>
+<ul>
+<li><strong>MCU</strong>：Renesas RZN2L</li>
+<li><strong>内核</strong>：Cortex-R52 @ 400MHz</li>
+<li><strong>编译器</strong>：ARM GCC 13.3.1</li>
+<li><strong>IDE</strong>：e2studio</li>
+<li><strong>J-Link</strong>：V11</li>
+</ul>
+<h2 id="相关地址定义">相关地址定义 </h2>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>地址</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NONCACHE_BUFFER_START</td>
+<td>0x30160000</td>
+<td>nocache区域起始</td>
+</tr>
+<tr>
+<td>NONCACHE_BUFFER_LENGTH</td>
+<td>0x00020000</td>
+<td>128KB</td>
+</tr>
+<tr>
+<td>_SEGGER_RTT</td>
+<td>0x30160000</td>
+<td>RTT控制块</td>
+</tr>
+<tr>
+<td>_acUpBuffer</td>
+<td>0x30160410</td>
+<td>上行缓冲区</td>
+</tr>
+<tr>
+<td>_acDownBuffer</td>
+<td>0x30160810</td>
+<td>下行缓冲区</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

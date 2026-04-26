@@ -3,6 +3,7 @@
 **/Release/
 **/Debug_local/
 **/.settings/
+*/video/
 
 # Prerequisites
 *.d

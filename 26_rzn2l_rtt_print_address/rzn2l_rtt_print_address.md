@@ -6,7 +6,7 @@
 
 1、在RZN2L CR52内核上移植SEGGER RTT打印功能
 
-2、解决RTT地址不固定的问题，确保J-Link能稳定连接
+2、解决RTT地址不固定的问题确保J-Link能稳定连接
 
 3、强制放置到nocache SRAM地址保证数据一致性
 
