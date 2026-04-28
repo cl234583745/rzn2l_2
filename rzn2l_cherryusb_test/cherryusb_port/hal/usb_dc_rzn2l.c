@@ -10,6 +10,8 @@
 
 #define USB_MAX_EP           9
 #define USB_EP0_MAX_PACKET  64
+#define USB_CFG_CNTMD        (0x0100U)  /* Continuous transfer mode select for RZN2L */
+#define USB_CNTMDFIELD       (0x0100U)
 
 typedef struct {
     uint8_t ep_addr;
@@ -92,10 +94,14 @@ int usb_dc_init(uint8_t busid)
     R_USBF->DCPCTR = USB_SQCLR | USB_PID_NAK;
 
     R_USBF->SYSCFG0 = USB_USBE | USB_CNEN;
-
+    
     for (volatile uint32_t w = 0; w < 450000; w++) {}
+    // 延长延时，物理上拉/主机等待更稳妥
+    for (volatile uint32_t w = 0; w < 3600000; w++) {}
 
     R_USBF->SYSCFG0 |= USB_DPRPU;
+    // 上拉后再多等一等（500000次约2-5ms）
+    for (volatile uint32_t w = 0; w < 500000; w++) {}
 
     R_USBF->INTENB0 = (USB_VBSE | USB_DVSE | USB_CTRE | USB_BRDYE | USB_BEMPE);
     R_USBF->NRDYENB = 0;
@@ -166,7 +172,7 @@ int usbd_ep_open(uint8_t busid, const struct usb_endpoint_descriptor *ep_desc)
         switch (ep_type) {
             case 0: break;
             case 1: cfg |= USB_TYPE_ISO; break;
-            case 2: cfg |= USB_TYPE_BULK; break;
+            case 2: cfg |= USB_TYPE_BULK | USB_CFG_CNTMD; break;
             case 3: cfg |= USB_TYPE_INT; break;
         }
         if (dir) {
@@ -313,10 +319,7 @@ int usbd_ep_start_write(uint8_t busid, const uint8_t ep, const uint8_t *data, ui
         
         R_USBF->CFIFOCTR = (uint16_t)(write_len | USB_BVAL);
         g_usb_dc.ep0_tx_len = write_len;
-        
-        if (write_len < g_usb_dc.ep[pipe].max_packet) {
-            R_USBF->DCPCTR |= USB_CCPL;
-        }
+        R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_BUF);
     } else {
         R_USBF->D0FIFOSEL = (uint16_t)(pipe | USB_MBW_32 | USB_DREQE);
         while ((R_USBF->D0FIFOCTR & USB_FRDY) == 0) {}
@@ -377,6 +380,10 @@ static void usb_read_setup_packet(void)
     g_usb_dc.setup_packet[5] = (uint8_t)((setup_hi >> 8) & 0xFF);
     g_usb_dc.setup_packet[6] = (uint8_t)((setup_hi >> 16) & 0xFF);
     g_usb_dc.setup_packet[7] = (uint8_t)((setup_hi >> 24) & 0xFF);
+    
+    USB_LOG_INFO("[usb_read_setup_packet] SETUP=[%02X %02X %02X %02X %02X %02X %02X %02X]\r\n",
+        g_usb_dc.setup_packet[0], g_usb_dc.setup_packet[1], g_usb_dc.setup_packet[2], g_usb_dc.setup_packet[3],
+        g_usb_dc.setup_packet[4], g_usb_dc.setup_packet[5], g_usb_dc.setup_packet[6], g_usb_dc.setup_packet[7]);
     
     R_USBF->CFIFOCTR = USB_BCLR;
     R_USBF->DCPCTR |= USB_CCPL;
@@ -447,11 +454,20 @@ void USBD_IRQHandler(uint8_t busid)
             if (dvst == USB_DS_DFLT) {
             uint16_t rhst = R_USBF->DVSTCTR0 & USB_RHST_MASK;
             USB_LOG_INFO("USB IRQ: RESET rhst=%d\r\n", rhst);
+
+            // 完全软复位整个USB（主要接口/PIPE/上拉等，确保主机正常识别）
+            R_USBF->INTENB0 = 0;
+            R_USBF->SYSCFG0 &= ~USB_DPRPU;
             R_USBF->LPSTS = (uint16_t)(R_USBF->LPSTS | USB_SUSPM);
-            R_USBF->SYSCFG0 |= USB_DPRPU;
-            R_USBF->DCPCTR = USB_PID_BUF;
+            R_USBF->DCPCTR = USB_PID_NAK | USB_SQCLR;
             R_USBF->DCPCFG = 0;
             R_USBF->DCPMAXP = 64;
+            R_USBF->SYSCFG0 = USB_USBE | USB_CNEN;
+            for (volatile uint32_t w = 0; w < 3600000; w++) {}
+            R_USBF->SYSCFG0 |= USB_DPRPU;
+            for (volatile uint32_t w = 0; w < 500000; w++) {}
+            R_USBF->INTENB0 = (USB_VBSE | USB_DVSE | USB_CTRE | USB_BRDYE | USB_BEMPE);
+
             usbd_event_reset_handler(busid);
             } else if (dvst == USB_DS_ADDS) {
                 USB_LOG_INFO("USB IRQ: ADDRESSED\r\n");
@@ -463,7 +479,7 @@ void USBD_IRQHandler(uint8_t busid)
 
         if (active & USB_CTRT) {
             uint16_t ctsq = intsts & USB_CTSQ;
-            if ((intsts & USB_VALID) && (ctsq == USB_CS_IDST)) {
+            if (ctsq == USB_CS_IDST) {
                 usb_read_setup_packet();
                 USB_LOG_INFO("USB IRQ: SETUP [%02X %02X %02X %02X %02X %02X %02X %02X]\r\n",
                             g_usb_dc.setup_packet[0], g_usb_dc.setup_packet[1],

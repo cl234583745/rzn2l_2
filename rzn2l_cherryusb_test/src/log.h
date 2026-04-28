@@ -16,7 +16,7 @@
 
 #define SEGGER_INDEX (0)
 
-#define USE_RTT_PRINT
+//#define USE_RTT_PRINT
 
 #if defined(USE_RTT_PRINT)
     #define printf(...) SEGGER_RTT_printf(SEGGER_INDEX, __VA_ARGS__)

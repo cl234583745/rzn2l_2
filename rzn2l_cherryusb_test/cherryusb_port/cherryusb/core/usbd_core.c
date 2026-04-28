@@ -1100,6 +1100,10 @@ void usbd_event_ep0_setup_complete_handler(uint8_t busid, uint8_t *psetup)
 
     memcpy(setup, psetup, 8);
 
+    USB_LOG_INFO("[EP0_SETUP] bmReqType=0x%02X bReq=0x%02X wValue=0x%04X wIndex=0x%04X wLen=%d\r\n",
+            setup->bmRequestType, setup->bRequest,
+            setup->wValue, setup->wIndex, setup->wLength);
+
 #ifdef CONFIG_USBDEV_EP0_THREAD
     usb_osal_mq_send(g_usbd_core[busid].usbd_ep0_mq, USB_EP0_STATE_SETUP);
 #else

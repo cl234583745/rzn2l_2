@@ -21,7 +21,7 @@ volatile bool uartTxCompleteFlg = 0;
     printf("\nToolchain ver:%s\n", __VERSION__);
     printf("date:%s\ntime:%s\nfile:%s\nfunc:%s,line:%d\nhello world!\n", __DATE__, __TIME__, __FILE__, __FUNCTION__, __LINE__);
  */
-#define PRINTF  0   //only need change g_uart9_ctrl, uartcallback=NULL
+#define PRINTF  1   //only need change g_uart9_ctrl, uartcallback=NULL
 #define POLLING_REG 1
 #if PRINTF
 #include <stdio.h>
@@ -141,7 +141,7 @@ void hal_entry(void)
 #endif
 
 
-    while(1)
+    while(0)
     {
         LOG_INFO("date:%s\ntime:%s\nfile:%s\nfunc:%s,line:%d\nhello world!\n", __DATE__, __TIME__, __FILE__, __FUNCTION__, __LINE__);
 
