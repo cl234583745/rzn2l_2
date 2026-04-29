@@ -8,6 +8,11 @@
 #include "usb_dc_rzn2l.h"
 #include "usb_log.h"
 
+/**
+ * @brief USB FS中断处理函数
+ * @note 此函数由FSP中断向量表调用，向量号285
+ *       直接调用CherryUSB中断处理，FSP框架已处理上下文保存/恢复
+ */
 void usr_usbfs_interrupt_handler(void)
 {
     USBD_IRQHandler(0);

@@ -141,17 +141,6 @@ void hal_entry(void)
 #endif
 
 
-    while(0)
-    {
-        LOG_INFO("date:%s\ntime:%s\nfile:%s\nfunc:%s,line:%d\nhello world!\n", __DATE__, __TIME__, __FILE__, __FUNCTION__, __LINE__);
-
-            float PI = 3.1415926f;
-            LOG_INFO("PI=%f\n", PI);
-            LOG_INFO("%s\n", FSP_VERSION_BUILD_STRING);
-
-            R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
-    }
-
 
 
     usbd_initialize(0, R_USBF_BASE, cdc_acm_event_handler);
@@ -161,12 +150,19 @@ void hal_entry(void)
 
     cdc_acm_init();
 
-    usb_interrupt_init();
+    // usb_interrupt_init(); // 已移除：完全依赖FSP配置，不手动初始化
 
     while(1)
     {
+    	static uint32_t cnt = 0;
+    	if(cnt++ >=100000000)
+    	{
+    		cnt = 0;
+    		printf("run\n");
+    	}
+
         cdc_acm_process();
-        __WFI();
+        //__WFI();
     }
 }
 

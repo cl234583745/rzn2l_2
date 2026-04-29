@@ -157,6 +157,17 @@ BSP_TARGET_ARM BSP_ATTRIBUTE_STACKLESS void __Vectors (void)
  **********************************************************************************************************************/
 void Default_Handler (void)
 {
+	extern void rzt2_rzn2_backtrace(void);
+	    rzt2_rzn2_backtrace();
+	while(1)
+	{
+		static uint32_t cnt = 0;
+		if(cnt++ >=100000000)
+		{
+			cnt = 0;
+			printf("Default_Handler\n");
+		}
+	}
     /** A error has occurred. The user will need to investigate the cause. Common problems are stack corruption
      *  or use of an invalid pointer. Use the Fault Status window in e2 studio or manually check the fault status
      *  registers for more information.

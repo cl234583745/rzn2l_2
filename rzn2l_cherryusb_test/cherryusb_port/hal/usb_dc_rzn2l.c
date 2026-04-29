@@ -463,9 +463,7 @@ void USBD_IRQHandler(uint8_t busid)
             R_USBF->DCPCFG = 0;
             R_USBF->DCPMAXP = 64;
             R_USBF->SYSCFG0 = USB_USBE | USB_CNEN;
-            for (volatile uint32_t w = 0; w < 3600000; w++) {}
             R_USBF->SYSCFG0 |= USB_DPRPU;
-            for (volatile uint32_t w = 0; w < 500000; w++) {}
             R_USBF->INTENB0 = (USB_VBSE | USB_DVSE | USB_CTRE | USB_BRDYE | USB_BEMPE);
 
             usbd_event_reset_handler(busid);
