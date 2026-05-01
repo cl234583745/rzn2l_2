@@ -198,7 +198,8 @@ int usbd_ep_open(uint8_t busid, const struct usb_endpoint_descriptor *ep_desc)
         uint16_t buf_size = ((max_packet + 63) / 64) - 1;
         if (buf_size > 7) buf_size = 7;
         if (buf_size < 0) buf_size = 0;
-        uint16_t buf_val = (buf_size << 10) | ((pipe - 1) * 8);
+        /* BUFNMB单位=64字节块, 每个pipe分配(buf_size+1)块 */
+        uint16_t buf_val = (buf_size << 10) | ((pipe - 1) * (buf_size + 1));
         R_USBF->PIPEBUF = buf_val;
         
         R_USBF->PIPEMAXP = max_packet & USB_MXPS;
@@ -392,10 +393,20 @@ int usbd_ep_start_write(uint8_t busid, const uint8_t ep, const uint8_t *data, ui
         USB_LOG_INFO("EP0 TX: sent %d bytes, DCPCTR=0x%04X, BVAL set\r\n", 
                       write_len, R_USBF->DCPCTR);
     } else {
-        R_USBF->D0FIFOSEL = (uint16_t)(pipe | USB_MBW_32 | USB_DREQE);
-        while (R_USBF->D0FIFOSEL != (uint16_t)(pipe | USB_MBW_32 | USB_DREQE));
+        R_USBF->D0FIFOSEL = (uint16_t)(pipe | USB_MBW_32);
+        volatile uint32_t __timeout = 100000;
+        while ((R_USBF->D0FIFOSEL & 0x080F) != (uint16_t)(pipe | USB_MBW_32)) {
+            if (--__timeout == 0) return -1;
+        }
         
         volatile uint32_t timeout = 100000;
+        while (!(R_USBF->D0FIFOCTR & USB_FRDY)) {
+            if (--timeout == 0) return -1;
+        }
+        
+        // 参照FSP每次发送前清FIFO
+        R_USBF->D0FIFOCTR = USB_BCLR;
+        timeout = 100000;
         while (!(R_USBF->D0FIFOCTR & USB_FRDY)) {
             if (--timeout == 0) return -1;
         }
@@ -430,7 +441,8 @@ int usbd_ep_start_write(uint8_t busid, const uint8_t ep, const uint8_t *data, ui
         // 设置BVAL标记数据有效
         R_USBF->D0FIFOCTR |= USB_BVAL;
         
-        R_USBF->PIPE_CTR[pipe - 1] = USB_PID_BUF;
+        uint16_t pipectr = R_USBF->PIPE_CTR[pipe - 1];
+        R_USBF->PIPE_CTR[pipe - 1] = (uint16_t)((pipectr & ~USB_PID_MASK) | USB_PID_BUF);
     }
     
     g_usb_dc.ep_tx_busy[pipe] = true;
@@ -462,11 +474,15 @@ int usbd_ep_start_read(uint8_t busid, const uint8_t ep, uint8_t *data, uint32_t 
     g_usb_dc.ep_rx_busy[pipe] = true;
     
     if (pipe == 0) {
+        // EP0 OUT接收前必须清FIFO（参照FSP的usb_pstd_ctrl_write）
+        R_USBF->CFIFOSEL = USB_MBW_32;
+        R_USBF->CFIFOCTR = USB_BCLR;
         // 只修改PID位，保留CCPL等其他位
         uint16_t dcpctr = R_USBF->DCPCTR;
         R_USBF->DCPCTR = (uint16_t)((dcpctr & ~USB_PID_MASK) | USB_PID_BUF);
     } else {
-        R_USBF->PIPE_CTR[pipe - 1] = USB_PID_BUF;
+        uint16_t pipectr = R_USBF->PIPE_CTR[pipe - 1];
+        R_USBF->PIPE_CTR[pipe - 1] = (uint16_t)((pipectr & ~USB_PID_MASK) | USB_PID_BUF);
     }
     
     return 0;
@@ -530,6 +546,10 @@ static void usb_read_fifo(uint8_t pipe, uint8_t *data, uint32_t max_len, uint16_
         }
     } else {
         R_USBF->D0FIFOSEL = (uint16_t)(pipe | USB_MBW_32);
+        volatile uint32_t __t = 100000;
+        while ((R_USBF->D0FIFOSEL & 0x080F) != (uint16_t)(pipe | USB_MBW_32)) {
+            if (--__t == 0) break;
+        }
         uint16_t ctr = R_USBF->D0FIFOCTR;
         if ((ctr & USB_FRDY) && ((ctr & USB_DTLN_MASK) > 0)) {
             uint16_t dtln = ctr & USB_DTLN_MASK;
@@ -652,7 +672,14 @@ void USBD_IRQHandler(uint8_t busid)
             // 根据RZN2L手册：PID位在VALID=1时不能被修改
             R_USBF->INTSTS0 = (uint16_t)(~(USB_CTRT | USB_VALID));
             
-            // 步骤3: 清除BEMP状态
+            // 步骤3: 如果上一个控制传输的状态阶段未完成(CTSQ为状态阶段)，
+            // 先设置CCPL完成上一个传输，再处理新SETUP
+            if (ctsq == USB_CS_WRND || ctsq == USB_CS_WRSS || ctsq == USB_CS_RDSS) {
+                R_USBF->DCPCTR |= USB_CCPL;
+                USB_LOG_DBG("CTRT: CCPL set for pending status stage CTSQ=%d\r\n", ctsq);
+            }
+            
+            // 步骤4: 清除BEMP状态
             R_USBF->BEMPSTS = (uint16_t)(~USB_BEMP0 & 0x03FF);
             
             // 步骤4: 调用CherryUSB处理（会调用usbd_ep_start_write发送描述符）

@@ -20,6 +20,7 @@ extern struct usbd_endpoint g_cdc_acm_ep_out;
 extern struct usbd_endpoint g_cdc_acm_ep_int;
 
 int cdc_acm_init(void);
+void cdc_acm_start_read(void);
 void cdc_acm_process(void);
 int cdc_acm_send(uint8_t *data, uint32_t len);
 int cdc_acm_recv(uint8_t *data, uint32_t len);

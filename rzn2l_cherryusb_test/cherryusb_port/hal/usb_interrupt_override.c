@@ -28,7 +28,7 @@ void usb_interrupt_init(void)
     R_USBF->BEMPSTS = 0;
     R_USBF->NRDYSTS = 0;
     
-    /* 使能USB外设中断 */
+    /* 使能USB外设中断 - 包括控制传输阶段转换中断(CTRE) */
     R_USBF->INTENB0 = (USB_VBSE | USB_DVSE | USB_CTRE | USB_BRDYE | USB_BEMPE | USB_RSME);
     R_USBF->NRDYENB = 0;
     

@@ -143,7 +143,7 @@ void hal_entry(void)
 
 
 
-    // ???????????,????USB(??RESET?descriptors?NULL)
+    // 注册描述符 + USB 初始化
     extern const struct usb_descriptor cdc_acm_descriptor;
     usbd_desc_register(0, &cdc_acm_descriptor);
 
@@ -184,6 +184,7 @@ static void cdc_acm_event_handler(uint8_t busid, uint8_t event)
         case USBD_EVENT_DISCONNECTED:
             break;
         case USBD_EVENT_CONFIGURED:
+            cdc_acm_start_read();
             break;
         case USBD_EVENT_SUSPEND:
             break;
