@@ -1,94 +1,19 @@
 /**
  * @file usb_reg_rzn2l.h
- * @brief RZ/N2L USB寄存器定义 - 对齐FSP
+ * @brief RZ/N2L USB寄存器宏定义 - 使用FSP官方类型
  */
 
 #ifndef _USB_REG_RZN2L_H_
 #define _USB_REG_RZN2L_H_
 
 #include <stdint.h>
+#include "bsp_api.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #define R_USBF_BASE                (0x80201000UL)
-
-typedef volatile uint16_t* usb_reg16_t;
-typedef volatile uint32_t* usb_reg32_t;
-
-#define R_USBF                     ((R_USBF_Type *)R_USBF_BASE)
-
-typedef struct {
-    volatile uint16_t SYSCFG0;          /* 0x00 */
-    volatile uint16_t SYSCFG1;          /* 0x02 */
-    volatile uint16_t SYSSTS0;          /* 0x04 */
-    volatile uint16_t RESERVED0;        /* 0x06 */
-    volatile uint16_t DVSTCTR0;         /* 0x08 */
-    volatile uint16_t RESERVED1;        /* 0x0A */
-    volatile uint16_t TESTMODE;         /* 0x0C */
-    volatile uint16_t RESERVED2;        /* 0x0E */
-    volatile uint32_t RESERVED3;        /* 0x10 */
-    volatile uint32_t CFIFO;            /* 0x14 - FIFO data */
-    volatile uint32_t D0FIFO;           /* 0x18 - FIFO data */
-    volatile uint32_t D1FIFO;           /* 0x1C - FIFO data */
-    volatile uint16_t CFIFOSEL;         /* 0x20 */
-    volatile uint16_t CFIFOCTR;         /* 0x22 */
-    volatile uint32_t RESERVED7;        /* 0x24 */
-    volatile uint16_t D0FIFOSEL;        /* 0x28 */
-    volatile uint16_t D0FIFOCTR;        /* 0x2A */
-    volatile uint16_t D1FIFOSEL;        /* 0x2C */
-    volatile uint16_t D1FIFOCTR;        /* 0x2E */
-    volatile uint16_t INTENB0;          /* 0x30 */
-    volatile uint16_t INTENB1;          /* 0x32 */
-    volatile uint16_t RESERVED8;        /* 0x34 */
-    volatile uint16_t BRDYENB;          /* 0x36 */
-    volatile uint16_t NRDYENB;          /* 0x38 */
-    volatile uint16_t BEMPENB;          /* 0x3A */
-    volatile uint16_t SOFCFG;           /* 0x3C */
-    volatile uint16_t RESERVED9;        /* 0x3E */
-    volatile uint16_t INTSTS0;          /* 0x40 */
-    volatile uint16_t INTSTS1;          /* 0x42 */
-    volatile uint16_t RESERVED10;       /* 0x44 */
-    volatile uint16_t BRDYSTS;          /* 0x46 - per-pipe BRDY status */
-    volatile uint16_t NRDYSTS;          /* 0x48 - per-pipe NRDY status */
-    volatile uint16_t BEMPSTS;          /* 0x4A - per-pipe BEMP status */
-    volatile uint16_t FRMNUM;           /* 0x4C */
-    volatile uint16_t UFRMNUM;          /* 0x4E */
-    volatile uint16_t USBADDR;          /* 0x50 */
-    volatile uint16_t RESERVED11;       /* 0x52 */
-    volatile uint16_t USBREQ;           /* 0x54 */
-    volatile uint16_t USBVAL;           /* 0x56 */
-    volatile uint16_t USBINDX;          /* 0x58 */
-    volatile uint16_t USBLENG;          /* 0x5A */
-    volatile uint16_t DCPCFG;           /* 0x5C */
-    volatile uint16_t DCPMAXP;          /* 0x5E */
-    volatile uint16_t DCPCTR;           /* 0x60 */
-    volatile uint16_t RESERVED12;       /* 0x62 */
-    volatile uint16_t PIPESEL;          /* 0x64 */
-    volatile uint16_t RESERVED13;       /* 0x66 */
-    volatile uint16_t PIPECFG;          /* 0x68 */
-    volatile uint16_t PIPEBUF;          /* 0x6A */
-    volatile uint16_t PIPEMAXP;         /* 0x6C */
-    volatile uint16_t PIPEPERI;         /* 0x6E */
-    volatile uint16_t PIPE1CTR;         /* 0x70 */
-    volatile uint16_t PIPE2CTR;         /* 0x72 */
-    volatile uint16_t PIPE3CTR;         /* 0x74 */
-    volatile uint16_t PIPE4CTR;         /* 0x76 */
-    volatile uint16_t PIPE5CTR;         /* 0x78 */
-    volatile uint16_t PIPE6CTR;         /* 0x7A */
-    volatile uint16_t PIPE7CTR;         /* 0x7C */
-    volatile uint16_t PIPE8CTR;         /* 0x7E */
-    volatile uint16_t PIPE9CTR;         /* 0x80 */
-    volatile uint16_t RESERVED14;       /* 0x82 */
-    volatile uint32_t RESERVED15[3];    /* 0x84 */
-    volatile uint32_t RESERVED_TR[5];   /* 0x90 */
-    volatile uint32_t RESERVED16[23];   /* 0xA4 */
-    volatile uint16_t RESERVED17;       /* 0x100 */
-    volatile uint16_t LPSTS;            /* 0x102 - Low Power Status */
-} R_USBF_Type;
-
-#define USB0  R_USBF
 
 #define USB_USBE                  (0x0001U)
 #define USB_DPRPU                 (0x0010U)
@@ -242,183 +167,183 @@ static inline void usb_prcr_lock_lpc_reset(void)
 
 static inline uint16_t usb_read_syscfg(void)
 {
-    return USB0->SYSCFG0;
+    return R_USBF->SYSCFG0;
 }
 
 static inline void usb_set_syscfg(uint16_t val)
 {
-    USB0->SYSCFG0 = val;
+    R_USBF->SYSCFG0 = val;
 }
 
 static inline void usb_clear_syscfg(uint16_t mask)
 {
-    USB0->SYSCFG0 = (uint16_t)(USB0->SYSCFG0 & ~mask);
+    R_USBF->SYSCFG0 = (uint16_t)(R_USBF->SYSCFG0 & ~mask);
 }
 
 static inline uint16_t usb_read_intsts(void)
 {
-    return USB0->INTSTS0;
+    return R_USBF->INTSTS0;
 }
 
 static inline void usb_write_intsts(uint16_t val)
 {
-    USB0->INTSTS0 = val;
+    R_USBF->INTSTS0 = val;
 }
 
 static inline void usb_set_intenb(uint16_t val)
 {
-    USB0->INTENB0 |= val;
+    R_USBF->INTENB0 |= val;
 }
 
 static inline void usb_clear_intenb(uint16_t mask)
 {
-    USB0->INTENB0 = (uint16_t)(USB0->INTENB0 & ~mask);
+    R_USBF->INTENB0 = (uint16_t)(R_USBF->INTENB0 & ~mask);
 }
 
 static inline uint16_t usb_read_dcpctr(void)
 {
-    return USB0->DCPCTR;
+    return R_USBF->DCPCTR;
 }
 
 static inline void usb_write_dcpctr(uint16_t val)
 {
-    USB0->DCPCTR = val;
+    R_USBF->DCPCTR = val;
 }
 
 static inline void usb_set_dcpctr(uint16_t val)
 {
-    USB0->DCPCTR |= val;
+    R_USBF->DCPCTR |= val;
 }
 
 static inline uint16_t usb_read_usbreq(void)
 {
-    return USB0->USBREQ;
+    return R_USBF->USBREQ;
 }
 
 static inline uint16_t usb_read_usbval(void)
 {
-    return USB0->USBVAL;
+    return R_USBF->USBVAL;
 }
 
 static inline uint16_t usb_read_usbindx(void)
 {
-    return USB0->USBINDX;
+    return R_USBF->USBINDX;
 }
 
 static inline uint16_t usb_read_usbleng(void)
 {
-    return USB0->USBLENG;
+    return R_USBF->USBLENG;
 }
 
 static inline uint16_t usb_read_dvstctr(void)
 {
-    return USB0->DVSTCTR0;
+    return R_USBF->DVSTCTR0;
 }
 
 static inline void usb_write_dvstctr(uint16_t val)
 {
-    USB0->DVSTCTR0 = val;
+    R_USBF->DVSTCTR0 = val;
 }
 
 static inline void usb_set_dvstctr(uint16_t val)
 {
-    USB0->DVSTCTR0 |= val;
+    R_USBF->DVSTCTR0 |= val;
 }
 
 static inline uint16_t usb_read_brdysts(void)
 {
-    return USB0->BRDYENB;
+    return R_USBF->BRDYENB;
 }
 
 static inline void usb_write_brdysts(uint16_t val)
 {
-    USB0->BRDYENB = (uint16_t)(~val);
+    R_USBF->BRDYENB = (uint16_t)(~val);
 }
 
 static inline uint16_t usb_read_bempsts(void)
 {
-    return USB0->BEMPENB;
+    return R_USBF->BEMPENB;
 }
 
 static inline void usb_write_bempsts(uint16_t val)
 {
-    USB0->BEMPENB = (uint16_t)(~val);
+    R_USBF->BEMPENB = (uint16_t)(~val);
 }
 
 static inline void usb_set_brdyenb(uint16_t pipe)
 {
-    USB0->BRDYENB |= (uint16_t)(1U << pipe);
+    R_USBF->BRDYENB |= (uint16_t)(1U << pipe);
 }
 
 static inline void usb_clear_brdyenb(uint16_t pipe)
 {
-    USB0->BRDYENB = (uint16_t)(USB0->BRDYENB & ~(1U << pipe));
+    R_USBF->BRDYENB = (uint16_t)(R_USBF->BRDYENB & ~(1U << pipe));
 }
 
 static inline void usb_set_bempenb(uint16_t pipe)
 {
-    USB0->BEMPENB |= (uint16_t)(1U << pipe);
+    R_USBF->BEMPENB |= (uint16_t)(1U << pipe);
 }
 
 static inline void usb_clear_bempenb(uint16_t pipe)
 {
-    USB0->BEMPENB = (uint16_t)(USB0->BEMPENB & ~(1U << pipe));
+    R_USBF->BEMPENB = (uint16_t)(R_USBF->BEMPENB & ~(1U << pipe));
 }
 
 static inline void usb_set_nrdyenb(uint16_t pipe)
 {
-    USB0->NRDYENB |= (uint16_t)(1U << pipe);
+    R_USBF->NRDYENB |= (uint16_t)(1U << pipe);
 }
 
 static inline void usb_clear_nrdyenb(uint16_t pipe)
 {
-    USB0->NRDYENB = (uint16_t)(USB0->NRDYENB & ~(1U << pipe));
+    R_USBF->NRDYENB = (uint16_t)(R_USBF->NRDYENB & ~(1U << pipe));
 }
 
 static inline void usb_write_pipesel(uint16_t pipe)
 {
-    USB0->PIPESEL = pipe;
+    R_USBF->PIPESEL = pipe;
 }
 
 static inline uint16_t usb_read_pipecfg(void)
 {
-    return USB0->PIPECFG;
+    return R_USBF->PIPECFG;
 }
 
 static inline void usb_write_pipecfg(uint16_t val)
 {
-    USB0->PIPECFG = val;
+    R_USBF->PIPECFG = val;
 }
 
 static inline void usb_write_pipebuf(uint16_t val)
 {
-    USB0->PIPEBUF = val;
+    R_USBF->PIPEBUF = val;
 }
 
 static inline uint16_t usb_read_pipemaxp(void)
 {
-    return USB0->PIPEMAXP;
+    return R_USBF->PIPEMAXP;
 }
 
 static inline void usb_write_pipemaxp(uint16_t val)
 {
-    USB0->PIPEMAXP = val;
+    R_USBF->PIPEMAXP = val;
 }
 
 static inline uint16_t usb_read_pipectr(uint8_t pipe)
 {
     if (pipe == 0) {
-        return USB0->DCPCTR;
+        return R_USBF->DCPCTR;
     }
-    return *(&USB0->PIPE1CTR + (pipe - 1));
+    return R_USBF->PIPE_CTR[pipe - 1];
 }
 
 static inline void usb_write_pipectr(uint8_t pipe, uint16_t val)
 {
     if (pipe == 0) {
-        USB0->DCPCTR = val;
+        R_USBF->DCPCTR = val;
     } else {
-        *(&USB0->PIPE1CTR + (pipe - 1)) = val;
+        R_USBF->PIPE_CTR[pipe - 1] = val;
     }
 }
 
@@ -437,130 +362,130 @@ static inline void usb_clear_pid(uint8_t pipe)
 static inline void usb_set_sqclr(uint8_t pipe)
 {
     if (pipe == 0) {
-        USB0->DCPCTR |= USB_SQCLR;
+        R_USBF->DCPCTR |= USB_SQCLR;
     } else {
-        *(&USB0->PIPE1CTR + (pipe - 1)) |= USB_SQCLR;
+        R_USBF->PIPE_CTR[pipe - 1] |= USB_SQCLR;
     }
 }
 
 static inline void usb_set_ccpl(void)
 {
-    USB0->DCPCTR |= USB_CCPL;
+    R_USBF->DCPCTR |= USB_CCPL;
 }
 
 static inline void usb_clear_ccpl(void)
 {
-    USB0->DCPCTR = (uint16_t)(USB0->DCPCTR & ~USB_CCPL);
+    R_USBF->DCPCTR = (uint16_t)(R_USBF->DCPCTR & ~USB_CCPL);
 }
 
 static inline void usb_write_syscfg1(uint16_t val)
 {
-    USB0->SYSCFG1 = val;
+    R_USBF->SYSCFG1 = val;
 }
 
 static inline void usb_write_dcpmaxp(uint16_t val)
 {
-    USB0->DCPMAXP = val;
+    R_USBF->DCPMAXP = val;
 }
 
 static inline void usb_write_dcpcfg(uint16_t val)
 {
-    USB0->DCPCFG = val;
+    R_USBF->DCPCFG = val;
 }
 
 static inline void usb_write_usbaddr(uint16_t val)
 {
-    USB0->USBADDR = val;
+    (void)val;
 }
 
 static inline uint16_t usb_read_syssts(void)
 {
-    return USB0->SYSSTS0;
+    return R_USBF->SYSSTS0;
 }
 
 static inline uint16_t usb_read_cfifoctr(void)
 {
-    return USB0->CFIFOCTR;
+    return R_USBF->CFIFOCTR;
 }
 
 static inline void usb_write_cfifosel(uint16_t val)
 {
-    USB0->CFIFOSEL = val;
+    R_USBF->CFIFOSEL = val;
 }
 
 static inline void usb_write_cfifoctr(uint16_t val)
 {
-    USB0->CFIFOCTR = val;
+    R_USBF->CFIFOCTR = val;
 }
 
 static inline void usb_set_cfifoctr(uint16_t val)
 {
-    USB0->CFIFOCTR |= val;
+    R_USBF->CFIFOCTR |= val;
 }
 
 static inline uint32_t usb_read_cfifo(void)
 {
-    return USB0->CFIFO;
+    return R_USBF->CFIFO;
 }
 
 static inline void usb_write_cfifo(uint32_t val)
 {
-    USB0->CFIFO = val;
+    R_USBF->CFIFO = val;
 }
 
 static inline void usb_write_d0fifosel(uint16_t val)
 {
-    USB0->D0FIFOSEL = val;
+    R_USBF->D0FIFOSEL = val;
 }
 
 static inline uint16_t usb_read_d0fifoctr(void)
 {
-    return USB0->D0FIFOCTR;
+    return R_USBF->D0FIFOCTR;
 }
 
 static inline void usb_write_d0fifoctr(uint16_t val)
 {
-    USB0->D0FIFOCTR = val;
+    R_USBF->D0FIFOCTR = val;
 }
 
 static inline void usb_set_d0fifoctr(uint16_t val)
 {
-    USB0->D0FIFOCTR |= val;
+    R_USBF->D0FIFOCTR |= val;
 }
 
 static inline uint32_t usb_read_d0fifo(void)
 {
-    return USB0->D0FIFO;
+    return R_USBF->D0FIFO;
 }
 
 static inline void usb_write_d0fifo(uint32_t val)
 {
-    USB0->D0FIFO = val;
+    R_USBF->D0FIFO = val;
 }
 
 static inline void usb_write_d1fifosel(uint16_t val)
 {
-    USB0->D1FIFOSEL = val;
+    R_USBF->D1FIFOSEL = val;
 }
 
 static inline uint16_t usb_read_d1fifoctr(void)
 {
-    return USB0->D1FIFOCTR;
+    return R_USBF->D1FIFOCTR;
 }
 
 static inline void usb_write_d1fifoctr(uint16_t val)
 {
-    USB0->D1FIFOCTR = val;
+    R_USBF->D1FIFOCTR = val;
 }
 
 static inline uint32_t usb_read_d1fifo(void)
 {
-    return USB0->D1FIFO;
+    return R_USBF->D1FIFO;
 }
 
 static inline void usb_write_d1fifo(uint32_t val)
 {
-    USB0->D1FIFO = val;
+    R_USBF->D1FIFO = val;
 }
 
 #ifdef __cplusplus

@@ -556,12 +556,12 @@
       <property id="config.bsp.fsp.cpu.mpu_reg.c" value="config.bsp.fsp.cpu.mpu_reg.c.enabled"/>
     </config>
     <config id="config.bsp.rzn2l">
-      <property id="config.bsp.common.fiq" value="0x400"/>
-      <property id="config.bsp.common.irq" value="0x400"/>
-      <property id="config.bsp.common.abt" value="0x400"/>
-      <property id="config.bsp.common.und" value="0x400"/>
-      <property id="config.bsp.common.sys" value="0x400"/>
-      <property id="config.bsp.common.svc" value="0x400"/>
+      <property id="config.bsp.common.fiq" value="0x1000"/>
+      <property id="config.bsp.common.irq" value="0x2000"/>
+      <property id="config.bsp.common.abt" value="0x1000"/>
+      <property id="config.bsp.common.und" value="0x1000"/>
+      <property id="config.bsp.common.sys" value="0x2000"/>
+      <property id="config.bsp.common.svc" value="0x2000"/>
       <property id="config.bsp.common.heap" value="0x2000"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
       <property id="config.bsp.common.tfu_mathlib" value="config.bsp.common.tfu_mathlib.enabled"/>

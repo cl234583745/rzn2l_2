@@ -143,22 +143,31 @@ void hal_entry(void)
 
 
 
-    usbd_initialize(0, R_USBF_BASE, cdc_acm_event_handler);
-
+    // ???????????,????USB(??RESET?descriptors?NULL)
     extern const struct usb_descriptor cdc_acm_descriptor;
     usbd_desc_register(0, &cdc_acm_descriptor);
 
     cdc_acm_init();
 
-    // usb_interrupt_init(); // 已移除：完全依赖FSP配置，不手动初始化
+    usbd_initialize(0, R_USBF_BASE, cdc_acm_event_handler);
+
+    // ??GIC?USB??(??,???????)
+    usb_interrupt_init();
 
     while(1)
     {
     	static uint32_t cnt = 0;
-    	if(cnt++ >=100000000)
+    	if(cnt++ >=20000000)
     	{
     		cnt = 0;
     		printf("run\n");
+    		extern void usb_print_irq_stats(void);
+    		usb_print_irq_stats();
+    		uint16_t intsts0 = R_USBF->INTSTS0;
+    		uint16_t dvsq = (intsts0 >> 4) & 0x7;
+    		uint16_t ctsq = intsts0 & 0x7;
+    		printf("INTSTS0=0x%04X DVSQ=%d CTSQ=%d DCPCTR=0x%04X VALID=%d\r\n",
+    		       intsts0, dvsq, ctsq, R_USBF->DCPCTR, (intsts0 >> 3) & 1);
     	}
 
         cdc_acm_process();

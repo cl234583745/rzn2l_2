@@ -85,6 +85,13 @@ struct usbd_bus g_usbdev_bus[CONFIG_USBDEV_MAX_BUS];
 
 static void usbd_class_event_notify_handler(uint8_t busid, uint8_t event, void *arg);
 
+#define USB_SAFE_CALL_EVENT_HANDLER(busid, event) \
+    do { \
+        if ((busid) < CONFIG_USBDEV_MAX_BUS && g_usbd_core[busid].event_handler) { \
+            g_usbd_core[busid].event_handler(busid, event); \
+        } \
+    } while(0)
+
 static void usbd_print_setup(struct usb_setup_packet *setup)
 {
     USB_LOG_ERR("Setup: "
@@ -96,7 +103,6 @@ static void usbd_print_setup(struct usb_setup_packet *setup)
                 setup->wLength);
 }
 
-#if (CONFIG_USB_DBG_LEVEL >= USB_DBG_LOG)
 static const char *usb_ep0_state_string[] = {
     "setup",
     "indata",
@@ -104,7 +110,6 @@ static const char *usb_ep0_state_string[] = {
     "instatus",
     "outstatus"
 };
-#endif
 
 static bool is_device_configured(uint8_t busid)
 {
@@ -500,10 +505,10 @@ static bool usbd_std_device_req_handler(uint8_t busid, struct usb_setup_packet *
             if (value == USB_FEATURE_REMOTE_WAKEUP) {
                 if (setup->bRequest == USB_REQUEST_SET_FEATURE) {
                     g_usbd_core[busid].remote_wakeup_enabled = true;
-                    g_usbd_core[busid].event_handler(busid, USBD_EVENT_SET_REMOTE_WAKEUP);
+                    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_SET_REMOTE_WAKEUP);
                 } else {
                     g_usbd_core[busid].remote_wakeup_enabled = false;
-                    g_usbd_core[busid].event_handler(busid, USBD_EVENT_CLR_REMOTE_WAKEUP);
+                    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_CLR_REMOTE_WAKEUP);
                 }
             } else if (value == USB_FEATURE_TEST_MODE) {
 #ifdef CONFIG_USBDEV_TEST_MODE
@@ -543,7 +548,7 @@ static bool usbd_std_device_req_handler(uint8_t busid, struct usb_setup_packet *
                 g_usbd_core[busid].configuration = value;
                 g_usbd_core[busid].is_suspend = false;
                 usbd_class_event_notify_handler(busid, USBD_EVENT_CONFIGURED, NULL);
-                g_usbd_core[busid].event_handler(busid, USBD_EVENT_CONFIGURED);
+                USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_CONFIGURED);
             }
             *len = 0;
             break;
@@ -955,31 +960,35 @@ static void usbd_class_event_notify_handler(uint8_t busid, uint8_t event, void *
 
 void usbd_event_sof_handler(uint8_t busid)
 {
-    g_usbd_core[busid].event_handler(busid, USBD_EVENT_SOF);
+    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_SOF);
 }
 
 void usbd_event_connect_handler(uint8_t busid)
 {
-    g_usbd_core[busid].event_handler(busid, USBD_EVENT_CONNECTED);
+    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_CONNECTED);
 }
 
 void usbd_event_disconnect_handler(uint8_t busid)
 {
-    g_usbd_core[busid].configuration = 0;
-    g_usbd_core[busid].event_handler(busid, USBD_EVENT_DISCONNECTED);
+    if (busid < CONFIG_USBDEV_MAX_BUS) {
+        g_usbd_core[busid].configuration = 0;
+    }
+    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_DISCONNECTED);
 }
 
 void usbd_event_resume_handler(uint8_t busid)
 {
-    g_usbd_core[busid].is_suspend = false;
-    g_usbd_core[busid].event_handler(busid, USBD_EVENT_RESUME);
+    if (busid < CONFIG_USBDEV_MAX_BUS) {
+        g_usbd_core[busid].is_suspend = false;
+    }
+    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_RESUME);
 }
 
 void usbd_event_suspend_handler(uint8_t busid)
 {
-    if (g_usbd_core[busid].device_address > 0) {
+    if (busid < CONFIG_USBDEV_MAX_BUS && g_usbd_core[busid].device_address > 0) {
         g_usbd_core[busid].is_suspend = true;
-        g_usbd_core[busid].event_handler(busid, USBD_EVENT_SUSPEND);
+        USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_SUSPEND);
     }
 }
 
@@ -1010,7 +1019,7 @@ void usbd_event_reset_handler(uint8_t busid)
     usbd_ep_open(busid, &ep0);
 
     usbd_class_event_notify_handler(busid, USBD_EVENT_RESET, NULL);
-    g_usbd_core[busid].event_handler(busid, USBD_EVENT_RESET);
+    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_RESET);
 }
 
 static void __usbd_event_ep0_setup_complete_handler(uint8_t busid, struct usb_setup_packet *setup)
@@ -1369,7 +1378,7 @@ int usbd_initialize(uint8_t busid, uintptr_t reg_base, void (*event_handler)(uin
 
     g_usbd_core[busid].event_handler = event_handler;
     usbd_class_event_notify_handler(busid, USBD_EVENT_INIT, NULL);
-    g_usbd_core[busid].event_handler(busid, USBD_EVENT_INIT);
+    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_INIT);
     ret = usb_dc_init(busid);
     return ret;
 }
@@ -1387,7 +1396,7 @@ int usbd_deinitialize(uint8_t busid)
         usb_osal_mq_delete(g_usbd_core[busid].usbd_ep0_mq);
     }
 #endif
-    g_usbd_core[busid].event_handler(busid, USBD_EVENT_DEINIT);
+    USB_SAFE_CALL_EVENT_HANDLER(busid, USBD_EVENT_DEINIT);
     usbd_class_event_notify_handler(busid, USBD_EVENT_DEINIT, NULL);
     return 0;
 }

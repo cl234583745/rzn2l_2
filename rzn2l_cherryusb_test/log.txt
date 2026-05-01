@@ -1,0 +1,58 @@
+1、当前项目是rzn2l usb pcdc移植了cherryusb，不确定移植的是否正确，你可以找一下https://cherryusb.readthedocs.io/zh-cn/latest/quick_start/transplant.html
+https://gitee.com/woodman_112/CherryUSB   cherryusb的移植介绍和gitee的其他芯片的移植做法。瑞萨的usb是自己的ip，可能没有通用的hal。
+2、另外E:\RS_workspace\RZN2L_RSK_usb_pcdc这个项目是使用瑞萨的fsp软件的项目，他已经测试过验证了软件和硬件都是好用的，可以用于参考usb寄存器的操作
+3、rzn2l_usb_chapter.pdf 是瑞萨rzn2l的用户手册的usb章节，可以用于参考研究一下usb的寄存器操作，初始化，中断等的相关处理，这应该是最权威的
+4、当前项目测试插入usb前后的日志如下：但是电脑提示描述符失败。
+5、另外E:\RS_workspace\RZN2L_RSK_usb_pcdc是瑞萨的usb ip，是需要在主循环轮询event的
+ while (1)
+    {
+        /* Get USB event data */
+        g_usb_on_usb.eventGet(&event_info, &event);
+        /* Handle the received event (if any) */
+        switch (event)
+这也正是我想移植cherryusb的主要原因，这一点会是我们一直描述符失败的原因吗？
+6、插入usb时候启动mcu日志如下
+g_uart0.p_api->open
+[INFO] date:Apr 30 2026
+time:10:56:00
+file:../src/hal_entry.c
+func:hal_entry,line:134
+hello world!
+[INFO] PI=3.141593
+[INFO] Built with RZ/N Flexible Software Package version 2.0.0
+run
+IRQ Stats: total=2790072 VBINT=0 DVST=2790071 CTRT=0 BEMP=0 BRDY=0
+INTSTS0=0x1091 DVSQ=1 CTSQ=1 DCPCTR=0x0000 VALID=0
+
+先启动mcu，后插入usb的日志
+g_uart0.p_api->open
+[INFO] date:Apr 30 2026
+time:10:56:00
+file:../src/hal_entry.c
+func:hal_entry,line:134
+hello world!
+[INFO] PI=3.141593
+[INFO] Built with RZ/N Flexible Software Package version 2.0.0
+run
+IRQ Stats: total=2722225 VBINT=0 DVST=2722225 CTRT=0 BEMP=0 BRDY=0
+INTSTS0=0x1040 DVSQ=4 CTSQ=0 DCPCTR=0x0000 VALID=0
+run
+IRQ Stats: total=5454507 VBINT=0 DVST=5454507 CTRT=0 BEMP=0 BRDY=0
+INTSTS0=0x1040 DVSQ=4 CTSQ=0 DCPCTR=0x0000 VALID=0
+run
+IRQ Stats: total=8186790 VBINT=0 DVST=8186790 CTRT=0 BEMP=0 BRDY=0
+INTSTS0=0x1040 DVSQ=4 CTSQ=0 DCPCTR=0x0000 VALID=0
+run
+IRQ Stats: total=11074792 VBINT=9 DVST=11074792 CTRT=0 BEMP=0 BRDY=0
+INTSTS0=0x1091 DVSQ=1 CTSQ=1 DCPCTR=0x0000 VALID=0
+run
+IRQ Stats: total=14019212 VBINT=9 DVST=14019212 CTRT=0 BEMP=0 BRDY=0
+INTSTS0=0x1091 DVSQ=1 CTSQ=1 DCPCTR=0x0000 VALID=0
+run
+IRQ Stats: total=16833157 VBINT=9 DVST=16833157 CTRT=0 BEMP=0 BRDY=0
+INTSTS0=0x10D1 DVSQ=5 CTSQ=1 DCPCTR=0x0000 VALID=0
+run
+IRQ Stats: total=19505646 VBINT=9 DVST=19505646 CTRT=0 BEMP=0 BRDY=0
+INTSTS0=0x10D1 DVSQ=5 CTSQ=1 DCPCTR=0x0000 VALID=0
+
+
