@@ -160,14 +160,9 @@ void hal_entry(void)
     	if(cnt++ >=20000000)
     	{
     		cnt = 0;
-    		printf("run\n");
+    		printf("run\r\n");
     		extern void usb_print_irq_stats(void);
     		usb_print_irq_stats();
-    		uint16_t intsts0 = R_USBF->INTSTS0;
-    		uint16_t dvsq = (intsts0 >> 4) & 0x7;
-    		uint16_t ctsq = intsts0 & 0x7;
-    		printf("INTSTS0=0x%04X DVSQ=%d CTSQ=%d DCPCTR=0x%04X VALID=%d\r\n",
-    		       intsts0, dvsq, ctsq, R_USBF->DCPCTR, (intsts0 >> 3) & 1);
     	}
 
         cdc_acm_process();

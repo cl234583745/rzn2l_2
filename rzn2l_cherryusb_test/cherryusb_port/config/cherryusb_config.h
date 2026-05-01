@@ -12,8 +12,8 @@
 #define USB_VERSION                     0x0200  /* USB 2.0 */
 
 /* ========== 设备描述符配置 ========== */
-#define USB_DEV_VID                     0x0000  /* Vendor ID (Renesas) */
-#define USB_DEV_PID                     0x0002  /* Product ID */
+#define USB_DEV_VID                     0x045B  /* Vendor ID (Renesas) */
+#define USB_DEV_PID                     0x5539  /* Product ID */
 #define USB_DEV_CLASS                   0x02    /* CDC Class */
 #define USB_DEV_SUBCLASS                0x00
 #define USB_DEV_PROTOCOL                0x00

@@ -46,8 +46,8 @@ extern "C" {
 
 #define USB_CS_IDST               (0x0000U)
 #define USB_CS_RDDS               (0x0001U)
-#define USB_CS_WRDS               (0x0002U)
-#define USB_CS_RDSS               (0x0003U)
+#define USB_CS_RDSS               (0x0002U)
+#define USB_CS_WRDS               (0x0003U)
 #define USB_CS_WRSS               (0x0004U)
 #define USB_CS_WRND               (0x0005U)
 #define USB_CS_SQER               (0x0006U)
@@ -76,6 +76,7 @@ extern "C" {
 #define USB_PID_STALL             (0x0002U)
 #define USB_CCPL                  (0x0004U)
 #define USB_SQCLR                 (0x0100U)
+#define USB_SQSET                 (0x0200U)
 
 #define USB_TYPE_MASK             (0xC000U)
 #define USB_TYPE_OTHER            (0x0000U)
@@ -88,6 +89,7 @@ extern "C" {
 #define USB_MBW_32                (0x0800U)
 #define USB_MBW_16                (0x0400U)
 #define USB_MBW_8                 (0x0000U)
+#define USB_MBW                   (0x0C00U)
 
 #define USB_DREQE                 (0x1000U)
 #define USB_DCLRM                 (0x2000U)
@@ -252,22 +254,22 @@ static inline void usb_set_dvstctr(uint16_t val)
 
 static inline uint16_t usb_read_brdysts(void)
 {
-    return R_USBF->BRDYENB;
+    return R_USBF->BRDYSTS;
 }
 
 static inline void usb_write_brdysts(uint16_t val)
 {
-    R_USBF->BRDYENB = (uint16_t)(~val);
+    R_USBF->BRDYSTS = (uint16_t)(~val & 0x03FF);
 }
 
 static inline uint16_t usb_read_bempsts(void)
 {
-    return R_USBF->BEMPENB;
+    return R_USBF->BEMPSTS;
 }
 
 static inline void usb_write_bempsts(uint16_t val)
 {
-    R_USBF->BEMPENB = (uint16_t)(~val);
+    R_USBF->BEMPSTS = (uint16_t)(~val & 0x03FF);
 }
 
 static inline void usb_set_brdyenb(uint16_t pipe)

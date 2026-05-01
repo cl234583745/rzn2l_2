@@ -91,6 +91,7 @@ int usb_dc_init(uint8_t busid)
     R_USBF->D1FIFOSEL = USB_MBW_32;
 
     R_USBF->DCPMAXP = USB_EP0_MAX_PACKET;
+    // 初始化时设置为NAK状态，等收到SETUP包后再设为BUF启动数据阶段
     R_USBF->DCPCTR = USB_SQCLR | USB_PID_NAK;
 
     R_USBF->SYSCFG0 = USB_USBE | USB_CNEN;
@@ -103,9 +104,14 @@ int usb_dc_init(uint8_t busid)
     // 上拉后再多等一等（500000次约2-5ms）
     for (volatile uint32_t w = 0; w < 500000; w++) {}
 
-    // 先不使能USB中断，等GIC配置好后再使能
-    // R_USBF->INTENB0 = (USB_VBSE | USB_DVSE | USB_CTRE | USB_BRDYE | USB_BEMPE | USB_RESM);
-    R_USBF->INTENB0 = 0;  // 暂时禁止所有USB中断
+    // 先清除所有pending的中断状态
+    R_USBF->INTSTS0 = 0;
+    R_USBF->BRDYSTS = 0;
+    R_USBF->BEMPSTS = 0;
+    R_USBF->NRDYSTS = 0;
+    
+    // 然后使能USB中断，包括控制传输阶段转换中断(CTRE)
+    R_USBF->INTENB0 = (USB_VBSE | USB_DVSE | USB_CTRE | USB_BRDYE | USB_BEMPE | USB_RESM);
     R_USBF->NRDYENB = 0;
 
     g_usb_dc.speed = 1;
@@ -162,8 +168,14 @@ int usbd_ep_open(uint8_t busid, const struct usb_endpoint_descriptor *ep_desc)
     USB_LOG_INFO("USB: ep_open addr=0x%02X, type=%d, maxpkt=%d\r\n", ep_addr, ep_type, max_packet);
     
     if (ep_num == 0) {
+        // DCP管道配置
         R_USBF->DCPMAXP = max_packet & 0x7F;
-        R_USBF->DCPCFG = dir ? 0x01 : 0x00;
+        R_USBF->DCPCFG = 0;  // 控制端点，双向
+        // 确保DCPCTR为BUF状态，准备接收SETUP包
+        R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_BUF | USB_SQCLR);
+        // 使能EP0的BEMP和BRDY中断
+        R_USBF->BRDYENB |= (1U << 0);  // pipe 0
+        R_USBF->BEMPENB |= (1U << 0);  // pipe 0
         pipe = 0;
     } else {
         pipe = ep_num;
@@ -193,7 +205,7 @@ int usbd_ep_open(uint8_t busid, const struct usb_endpoint_descriptor *ep_desc)
         
         R_USBF->PIPEPERI = 0;
         
-        R_USBF->PIPE_CTR[pipe - 1] = USB_SQCLR;
+        R_USBF->PIPE_CTR[pipe - 1] = USB_SQCLR | USB_PID_BUF;
         
         R_USBF->BRDYENB |= (1U << pipe);
         R_USBF->BEMPENB |= (1U << pipe);
@@ -305,32 +317,118 @@ int usbd_ep_start_write(uint8_t busid, const uint8_t ep, const uint8_t *data, ui
     uint8_t pipe = (ep_num == 0) ? 0 : ep_num;
     
     if (pipe > USB_MAX_EP || !g_usb_dc.ep[pipe].configured) return -1;
-    if (data == NULL || data_len == 0) return -1;
+    /* 允许data_len==0的零长度包（IN状态阶段使用） */
+    if (data_len > 0 && data == NULL) return -1;
     
     uint32_t write_len = (data_len > g_usb_dc.ep[pipe].max_packet) ? g_usb_dc.ep[pipe].max_packet : data_len;
     
-    USB_LOG_INFO("USB: TX EP%d, len=%d\r\n", ep_num, write_len);
-    
     if (pipe == 0) {
-        R_USBF->CFIFOSEL = 0;
-        while ((R_USBF->CFIFOCTR & USB_FRDY) == 0) {}
+        // EP0发送流程 - 严格参考瑞萨官方代码流程
+        USB_LOG_INFO("EP0 TX: writing %d bytes, DCPCTR=0x%04X, CTSQ=%d\r\n", 
+                     write_len, R_USBF->DCPCTR, R_USBF->INTSTS0 & 0x7);
         
-        for (uint32_t i = 0; i < write_len; i++) {
-            ((volatile uint8_t*)&R_USBF->CFIFO)[i] = data[i];
+        // 步骤1: 设置CFIFOSEL，选择DCP管道，CPU写入方向，32-bit访问宽度
+        // ISEL=1(bit5): CPU写入, CURPIPE=0(bit3:0): DCP管道, MBW=32
+        R_USBF->CFIFOSEL = USB_MBW_32 | 0x0020;  // ISEL=1, CURPIPE=0, MBW=32
+        
+        // 等待选择器设置完成
+        volatile uint32_t timeout = 100000;
+        while ((R_USBF->CFIFOSEL & 0x002F) != 0x0020) {
+            if (--timeout == 0) {
+                USB_LOG_ERR("EP0 TX: CFIFOSEL timeout\r\n");
+                return -1;
+            }
         }
         
-        R_USBF->CFIFOCTR = (uint16_t)(write_len | USB_BVAL);
+        // 步骤2: 清除FIFO缓冲区
+        R_USBF->CFIFOCTR = USB_BCLR;
+        
+        // 步骤3: 等待FRDY=1（FIFO就绪）
+        timeout = 100000;
+        while (!(R_USBF->CFIFOCTR & USB_FRDY)) {
+            if (--timeout == 0) {
+                USB_LOG_ERR("EP0 TX: FRDY timeout, CFIFOCTR=0x%04X\r\n", R_USBF->CFIFOCTR);
+                return -1;
+            }
+        }
+        
+        // 步骤4: 写入数据到FIFO
+        // CFIFO是单一FIFO端口寄存器，每次写入时写入FIFO内部，不能使用数组索引
+        const uint32_t *src32 = (const uint32_t *)data;
+        uint32_t word_len = write_len / 4;
+        for (uint32_t i = 0; i < word_len; i++) {
+            R_USBF->CFIFO = src32[i];
+        }
+        
+        // 处理剩余字节，按FSP方式切换MBW位宽
+        uint32_t remain = write_len % 4;
+        if (remain > 0) {
+            const uint8_t *src8 = data + (word_len * 4);
+            uint16_t cfifosel_base = R_USBF->CFIFOSEL;
+            
+            if (remain >= 2) {
+                R_USBF->CFIFOSEL = (cfifosel_base & ~USB_MBW) | USB_MBW_16;
+                *((volatile uint16_t *)&R_USBF->CFIFO) = *((const uint16_t *)src8);
+                src8 += 2;
+                remain -= 2;
+            }
+            if (remain == 1) {
+                R_USBF->CFIFOSEL = (cfifosel_base & ~USB_MBW) | USB_MBW_8;
+                *((volatile uint8_t *)&R_USBF->CFIFO) = *src8;
+            }
+            
+            // 恢复MBW为32-bit
+            R_USBF->CFIFOSEL = (cfifosel_base & ~USB_MBW) | USB_MBW_32;
+        }
+        
         g_usb_dc.ep0_tx_len = write_len;
-        R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_BUF);
+        
+        // 步骤5: 参照FSP顺序，先设置BVAL标记数据有效，再设置PID=BUF
+        R_USBF->CFIFOCTR |= USB_BVAL;
+        
+        // 步骤6: 设置DCPCTR - SQSET(DATA1) + PID=BUF
+        R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_SQSET | USB_PID_BUF);
+        
+        USB_LOG_INFO("EP0 TX: sent %d bytes, DCPCTR=0x%04X, BVAL set\r\n", 
+                      write_len, R_USBF->DCPCTR);
     } else {
         R_USBF->D0FIFOSEL = (uint16_t)(pipe | USB_MBW_32 | USB_DREQE);
-        while ((R_USBF->D0FIFOCTR & USB_FRDY) == 0) {}
+        while (R_USBF->D0FIFOSEL != (uint16_t)(pipe | USB_MBW_32 | USB_DREQE));
         
-        for (uint32_t i = 0; i < write_len; i++) {
-            ((volatile uint8_t*)&R_USBF->D0FIFO)[i] = data[i];
+        volatile uint32_t timeout = 100000;
+        while (!(R_USBF->D0FIFOCTR & USB_FRDY)) {
+            if (--timeout == 0) return -1;
         }
         
-        R_USBF->D0FIFOCTR = (uint16_t)(write_len | USB_BVAL);
+        // 写入完整的32位字到D0FIFO端口（单一端口寄存器，重复写入同一地址）
+        const uint32_t *src32 = (const uint32_t *)data;
+        uint32_t word_len = write_len / 4;
+        for (uint32_t i = 0; i < word_len; i++) {
+            R_USBF->D0FIFO = src32[i];
+        }
+        
+        // 处理剩余字节
+        uint32_t remain = write_len % 4;
+        if (remain > 0) {
+            const uint8_t *src8 = data + (word_len * 4);
+            uint16_t fifosel_base = R_USBF->D0FIFOSEL;
+            
+            if (remain >= 2) {
+                R_USBF->D0FIFOSEL = (fifosel_base & ~USB_MBW) | USB_MBW_16;
+                *((volatile uint16_t *)&R_USBF->D0FIFO) = *((const uint16_t *)src8);
+                src8 += 2;
+                remain -= 2;
+            }
+            if (remain == 1) {
+                R_USBF->D0FIFOSEL = (fifosel_base & ~USB_MBW) | USB_MBW_8;
+                *((volatile uint8_t *)&R_USBF->D0FIFO) = *src8;
+            }
+            
+            R_USBF->D0FIFOSEL = (fifosel_base & ~USB_MBW) | USB_MBW_32;
+        }
+        
+        // 设置BVAL标记数据有效
+        R_USBF->D0FIFOCTR |= USB_BVAL;
         
         R_USBF->PIPE_CTR[pipe - 1] = USB_PID_BUF;
     }
@@ -348,17 +446,25 @@ int usbd_ep_start_read(uint8_t busid, const uint8_t ep, uint8_t *data, uint32_t 
     uint8_t pipe = (ep_num == 0) ? 0 : ep_num;
     
     if (pipe > USB_MAX_EP || !g_usb_dc.ep[pipe].configured) return -1;
-    if (data == NULL || data_len == 0) return -1;
+    /* 允许data==NULL和data_len==0，用于EP0状态阶段（零长度OUT） */
+    if (data_len > 0 && data == NULL) return -1;
     
     USB_LOG_INFO("USB: RX EP%d prepared, buf=%p, len=%d\r\n", ep_num, data, data_len);
     
-    g_usb_dc.rx_buf[pipe] = data;
-    g_usb_dc.rx_buf_len[pipe] = data_len;
+    if (data && data_len > 0) {
+        g_usb_dc.rx_buf[pipe] = data;
+        g_usb_dc.rx_buf_len[pipe] = data_len;
+    } else {
+        g_usb_dc.rx_buf[pipe] = NULL;
+        g_usb_dc.rx_buf_len[pipe] = 0;
+    }
     g_usb_dc.rx_len[pipe] = 0;
     g_usb_dc.ep_rx_busy[pipe] = true;
     
     if (pipe == 0) {
-        R_USBF->DCPCTR = USB_PID_BUF;
+        // 只修改PID位，保留CCPL等其他位
+        uint16_t dcpctr = R_USBF->DCPCTR;
+        R_USBF->DCPCTR = (uint16_t)((dcpctr & ~USB_PID_MASK) | USB_PID_BUF);
     } else {
         R_USBF->PIPE_CTR[pipe - 1] = USB_PID_BUF;
     }
@@ -368,8 +474,13 @@ int usbd_ep_start_read(uint8_t busid, const uint8_t ep, uint8_t *data, uint32_t 
 
 static void usb_read_setup_packet(void)
 {
-    R_USBF->CFIFOSEL = 0;
-    while ((R_USBF->CFIFOCTR & USB_FRDY) == 0) {}
+    // ISEL=0表示读取方向，CURPIPE=0表示DCP管道
+    R_USBF->CFIFOSEL = 0x0000;  // ISEL=0, CURPIPE=0
+    // 等待FRDY就绪
+    volatile uint16_t cfifoctr;
+    do {
+        cfifoctr = R_USBF->CFIFOCTR;
+    } while ((cfifoctr & USB_FRDY) == 0);
     
     uint32_t setup_lo = R_USBF->CFIFO;
     uint32_t setup_hi = R_USBF->CFIFO;
@@ -394,13 +505,23 @@ static void usb_read_setup_packet(void)
 static void usb_read_fifo(uint8_t pipe, uint8_t *data, uint32_t max_len, uint16_t *actual_len)
 {
     if (pipe == 0) {
-        R_USBF->CFIFOSEL = 0;
+        // ISEL=0表示读取方向，CURPIPE=0表示DCP管道，MBW=32
+        R_USBF->CFIFOSEL = USB_MBW_32;  // ISEL=0, CURPIPE=0, MBW=32
         uint16_t ctr = R_USBF->CFIFOCTR;
         if ((ctr & USB_FRDY) && ((ctr & USB_DTLN_MASK) > 0)) {
             uint16_t dtln = ctr & USB_DTLN_MASK;
             uint32_t len = (max_len < dtln) ? max_len : dtln;
-            for (uint32_t i = 0; i < len; i++) {
-                data[i] = ((volatile uint8_t*)&R_USBF->CFIFO)[i];
+            // 读取32-bit字，从同一CFIFO端口重复读取
+            uint32_t word_len = len / 4;
+            for (uint32_t i = 0; i < word_len; i++) {
+                *((uint32_t *)(data + i * 4)) = R_USBF->CFIFO;
+            }
+            uint32_t remain = len % 4;
+            if (remain > 0) {
+                uint32_t word = R_USBF->CFIFO;
+                for (uint32_t i = 0; i < remain; i++) {
+                    data[word_len * 4 + i] = (uint8_t)(word >> (i * 8));
+                }
             }
             *actual_len = len;
             R_USBF->CFIFOCTR = USB_BCLR;
@@ -413,8 +534,16 @@ static void usb_read_fifo(uint8_t pipe, uint8_t *data, uint32_t max_len, uint16_
         if ((ctr & USB_FRDY) && ((ctr & USB_DTLN_MASK) > 0)) {
             uint16_t dtln = ctr & USB_DTLN_MASK;
             uint32_t len = (max_len < dtln) ? max_len : dtln;
-            for (uint32_t i = 0; i < len; i++) {
-                data[i] = ((volatile uint8_t*)&R_USBF->D0FIFO)[i];
+            uint32_t word_len = len / 4;
+            for (uint32_t i = 0; i < word_len; i++) {
+                *((uint32_t *)(data + i * 4)) = R_USBF->D0FIFO;
+            }
+            uint32_t remain = len % 4;
+            if (remain > 0) {
+                uint32_t word = R_USBF->D0FIFO;
+                for (uint32_t i = 0; i < remain; i++) {
+                    data[word_len * 4 + i] = (uint8_t)(word >> (i * 8));
+                }
             }
             *actual_len = len;
             R_USBF->D0FIFOCTR = USB_BCLR;
@@ -434,14 +563,15 @@ static uint32_t g_irq_brdy = 0;
 void USBD_IRQHandler(uint8_t busid)
 {
     g_irq_total++;
-    
-    uint16_t intsts = R_USBF->INTSTS0;
-    uint16_t intenb = R_USBF->INTENB0;
-    uint16_t active = intsts & intenb;
-    
-    if (!active) return;
-    
-    R_USBF->LPSTS = (uint16_t)(R_USBF->LPSTS | USB_SUSPM);
+
+    for (;;) {
+        uint16_t intsts = R_USBF->INTSTS0;
+        uint16_t intenb = R_USBF->INTENB0;
+        uint16_t active = intsts & intenb;
+
+        if (!active) break;
+
+        R_USBF->LPSTS = (uint16_t)(R_USBF->LPSTS | USB_SUSPM);
 
     if (active & USB_VBINT) {
         g_irq_vbint++;
@@ -452,102 +582,133 @@ void USBD_IRQHandler(uint8_t busid)
             R_USBF->SYSCFG0 &= ~USB_DPRPU;
             usbd_event_disconnect_handler(busid);
         }
+        // 清除VBINT: 写0到bit15，写1到其他位
         R_USBF->INTSTS0 = (uint16_t)(~USB_VBINT);
     }
 
     if (active & USB_DVST) {
         g_irq_dvst++;
         uint16_t dvst = intsts & USB_DVSQ;
-        USB_LOG_INFO("USB: DVST irq, DVSQ=%lu\r\n", dvst >> 4);
+        // 只在状态变化时打印，避免频繁打印
+        static uint16_t last_dvst = 0xFF;
+        if (dvst != last_dvst) {
+            USB_LOG_INFO("USB: DVST irq, DVSQ=%lu\r\n", dvst >> 4);
+            last_dvst = dvst;
+        }
         if (dvst == USB_DS_DFLT) {
             USB_LOG_INFO("USB: Reset detected, reinit EP0\r\n");
-            R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_NAK | USB_SQCLR);
+            // 完全重置DCPCTR，清除所有残留状态位（BSTS、CCPL等）
+            R_USBF->DCPCTR = (USB_SQCLR | USB_PID_BUF);
             R_USBF->DCPCFG = 0;  // 控制端点，双向
             R_USBF->DCPMAXP = USB_EP0_MAX_PACKET;
+            R_USBF->BEMPENB |= (1U << 0);
+            R_USBF->BRDYENB |= (1U << 0);
             usbd_event_reset_handler(busid);
         } else if (dvst == USB_DS_SUSP) {
             USB_LOG_INFO("USB: Suspend detected\r\n");
-            // 设备挂起，可以进入低功耗模式
-            // 瑞萨建议在挂起时清除SUSPM位，但我们需要检测Resume
             R_USBF->INTENB0 |= USB_RSME;  // 使能Resume中断
             usbd_event_suspend_handler(busid);
         } else if (dvst == USB_DS_CNFG) {
             USB_LOG_INFO("USB: Configured state\r\n");
-            // Configured事件由CherryUSB核心处理，HAL层无需调用
         }
-        R_USBF->INTSTS0 = (uint16_t)(USB_DVST);
+        // 清除DVST: 写0到bit12，写1到其他位
+        R_USBF->INTSTS0 = (uint16_t)(~USB_DVST);
     }
     
     // Resume中断处理
     if (active & USB_RESM) {
         USB_LOG_INFO("USB: Resume detected\r\n");
         R_USBF->INTENB0 &= ~USB_RSME;  // 禁止Resume中断
-        R_USBF->INTSTS0 = (uint16_t)(USB_RESM);
+        // 清除RESM: 写0到bit14，写1到其他位
+        R_USBF->INTSTS0 = (uint16_t)(~USB_RESM);
         usbd_event_resume_handler(busid);
     }
 
     if (active & USB_CTRT) {
         g_irq_ctrt++;
         uint16_t ctsq = intsts & USB_CTSQ;
-        USB_LOG_INFO("USB: CTRT irq, CTSQ=%lu, VALID=%lu\r\n", ctsq, (intsts >> 3) & 1);
         
-        // 无论CTSQ是什么状态，都尝试读取SETUP包（USBREQ等寄存器会保持值）
-        // 这是瑞萨USB IP的特点：即使CTSQ变成RDDS，USBREQ等寄存器仍然有效
-        if (ctsq == USB_CS_IDST || ctsq == USB_CS_RDDS || ctsq == USB_CS_WRDS) {
-            // 读取SETUP包（从专用寄存器，不是FIFO）
+        // 当VALID位被设置时，表示SETUP包已接收
+        if (intsts & USB_VALID) {
+            // 步骤1: 读取SETUP包
             uint16_t req = R_USBF->USBREQ;
             uint16_t val = R_USBF->USBVAL;
             uint16_t idx = R_USBF->USBINDX;
             uint16_t len = R_USBF->USBLENG;
             
             // 组装8字节SETUP包
-            g_usb_dc.setup_packet[0] = (uint8_t)(req & 0xFF);  // bmRequestType
-            g_usb_dc.setup_packet[1] = (uint8_t)(req >> 8);     // bRequest
-            g_usb_dc.setup_packet[2] = (uint8_t)(val & 0xFF);      // wValue L
-            g_usb_dc.setup_packet[3] = (uint8_t)(val >> 8);       // wValue H
-            g_usb_dc.setup_packet[4] = (uint8_t)(idx & 0xFF);      // wIndex L
-            g_usb_dc.setup_packet[5] = (uint8_t)(idx >> 8);       // wIndex H
-            g_usb_dc.setup_packet[6] = (uint8_t)(len & 0xFF);      // wLength L
-            g_usb_dc.setup_packet[7] = (uint8_t)(len >> 8);       // wLength H
+            g_usb_dc.setup_packet[0] = (uint8_t)(req & 0xFF);
+            g_usb_dc.setup_packet[1] = (uint8_t)(req >> 8);
+            g_usb_dc.setup_packet[2] = (uint8_t)(val & 0xFF);
+            g_usb_dc.setup_packet[3] = (uint8_t)(val >> 8);
+            g_usb_dc.setup_packet[4] = (uint8_t)(idx & 0xFF);
+            g_usb_dc.setup_packet[5] = (uint8_t)(idx >> 8);
+            g_usb_dc.setup_packet[6] = (uint8_t)(len & 0xFF);
+            g_usb_dc.setup_packet[7] = (uint8_t)(len >> 8);
             
-            USB_LOG_INFO("SETUP: %02X %02X %04X %04X %04X\r\n",
-                g_usb_dc.setup_packet[0], g_usb_dc.setup_packet[1],
-                (uint16_t)((g_usb_dc.setup_packet[3]<<8)|g_usb_dc.setup_packet[2]),
-                (uint16_t)((g_usb_dc.setup_packet[5]<<8)|g_usb_dc.setup_packet[4]),
-                (uint16_t)((g_usb_dc.setup_packet[7]<<8)|g_usb_dc.setup_packet[6]));
+            USB_LOG_DBG("CTRT: SETUP received, CTSQ=%d\r\n", ctsq);
             
-            // 传递给CherryUSB核心处理
+            // 步骤2: 关键！先清除VALID位，然后才能修改PID位
+            // 根据RZN2L手册：PID位在VALID=1时不能被修改
+            R_USBF->INTSTS0 = (uint16_t)(~(USB_CTRT | USB_VALID));
+            
+            // 步骤3: 清除BEMP状态
+            R_USBF->BEMPSTS = (uint16_t)(~USB_BEMP0 & 0x03FF);
+            
+            // 步骤4: 调用CherryUSB处理（会调用usbd_ep_start_write发送描述符）
             usbd_event_ep0_setup_complete_handler(busid, g_usb_dc.setup_packet);
+            
+            // CCPL在数据传输完成/状态阶段才设置，不在此处设置
+            USB_LOG_DBG("CTRT: VALID cleared, DCPCTR=0x%04X\r\n", R_USBF->DCPCTR);
+        } else {
+            // 处理其他CTSQ状态（非SETUP阶段）
+            USB_LOG_DBG("CTRT: CTSQ=%d, DCPCTR=0x%04X\r\n", ctsq, R_USBF->DCPCTR);
+            if (ctsq == USB_CS_RDDS || ctsq == USB_CS_WRDS) {
+                // 数据阶段，设置PID=BUF（使用读-修改-写）
+                uint16_t dcpctr = R_USBF->DCPCTR;
+                if ((dcpctr & USB_PID_MASK) != USB_PID_BUF) {
+                    R_USBF->DCPCTR = (uint16_t)((dcpctr & ~USB_PID_MASK) | USB_PID_BUF);
+                    USB_LOG_DBG("CTRT: Set PID=BUF, new DCPCTR=0x%04X\r\n", R_USBF->DCPCTR);
+                }
+            } else if (ctsq == USB_CS_RDSS) {
+                // 读状态阶段，只设PID=BUF；CCPL在BEMP短包时设置
+                USB_LOG_DBG("CTRT: RDSS, setting PID=BUF\r\n");
+                R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_BUF);
+            } else if (ctsq == USB_CS_WRND) {
+                // 无数据写状态（如SET_ADDRESS），设置CCPL完成
+                USB_LOG_DBG("CTRT: No-data status stage, setting CCPL\r\n");
+                R_USBF->DCPCTR |= USB_CCPL;
+            } else if (ctsq == USB_CS_WRSS) {
+                // 写状态阶段（IN方向），设置CCPL完成
+                USB_LOG_DBG("CTRT: Write status stage, setting CCPL\r\n");
+                R_USBF->DCPCTR |= USB_CCPL;
+            } else if (ctsq == USB_CS_SQER) {
+                // 序列错误，重新初始化EP0
+                USB_LOG_ERR("CTRT: Sequence error!\r\n");
+                R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_BUF | USB_SQCLR);
+            }
+            
+            // 清除CTRT中断标志（写0清除，写1保持不变）
+            R_USBF->INTSTS0 = (uint16_t)(~USB_CTRT);
+            USB_LOG_DBG("CTRT: INTSTS0 after clear=0x%04X, CTSQ=%d\r\n", R_USBF->INTSTS0, R_USBF->INTSTS0 & 0x7);
         }
-        
-        // 根据CTSQ状态设置管道状态
-        if (ctsq == USB_CS_RDDS) {
-            // 数据阶段(读)，准备发送数据
-            R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_BUF);
-        } else if (ctsq == USB_CS_WRDS) {
-            // 数据阶段(写)，准备接收数据
-            R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_BUF);
-        } else if (ctsq == USB_CS_WRND) {
-            // 状态阶段(写)，发送0字节状态包
-            R_USBF->DCPCTR |= USB_CCPL;
-        } else if (ctsq == USB_CS_RDSS) {
-            // 状态阶段(读)，接收0字节状态包
-            R_USBF->DCPCTR = (uint16_t)((R_USBF->DCPCTR & ~USB_PID_MASK) | USB_PID_BUF);
-        }
-        
-        R_USBF->INTSTS0 = (uint16_t)(USB_CTRT);
     }
 
     if (active & USB_BEMP) {
         g_irq_bemp++;
         uint16_t bemp_sts = R_USBF->BEMPSTS;
-        R_USBF->BEMPSTS = (uint16_t)(~bemp_sts);  // 写1清零
+        // 清除BEMP状态：写0清除（瑞萨的方式）
+        R_USBF->BEMPSTS = (uint16_t)(~bemp_sts & 0x03FF);  // 只保留bit9:0
 
         if (bemp_sts & USB_BEMP0) {
             g_usb_dc.ep_tx_busy[0] = false;
+            
+            // 短包/ZLP时设置CCPL，硬件自动处理状态阶段
             if (g_usb_dc.ep0_tx_len < g_usb_dc.ep[0].max_packet) {
                 R_USBF->DCPCTR |= USB_CCPL;
+                USB_LOG_DBG("BEMP EP0: CCPL set, DCPCTR=0x%04X\r\n", R_USBF->DCPCTR);
             }
+            
             usbd_event_ep_in_complete_handler(busid, 0x80, g_usb_dc.ep0_tx_len);
         }
 
@@ -557,7 +718,8 @@ void USBD_IRQHandler(uint8_t busid)
                 usbd_event_ep_in_complete_handler(busid, (uint8_t)(i | 0x80), g_usb_dc.ep[i].max_packet);
             }
         }
-        R_USBF->INTSTS0 = (uint16_t)(USB_BEMP);
+        // 清除INTSTS0的BEMP位
+        R_USBF->INTSTS0 = (uint16_t)(~USB_BEMP);
     }
 
     if (active & USB_BRDY) {
@@ -570,9 +732,9 @@ void USBD_IRQHandler(uint8_t busid)
             if (g_usb_dc.rx_buf[0] && g_usb_dc.ep_rx_busy[0]) {
                 usb_read_fifo(0, g_usb_dc.rx_buf[0], g_usb_dc.rx_buf_len[0], &actual_len);
                 g_usb_dc.rx_len[0] = actual_len;
-                g_usb_dc.ep_rx_busy[0] = false;
-                usbd_event_ep_out_complete_handler(busid, 0x00, actual_len);
             }
+            g_usb_dc.ep_rx_busy[0] = false;
+            usbd_event_ep_out_complete_handler(busid, 0x00, actual_len);
         }
 
         for (uint8_t i = 1; i <= USB_MAX_EP; i++) {
@@ -586,12 +748,28 @@ void USBD_IRQHandler(uint8_t busid)
                 }
             }
         }
-        R_USBF->INTSTS0 = (uint16_t)(USB_BRDY);
+        // 清除BRDY: 写0到bit8，写1到其他位
+        R_USBF->INTSTS0 = (uint16_t)(~USB_BRDY);
+    }
     }
 }
 
 void usb_print_irq_stats(void)
 {
-    printf("IRQ Stats: total=%lu VBINT=%lu DVST=%lu CTRT=%lu BEMP=%lu BRDY=%lu\r\n",
+    USB_LOG_INFO("IRQ: total=%lu VBINT=%lu DVST=%lu CTRT=%lu BEMP=%lu BRDY=%lu\r\n",
            g_irq_total, g_irq_vbint, g_irq_dvst, g_irq_ctrt, g_irq_bemp, g_irq_brdy);
+    
+    // 打印关键寄存器
+    uint16_t intsts0 = R_USBF->INTSTS0;
+    uint16_t intenb0 = R_USBF->INTENB0;
+    uint16_t dcpctr = R_USBF->DCPCTR;
+    uint16_t bempenb = R_USBF->BEMPENB;
+    uint16_t brdyenb = R_USBF->BRDYENB;
+    uint16_t bempsts = R_USBF->BEMPSTS;
+    uint16_t brdysts = R_USBF->BRDYSTS;
+    
+    USB_LOG_INFO("INTSTS0=0x%04X INTENB0=0x%04X DCPCTR=0x%04X\r\n", intsts0, intenb0, dcpctr);
+    USB_LOG_INFO("BEMPENB=0x%04X BRDYENB=0x%04X BEMPSTS=0x%04X BRDYSTS=0x%04X\r\n", bempenb, brdyenb, bempsts, brdysts);
+    USB_LOG_INFO("DVSQ=%d CTSQ=%d VALID=%d PID=%d\r\n",
+           (intsts0 >> 4) & 0x7, intsts0 & 0x7, (intsts0 >> 3) & 1, dcpctr & 0x3);
 }
