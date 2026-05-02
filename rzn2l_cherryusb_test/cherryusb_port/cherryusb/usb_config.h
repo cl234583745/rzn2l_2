@@ -23,8 +23,8 @@
 
 /* ========== 调试配置 ========== */
 /* 注意: USB中断内不要使用日志打印，避免与串口中断优先级冲突 */
-#define CONFIG_USBDEV_DEBUG_LEVEL       3       /* 调试级别: 0=无, 1=错误, 2=警告, 3=信息 */
-#define CONFIG_USB_DBG_LEVEL            3       /* 日志级别: 0=无, 1=错误, 2=警告, 3=信息 */
+#define CONFIG_USBDEV_DEBUG_LEVEL       1       /* 调试级别: 0=无, 1=错误, 2=警告, 3=信息 */
+#define CONFIG_USB_DBG_LEVEL            1       /* 日志级别: 0=无, 1=错误, 2=警告, 3=信息 */
 #define CONFIG_USB_PRINTF(...)          printf(__VA_ARGS__)  /* USB日志输出 */
 
 /* ========== 性能配置 ========== */

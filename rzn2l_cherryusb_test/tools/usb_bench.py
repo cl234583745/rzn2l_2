@@ -15,7 +15,7 @@ import serial
 import time
 import struct
 
-PORT = 'COM10'           # 改为你的设备串口号
+PORT = 'COM11'           # 改为你的设备串口号
 # Windows: COM>=10 需要 \\\\.\\ 前缀，否则打不开
 for prefix in ('COM', ):
     if PORT.startswith(prefix):
@@ -39,7 +39,7 @@ def bench_tx(ser, total_bytes):
         chunk = ser.read(min(CHUNK, total_bytes - received))
         if VERIFY:
             for i, b in enumerate(chunk):
-                expected = (received + i) & 0xFF
+                expected = (received + i) % 64  # MCU发送64字节重复pattern
                 if b != expected:
                     print(f'DATA ERR at offset {received+i}: got {b:02X} expected {expected:02X}')
                     return
@@ -54,12 +54,18 @@ def bench_echo(ser, total_bytes):
     data = bytes([i & 0xFF for i in range(CHUNK)])
     loops = total_bytes // CHUNK
 
+    ser.reset_input_buffer()  # 清除残留数据(notify等)
+    time.sleep(0.1)
+
     start = time.time()
     for _ in range(loops):
         ser.write(data)
         rx = ser.read(CHUNK)
+        if len(rx) != CHUNK:
+            print(f'ECHO TIMEOUT: got {len(rx)} bytes, expected {CHUNK}')
+            return
         if rx != data:
-            print('ECHO MISMATCH!')
+            print(f'ECHO MISMATCH at byte 0: got {rx[0]:02X} expected {data[0]:02X}')
             return
     elapsed = time.time() - start
 
