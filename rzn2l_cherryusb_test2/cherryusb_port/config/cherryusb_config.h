@@ -34,9 +34,12 @@
 #define CDC_ACM_EP_INT_MAX_PACKET       16      /* 中断最大包长 */
 #define CDC_ACM_EP_INT_INTERVAL         10      /* 中断间隔(ms) */
 
+/* ========== CDC ACM模式 ========== */
+#define CDC_ACM_DEFAULT_MODE           0       /* 0=ECHO(默认), 1=SPEED_TEST, 运行时可切换 */
+
 /* ========== 缓冲区配置 ========== */
-#define CDC_ACM_RX_BUFFER_SIZE          512     /* 接收缓冲区大小 */
-#define CDC_ACM_TX_BUFFER_SIZE          512     /* 发送缓冲区大小 */
+#define CDC_ACM_RX_BUFFER_SIZE          2048    /* 接收缓冲区大小(CherryUSB官方测速用2048) */
+#define CDC_ACM_TX_BUFFER_SIZE          2048    /* 发送缓冲区大小(CherryUSB官方测速用2048) */
 
 /* ========== 回调配置 ========== */
 #define USB_ENABLE_CALLBACK             1       /* 使能回调机制 */

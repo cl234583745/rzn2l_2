@@ -30,10 +30,11 @@ void usb_interrupt_init(void)
     
     /* 使能USB外设中断 - 包括控制传输阶段转换中断(CTRE) */
     R_USBF->INTENB0 = (USB_VBSE | USB_DVSE | USB_CTRE | USB_BRDYE | USB_BEMPE | USB_NRDYE | USB_RSME);
+    R_USBF->NRDYENB = 0;
     
     /* 配置GIC：优先级12，电平触发 */
     R_BSP_IrqCfg(usb_irq, 12, NULL);
-    R_BSP_IrqDetectTypeSet(usb_irq, 0);
+    R_BSP_IrqDetectTypeSet(usb_irq, 0);  // 0=电平触发
     R_BSP_IrqEnable(usb_irq);
     
     USB_LOG_INFO("USB: IRQ #%d enabled (level), INTENB0=0x%04X\n", 

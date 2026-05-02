@@ -76,8 +76,7 @@ extern "C" {
 #define USB_PID_STALL             (0x0002U)
 #define USB_CCPL                  (0x0004U)
 #define USB_SQCLR                 (0x0100U)
-#define USB_SQSET                 (0x0080U)
-#define USB_SQMON                 (0x0040U)
+#define USB_SQSET                 (0x0200U)
 
 #define USB_TYPE_MASK             (0xC000U)
 #define USB_TYPE_OTHER            (0x0000U)

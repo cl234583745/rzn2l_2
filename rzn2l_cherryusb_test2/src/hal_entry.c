@@ -6,6 +6,7 @@
 #include "usbd_cdc_acm.h"
 #include "usb_interrupt_override.h"
 #include "cdc_acm_example.h"
+#include "debug_shell.h"
 
 #define CURRENT_LOG_LEVEL   LOG_LEVEL_DEBUG
 
@@ -154,8 +155,12 @@ void hal_entry(void)
     // ??GIC?USB??(??,???????)
     usb_interrupt_init();
 
+    cdc_acm_print_banner();
+    debug_shell_init();
+
     while(1)
     {
+#if 0
     	static uint32_t cnt = 0;
     	if(cnt++ >=20000000)
     	{
@@ -164,9 +169,9 @@ void hal_entry(void)
     		extern void usb_print_irq_stats(void);
     		usb_print_irq_stats();
     	}
-
+#endif
+        debug_shell_poll();
         cdc_acm_process();
-        //__WFI();
     }
 }
 
@@ -220,8 +225,9 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
 }
 void user_uart_callback(uart_callback_args_t *p_args)
 {
-    if(p_args->event == UART_EVENT_TX_COMPLETE)//
+    if(p_args->event == UART_EVENT_TX_COMPLETE)
     {
         uartTxCompleteFlg = 1;
     }
+    debug_shell_uart_callback(p_args);
 }

@@ -14,9 +14,9 @@ const uint8_t cdc_acm_device_descriptor[] = {
     USB_DT_DEVICE_SIZE,              /* bLength */
     USB_DT_DEVICE,                   /* bDescriptorType */
     0x00, 0x02,                      /* bcdUSB = 2.00 */
-    0x02,                            /* bDeviceClass = CDC */
-    0x00,                            /* bDeviceSubClass */
-    0x00,                            /* bDeviceProtocol */
+    0xEF,                            /* bDeviceClass = Miscellaneous */
+    0x02,                            /* bDeviceSubClass */
+    0x01,                            /* bDeviceProtocol = IAD */
     USB_DEV_MAX_PACKET,              /* bMaxPacketSize0 */
     (USB_DEV_VID & 0xFF), (USB_DEV_VID >> 8),        /* idVendor */
     (USB_DEV_PID & 0xFF), (USB_DEV_PID >> 8),        /* idProduct */
@@ -49,7 +49,7 @@ const uint8_t cdc_acm_config_descriptor[] = {
     0x02,                            /* bInterfaceCount */
     0x02,                            /* bFunctionClass: CDC */
     0x02,                            /* bFunctionSubClass */
-    0x01,                            /* bFunctionProtocol */
+    0x00,                            /* bFunctionProtocol */
     0x00,                            /* iFunction */
 
     /* Interface 0: CDC Control Interface */
@@ -60,7 +60,7 @@ const uint8_t cdc_acm_config_descriptor[] = {
     0x01,                            /* bNumEndpoints */
     0x02,                            /* bInterfaceClass: CDC */
     0x02,                            /* bInterfaceSubClass: ACM */
-    0x01,                            /* bInterfaceProtocol: AT Commands */
+    0x00,                            /* bInterfaceProtocol: No protocol(不用AT命令) */
     0x00,                            /* iInterface */
 
     /* Header Functional Descriptor */
@@ -73,7 +73,7 @@ const uint8_t cdc_acm_config_descriptor[] = {
     0x05,                            /* bLength */
     0x24,                            /* bDescriptorType: CS_INTERFACE */
     0x01,                            /* bDescriptorSubtype: CALL_MANAGEMENT */
-    0x00,                            /* bmCapabilities */
+    0x03,                            /* bmCapabilities: D1+D0=设备自行处理呼叫管理 */
     0x01,                            /* bDataInterface */
 
     /* ACM Functional Descriptor */
