@@ -198,7 +198,9 @@ int cdc_acm_send(uint8_t *data, uint32_t len)
 {
     if (!data || !len) return -1;
     g_tx_done = false;
-    return usbd_ep_start_write(0, CDC_ACM_EP_IN_ADDR, data, len);
+    int ret = usbd_ep_start_write(0, CDC_ACM_EP_IN_ADDR, data, len);
+    USB_LOG_INFO("TX EP1: len=%lu, ret=%d\r\n", len, ret);
+    return ret;
 }
 
 int cdc_acm_recv(uint8_t *data, uint32_t len)

@@ -393,56 +393,63 @@ int usbd_ep_start_write(uint8_t busid, const uint8_t ep, const uint8_t *data, ui
         USB_LOG_INFO("EP0 TX: sent %d bytes, DCPCTR=0x%04X, BVAL set\r\n", 
                       write_len, R_USBF->DCPCTR);
     } else {
-        R_USBF->D0FIFOSEL = (uint16_t)(pipe | USB_MBW_32);
+        /* RZN2L外设模式只支持CFIFO，关中断保护 */
+        uint32_t cpsr;
+        __asm volatile ("mrs %0, cpsr" : "=r"(cpsr));
+        __asm volatile ("cpsid i");
+
+        /* 先NAK，停止发送 */
+        uint16_t pipectr = R_USBF->PIPE_CTR[pipe - 1];
+        R_USBF->PIPE_CTR[pipe - 1] = (uint16_t)((pipectr & ~USB_PID_MASK) | USB_PID_NAK);
+
+        /* ISEL=1(写方向), CURPIPE=pipe, MBW=32 */
+        R_USBF->CFIFOSEL = (uint16_t)(pipe | USB_MBW_32 | 0x0020);
         volatile uint32_t __timeout = 100000;
-        while ((R_USBF->D0FIFOSEL & 0x080F) != (uint16_t)(pipe | USB_MBW_32)) {
-            if (--__timeout == 0) return -1;
+        while ((R_USBF->CFIFOSEL & 0x002F) != (uint16_t)(pipe | 0x0020)) {
+            if (--__timeout == 0) { __asm volatile ("msr cpsr_c, %0" :: "r"(cpsr)); return -1; }
         }
-        
+
         volatile uint32_t timeout = 100000;
-        while (!(R_USBF->D0FIFOCTR & USB_FRDY)) {
-            if (--timeout == 0) return -1;
+        while (!(R_USBF->CFIFOCTR & USB_FRDY)) {
+            if (--timeout == 0) { __asm volatile ("msr cpsr_c, %0" :: "r"(cpsr)); return -1; }
         }
-        
-        // 参照FSP每次发送前清FIFO
-        R_USBF->D0FIFOCTR = USB_BCLR;
+
+        R_USBF->CFIFOCTR = USB_BCLR;
         timeout = 100000;
-        while (!(R_USBF->D0FIFOCTR & USB_FRDY)) {
-            if (--timeout == 0) return -1;
+        while (!(R_USBF->CFIFOCTR & USB_FRDY)) {
+            if (--timeout == 0) { __asm volatile ("msr cpsr_c, %0" :: "r"(cpsr)); return -1; }
         }
-        
-        // 写入完整的32位字到D0FIFO端口（单一端口寄存器，重复写入同一地址）
+
         const uint32_t *src32 = (const uint32_t *)data;
         uint32_t word_len = write_len / 4;
         for (uint32_t i = 0; i < word_len; i++) {
-            R_USBF->D0FIFO = src32[i];
+            R_USBF->CFIFO = src32[i];
         }
-        
-        // 处理剩余字节
+
         uint32_t remain = write_len % 4;
         if (remain > 0) {
             const uint8_t *src8 = data + (word_len * 4);
-            uint16_t fifosel_base = R_USBF->D0FIFOSEL;
-            
+            uint16_t cfifosel_base = R_USBF->CFIFOSEL;
+
             if (remain >= 2) {
-                R_USBF->D0FIFOSEL = (fifosel_base & ~USB_MBW) | USB_MBW_16;
-                *((volatile uint16_t *)&R_USBF->D0FIFO) = *((const uint16_t *)src8);
+                R_USBF->CFIFOSEL = (cfifosel_base & ~USB_MBW) | USB_MBW_16;
+                *((volatile uint16_t *)&R_USBF->CFIFO) = *((const uint16_t *)src8);
                 src8 += 2;
                 remain -= 2;
             }
             if (remain == 1) {
-                R_USBF->D0FIFOSEL = (fifosel_base & ~USB_MBW) | USB_MBW_8;
-                *((volatile uint8_t *)&R_USBF->D0FIFO) = *src8;
+                R_USBF->CFIFOSEL = (cfifosel_base & ~USB_MBW) | USB_MBW_8;
+                *((volatile uint8_t *)&R_USBF->CFIFO) = *src8;
             }
-            
-            R_USBF->D0FIFOSEL = (fifosel_base & ~USB_MBW) | USB_MBW_32;
+
+            R_USBF->CFIFOSEL = (cfifosel_base & ~USB_MBW) | USB_MBW_32;
         }
-        
-        // 设置BVAL标记数据有效
-        R_USBF->D0FIFOCTR |= USB_BVAL;
-        
-        uint16_t pipectr = R_USBF->PIPE_CTR[pipe - 1];
-        R_USBF->PIPE_CTR[pipe - 1] = (uint16_t)((pipectr & ~USB_PID_MASK) | USB_PID_BUF);
+
+        R_USBF->CFIFOCTR |= USB_BVAL;
+
+        __asm volatile ("msr cpsr_c, %0" :: "r"(cpsr));
+
+        R_USBF->PIPE_CTR[pipe - 1] = (uint16_t)((R_USBF->PIPE_CTR[pipe - 1] & ~USB_PID_MASK) | USB_PID_BUF);
     }
     
     g_usb_dc.ep_tx_busy[pipe] = true;
@@ -545,28 +552,29 @@ static void usb_read_fifo(uint8_t pipe, uint8_t *data, uint32_t max_len, uint16_
             *actual_len = 0;
         }
     } else {
-        R_USBF->D0FIFOSEL = (uint16_t)(pipe | USB_MBW_32);
+        /* RZN2L外设模式: 非EP0也用CFIFO, ISEL=0读方向 */
+        R_USBF->CFIFOSEL = (uint16_t)(pipe | USB_MBW_32);
         volatile uint32_t __t = 100000;
-        while ((R_USBF->D0FIFOSEL & 0x080F) != (uint16_t)(pipe | USB_MBW_32)) {
+        while ((R_USBF->CFIFOSEL & 0x000F) != (uint16_t)pipe) {
             if (--__t == 0) break;
         }
-        uint16_t ctr = R_USBF->D0FIFOCTR;
+        uint16_t ctr = R_USBF->CFIFOCTR;
         if ((ctr & USB_FRDY) && ((ctr & USB_DTLN_MASK) > 0)) {
             uint16_t dtln = ctr & USB_DTLN_MASK;
             uint32_t len = (max_len < dtln) ? max_len : dtln;
             uint32_t word_len = len / 4;
             for (uint32_t i = 0; i < word_len; i++) {
-                *((uint32_t *)(data + i * 4)) = R_USBF->D0FIFO;
+                *((uint32_t *)(data + i * 4)) = R_USBF->CFIFO;
             }
             uint32_t remain = len % 4;
             if (remain > 0) {
-                uint32_t word = R_USBF->D0FIFO;
+                uint32_t word = R_USBF->CFIFO;
                 for (uint32_t i = 0; i < remain; i++) {
                     data[word_len * 4 + i] = (uint8_t)(word >> (i * 8));
                 }
             }
             *actual_len = len;
-            R_USBF->D0FIFOCTR = USB_BCLR;
+            R_USBF->CFIFOCTR = USB_BCLR;
         } else {
             *actual_len = 0;
         }
