@@ -1,0 +1,77 @@
+1、低速
+g_uart0.p_api->open
+[INFO] date:May  3 2026
+time:12:45:04
+file:../src/hal_entry.c
+func:hal_entry,line:135
+hello world!
+[INFO] PI=3.141593
+[INFO] Built with RZ/N Flexible Software Package version 2.0.0
+[INFO] 
+=== USB CDC ACM ===
+[INFO]   Module:  USB_IP0
+[INFO]   Mode:    Peripheral
+[INFO]   Speed:   Full-Speed (12 Mbps)
+[INFO]   VID:     0x045B
+[INFO]   PID:     0x5539
+[INFO]   EP IN:   0x81 max=64
+[INFO]   EP OUT:  0x02 max=64
+[INFO]   Buffer:  RX=2048 TX=2048
+[INFO] 
+=== CDC ACM Mode: ECHO ===
+[INFO]   ECHO:       send data via COM -> MCU echoes back
+[INFO]   SPEED_TEST: DTR=1 -> MCU sends data continuously
+[INFO]               Use: python test_cdc_speed.py COMx
+[INFO]   Debug UART cmd: "echo" or "speed" + Enter
+
+[INFO] [SPEED TEST] Sending data continuously. Use: python test_cdc_speed.py COMx
+[INFO] [SPEED TEST] Sending data continuously. Use: python test_cdc_speed.py COMx
+[INFO] ECHO: 25856 B / 11182 ms = 2 KB/s
+
+PS G:\e2s_workspace\rzn2l_cherryusb_port\tools> python .\test_cdc_speed.py COM11
+test cdc out speed (host -> device)
+cdc out speed 0.887 MB/s (10485760 B / 11.273 s)
+test cdc in speed (device -> host)
+cdc in speed 0.902 MB/s (10526720 B / 11.134 s)
+PS G:\e2s_workspace\rzn2l_cherryusb_port\tools>
+
+
+
+
+2、高速
+g_uart0.p_api->open
+[INFO] date:May  3 2026
+time:12:45:04
+file:../src/hal_entry.c
+func:hal_entry,line:135
+hello world!
+[INFO] PI=3.141593
+[INFO] Built with RZ/N Flexible Software Package version 2.0.0
+[INFO] 
+=== USB CDC ACM ===
+[INFO]   Module:  USB_IP0
+[INFO]   Mode:    Peripheral
+[INFO]   Speed:   High-Speed (480 Mbps)
+[INFO]   VID:     0x045B
+[INFO]   PID:     0x5539
+[INFO]   EP IN:   0x81 max=512
+[INFO]   EP OUT:  0x02 max=512
+[INFO]   Buffer:  RX=16384 TX=16384
+[INFO] 
+=== CDC ACM Mode: ECHO ===
+[INFO]   ECHO:       send data via COM -> MCU echoes back
+[INFO]   SPEED_TEST: DTR=1 -> MCU sends data continuously
+[INFO]               Use: python test_cdc_speed.py COMx
+[INFO]   Debug UART cmd: "echo" or "speed" + Enter
+
+[INFO] [SPEED TEST] Sending data continuously. Use: python test_cdc_speed.py COMx
+[INFO] [SPEED TEST] Sending data continuously. Use: python test_cdc_speed.py COMx
+
+
+
+PS G:\e2s_workspace\rzn2l_cherryusb_port\tools> python .\test_cdc_speed.py COM11
+test cdc out speed (host -> device)
+cdc out speed 25.564 MB/s (10485760 B / 0.391 s)
+test cdc in speed (device -> host)
+cdc in speed 14.797 MB/s (10485760 B / 0.676 s)
+PS G:\e2s_workspace\rzn2l_cherryusb_port\tools>

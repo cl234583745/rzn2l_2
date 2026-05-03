@@ -3,7 +3,9 @@
 **/Release/
 **/Debug_local/
 **/.settings/
-*/video/
+*/video*/
+*/.arts/
+*/.codeartsdoer/
 
 # Prerequisites
 *.d

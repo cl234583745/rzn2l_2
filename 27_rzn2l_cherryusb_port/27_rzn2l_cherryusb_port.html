@@ -1,0 +1,858 @@
+<!DOCTYPE html><html><head>
+      <title>27_rzn2l_cherryusb_port</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.24\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      <script type="text/javascript" src="file:///c:\Users\jerry\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.24\crossnote\dependencies\mermaid\mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-details{margin:0;padding:0;border:none}.markdown-preview .md-toc summary.md-toc-link-wrapper{cursor:pointer;list-style-position:outside}.markdown-preview .md-toc summary.md-toc-link-wrapper::marker{font-size:.85em}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='0']{margin-left:12px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='1']{margin-left:28px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='2']{margin-left:44px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='3']{margin-left:60px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='4']{margin-left:76px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='5']{margin-left:80px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-details{margin:0;padding:0;border:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='0']{padding-left:0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='1']{padding-left:16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='2']{padding-left:32px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='3']{padding-left:48px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='4']{padding-left:64px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='5']{padding-left:80px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
+      <div class="crossnote markdown-preview  ">
+      
+<h1>二十七、RZN2L CherryUSB移植与性能对比</h1>
+<div class="md-toc">
+<div class="md-toc-link-wrapper" data-level="0">
+  <a href="#一-目的概述" class="md-toc-link"><p>一、目的/概述</p>
+</a>
+</div>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#二-cherryusb简介" class="md-toc-link"><p>二、CherryUSB简介</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#21-什么是cherryusb" class="md-toc-link"><p>2.1 什么是CherryUSB？</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#22-相关资源" class="md-toc-link"><p>2.2 相关资源</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#三-移植涉及的文件" class="md-toc-link"><p>三、移植涉及的文件</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#31-cherryusb核心文件" class="md-toc-link"><p>3.1 CherryUSB核心文件</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#32-hal层移植文件" class="md-toc-link"><p>3.2 HAL层移植文件</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#33-应用层文件" class="md-toc-link"><p>3.3 应用层文件</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#34-工程配置文件" class="md-toc-link"><p>3.4 工程配置文件</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#四-软件流程" class="md-toc-link"><p>四、软件流程</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#41-usb初始化流程" class="md-toc-link"><p>4.1 USB初始化流程</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#42-usb枚举流程" class="md-toc-link"><p>4.2 USB枚举流程</p>
+</a>
+</div>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="1">
+  <a href="#43-cdc数据传输流程" class="md-toc-link"><p>4.3 CDC数据传输流程</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#431-接收流程out方向" class="md-toc-link"><p>4.3.1 接收流程（OUT方向）</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#432-发送流程in方向" class="md-toc-link"><p>4.3.2 发送流程（IN方向）</p>
+</a>
+</div>
+</details>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#44-中断处理流程" class="md-toc-link"><p>4.4 中断处理流程</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#45-主循环流程" class="md-toc-link"><p>4.5 主循环流程</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#五-测试方法" class="md-toc-link"><p>五、测试方法</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#51-测试环境" class="md-toc-link"><p>5.1 测试环境</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#52-测试脚本" class="md-toc-link"><p>5.2 测试脚本</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#53-测试步骤" class="md-toc-link"><p>5.3 测试步骤</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#六-性能测试结果" class="md-toc-link"><p>六、性能测试结果</p>
+</a>
+</summary>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="1">
+  <a href="#61-cherryusb性能" class="md-toc-link"><p>6.1 CherryUSB性能</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#全速模式full-speed-12-mbps" class="md-toc-link"><p>全速模式（Full-Speed 12 Mbps）</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#高速模式high-speed-480-mbps" class="md-toc-link"><p>高速模式（High-Speed 480 Mbps）</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="1">
+  <a href="#62-瑞萨原厂例程性能" class="md-toc-link"><p>6.2 瑞萨原厂例程性能</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#全速模式full-speed-12-mbps-1" class="md-toc-link"><p>全速模式（Full-Speed 12 Mbps）</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#高速模式high-speed-480-mbps-1" class="md-toc-link"><p>高速模式（High-Speed 480 Mbps）</p>
+</a>
+</div>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="1">
+  <a href="#63-性能对比" class="md-toc-link"><p>6.3 性能对比</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#全速模式对比full-speed-12-mbps" class="md-toc-link"><p>全速模式对比（Full-Speed 12 Mbps）</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#高速模式对比high-speed-480-mbps" class="md-toc-link"><p>高速模式对比（High-Speed 480 Mbps）</p>
+</a>
+</div>
+</details>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#七-移植要点" class="md-toc-link"><p>七、移植要点</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#71-关键配置" class="md-toc-link"><p>7.1 关键配置</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#72-中断处理" class="md-toc-link"><p>7.2 中断处理</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#73-描述符配置" class="md-toc-link"><p>7.3 描述符配置</p>
+</a>
+</div>
+</details>
+<div class="md-toc-link-wrapper" data-level="0">
+  <a href="#八-总结" class="md-toc-link"><p>八、总结</p>
+</a>
+</div>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="0">
+  <a href="#九-附录" class="md-toc-link"><p>九、附录</p>
+</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#测试环境" class="md-toc-link"><p>测试环境</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#文件结构" class="md-toc-link"><p>文件结构</p>
+</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#相关链接" class="md-toc-link"><p>相关链接</p>
+</a>
+</div>
+</details>
+</div>
+<h1 id="一-目的概述">一、目的/概述 </h1>
+<p>1、cherryusb还没有人支持瑞萨芯片，我们尝试在RZN2L CR52上移植CherryUSB协议栈</p>
+<p>2、在rzn2l芯片上实现USB CDC ACM 功能(实现cherryusb hal)</p>
+<p>3、对比CherryUSB与瑞萨原厂USB例程的性能差异</p>
+<p>4、验证全速（12Mbps）和高速（480Mbps）模式下的传输性能</p>
+<h1 id="二-cherryusb简介">二、CherryUSB简介 </h1>
+<h2 id="21-什么是cherryusb">2.1 什么是CherryUSB？ </h2>
+<p>CherryUSB是一个轻量级的USB主机和设备协议栈，具有以下特点：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>代码量小</td>
+<td>核心代码约10KB，适合资源受限的MCU</td>
+</tr>
+<tr>
+<td>移植简单</td>
+<td>统一的HAL抽象层，只需实现几个底层函数</td>
+</tr>
+<tr>
+<td>性能优秀</td>
+<td>优化的数据传输路径，支持DMA</td>
+</tr>
+<tr>
+<td>功能完整</td>
+<td>支持USB Host/Device，包含常见USB类</td>
+</tr>
+<tr>
+<td>社区活跃</td>
+<td>持续更新维护，文档齐全</td>
+</tr>
+</tbody>
+</table>
+<h2 id="22-相关资源">2.2 相关资源 </h2>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>官方仓库</td>
+<td><a href="https://github.com/cherry-embedded/CherryUSB">https://github.com/cherry-embedded/CherryUSB</a></td>
+</tr>
+<tr>
+<td>官方文档</td>
+<td><a href="https://cherryusb.readthedocs.io/">https://cherryusb.readthedocs.io/</a></td>
+</tr>
+<tr>
+<td>示例代码</td>
+<td><a href="https://github.com/cherry-embedded/CherryUSB/tree/master/demo">https://github.com/cherry-embedded/CherryUSB/tree/master/demo</a></td>
+</tr>
+<tr>
+<td>移植指南</td>
+<td><a href="https://cherryusb.readthedocs.io/zh-cn/latest/quick_start/transplant.html">https://cherryusb.readthedocs.io/zh-cn/latest/quick_start/transplant.html</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="三-移植涉及的文件">三、移植涉及的文件 </h1>
+<h2 id="31-cherryusb核心文件">3.1 CherryUSB核心文件 </h2>
+<p>从CherryUSB官方仓库复制以下文件到工程：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>cherryusb_port/
+├── cherryusb/                    # CherryUSB核心库
+│   ├── core/                     # USB核心协议
+│   │   └── usbd_core.c           # USB设备核心
+│   ├── class/                    # USB类实现
+│   │   └── cdc/                  # CDC类
+│   ├── common/                   # 公共定义
+│   ├── osal/                     # OS抽象层
+│   │   └── usb_osal_none.c       # 无OS适配
+│   └── usb_config.h              # USB配置
+├── config/                       # 配置文件
+│   └── cherryusb_config.h        # CherryUSB配置
+├── examples/                     # 示例代码
+│   ├── cdc_acm_descriptor.c      # CDC描述符
+│   ├── cdc_acm_descriptor.h
+│   ├── cdc_acm_example.c         # CDC示例
+│   └── cdc_acm_example.h
+└── hal/                          # 硬件抽象层
+    ├── usb_dc_rzn2l.c            # RZN2L USB设备驱动
+    ├── usb_dc_rzn2l.h
+    ├── usb_interrupt_override.c  # 中断处理
+    ├── usb_interrupt_override.h
+    └── usb_reg_rzn2l.h           # 寄存器定义
+</code></pre><h2 id="32-hal层移植文件">3.2 HAL层移植文件 </h2>
+<p>移植CherryUSB需要实现以下HAL层函数：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>usb_dc_rzn2l.c</code></td>
+<td>USB设备控制器驱动，实现初始化、端点配置、数据收发</td>
+</tr>
+<tr>
+<td><code>usb_dc_rzn2l.h</code></td>
+<td>驱动头文件，定义数据结构和函数接口</td>
+</tr>
+<tr>
+<td><code>usb_interrupt_override.c</code></td>
+<td>USB中断处理，覆盖默认中断处理</td>
+</tr>
+<tr>
+<td><code>usb_reg_rzn2l.h</code></td>
+<td>RZN2L USB寄存器定义</td>
+</tr>
+</tbody>
+</table>
+<h2 id="33-应用层文件">3.3 应用层文件 </h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hal_entry.c</code></td>
+<td>主入口，初始化USB并调用CDC示例</td>
+</tr>
+<tr>
+<td><code>cdc_acm_example.c</code></td>
+<td>CDC ACM示例，实现回显和速度测试</td>
+</tr>
+<tr>
+<td><code>cdc_acm_descriptor.c</code></td>
+<td>USB描述符定义</td>
+</tr>
+<tr>
+<td><code>debug_shell.c</code></td>
+<td>调试命令行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="34-工程配置文件">3.4 工程配置文件 </h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>script/fsp_xspi0_boot.ld</code></td>
+<td>链接脚本</td>
+</tr>
+<tr>
+<td><code>.cproject</code></td>
+<td>e2studio工程配置</td>
+</tr>
+<tr>
+<td><code>rzn_gen/hal_data.c</code></td>
+<td>FSP硬件配置</td>
+</tr>
+</tbody>
+</table>
+<h1 id="四-软件流程">四、软件流程 </h1>
+<h2 id="41-usb初始化流程">4.1 USB初始化流程 </h2>
+<div class="mermaid">graph TD
+    subgraph 第一阶段: 基础初始化
+    A1[hal_entry] --&gt; A2[UART初始化] --&gt; A3[注册描述符] --&gt; A4[CDC初始化]
+    end
+</div><div class="mermaid">graph TD
+    
+    subgraph 第二阶段: USB初始化
+    B1[USB设备初始化] --&gt; B2[HAL层初始化] --&gt; B3[系统时钟使能] --&gt; B4[配置寄存器]
+    end
+
+</div><div class="mermaid">graph TD
+
+    
+    subgraph 第三阶段: 中断配置
+    C1[使能USB中断] --&gt; C2[配置GIC中断] --&gt; C3[打印Banner] --&gt; C4[进入主循环]
+    end
+
+</div><h2 id="42-usb枚举流程">4.2 USB枚举流程 </h2>
+<div class="mermaid">graph TD
+    subgraph 连接与复位
+    A[USB插入] --&gt; B[VBINT中断] --&gt; C[使能上拉] --&gt; D[CONNECT事件]
+    E[主机RESET] --&gt; F[DVST中断] --&gt; G[检测速度] --&gt; H[重置EP0]
+    end
+
+</div><div class="mermaid">graph LR
+    
+    subgraph 枚举请求
+    I[SETUP包] --&gt; J[CTRT中断] --&gt; K{请求类型}
+    K --&gt;|GET_DESC| L[发送描述符]
+    K --&gt;|SET_ADDR| M[设置地址]
+    K --&gt;|SET_CFG| N[配置端点]
+    end
+    
+    subgraph 完成
+    L --&gt; O[枚举完成]
+    M --&gt; O
+    N --&gt; O
+    end
+    
+
+</div><h2 id="43-cdc数据传输流程">4.3 CDC数据传输流程 </h2>
+<h3 id="431-接收流程out方向">4.3.1 接收流程（OUT方向） </h3>
+<div class="mermaid">graph TD
+    subgraph 硬件层
+    A[主机发送数据] --&gt; B[USB硬件接收] --&gt; C[BRDY中断触发]
+    end
+</div><div class="mermaid">graph TD
+
+    
+    subgraph 驱动层
+    D[usb_read_fifo读取] --&gt; E[out_complete回调]
+    end
+
+</div><div class="mermaid">graph TD
+
+    
+    subgraph 应用层
+    F[设置g_rx_done=true] --&gt; G[cdc_acm_process处理]
+    end
+
+</div><h3 id="432-发送流程in方向">4.3.2 发送流程（IN方向） </h3>
+<div class="mermaid">graph LR
+    subgraph 应用层
+    A[cdc_acm_process] --&gt; B{g_rx_done?}
+    B --&gt;|Yes| C[复制数据到TX缓冲]
+    end
+    
+    B --&gt;|No| J[等待]
+
+</div><div class="mermaid">graph TD
+    
+    subgraph 驱动层
+    D[usbd_ep_start_write] --&gt; E[写入FIFO] --&gt; F[设置BVAL启动]
+    end
+
+</div><div class="mermaid">graph LR
+ 
+    subgraph 硬件层
+    G[USB硬件发送] --&gt; H[BEMP中断] --&gt; I[in_complete回调]
+    end
+
+    I --&gt; K[g_tx_busy=false]
+</div><h2 id="44-中断处理流程">4.4 中断处理流程 </h2>
+<div class="mermaid">graph LR
+    subgraph 中断入口
+    A[USB中断触发] --&gt; B[USBD_IRQHandler]
+    end
+    
+    subgraph 中断分发
+    C{中断类型判断}
+    C --&gt;|VBINT| D[连接/断开处理]
+    C --&gt;|DVST| E[设备状态处理]
+    C --&gt;|CTRT| F[SETUP包处理]
+    C --&gt;|BEMP| G[IN传输完成]
+    C --&gt;|BRDY| H[OUT数据接收]
+    C --&gt;|NRDY| I[恢复PID=BUF]
+    end
+    
+    subgraph 中断退出
+    J[清除中断标志] --&gt; K[返回]
+    end
+    
+    B --&gt; C
+    D --&gt; J
+    E --&gt; J
+    F --&gt; J
+    G --&gt; J
+    H --&gt; J
+    I --&gt; J
+</div><h2 id="45-主循环流程">4.5 主循环流程 </h2>
+<div class="mermaid">graph LR
+    subgraph 主循环
+    A[while 1循环] --&gt; B[debug_shell_poll]
+    B --&gt; C[cdc_acm_process]
+    end
+    
+    subgraph 数据处理
+    D{g_rx_done?}
+    D --&gt;|Yes| E[回显数据到PC]
+    E --&gt; F[重启USB接收]
+    D --&gt;|No| G{g_dtr_enable?}
+    G --&gt;|Yes| H[持续发送测试数据]
+    G --&gt;|No| I[空闲等待]
+    end
+    
+    C --&gt; D
+    F --&gt; A
+    H --&gt; A
+    I --&gt; A
+</div><h1 id="五-测试方法">五、测试方法 </h1>
+<h2 id="51-测试环境">5.1 测试环境 </h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCU</td>
+<td>Renesas RZN2L</td>
+</tr>
+<tr>
+<td>内核</td>
+<td>Cortex-R52 @ 400MHz</td>
+</tr>
+<tr>
+<td>编译器</td>
+<td>ARM GCC 13.3.1</td>
+</tr>
+<tr>
+<td>IDE</td>
+<td>e2studio</td>
+</tr>
+<tr>
+<td>USB模式</td>
+<td>Device（CDC ACM）</td>
+</tr>
+<tr>
+<td>测试工具</td>
+<td>Python + pyserial</td>
+</tr>
+</tbody>
+</table>
+<h2 id="52-测试脚本">5.2 测试脚本 </h2>
+<p>使用Python脚本 <code>test_cdc_speed.py</code> 进行速度测试：</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># 测试原理：</span>
+<span class="token comment"># OUT测试：主机写入10MB数据到设备，计算速度</span>
+<span class="token comment"># IN测试：设置DTR=1，设备循环发送数据，主机读取10MB，计算速度</span>
+
+<span class="token keyword keyword-import">import</span> serial
+<span class="token keyword keyword-import">import</span> time
+<span class="token keyword keyword-import">import</span> sys
+
+test_comx <span class="token operator">=</span> sys<span class="token punctuation">.</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>  <span class="token comment"># COM端口号</span>
+test_maxsize <span class="token operator">=</span> <span class="token number">10</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span>  <span class="token comment"># 10MB</span>
+test_data <span class="token operator">=</span> <span class="token string">b'\xAA'</span> <span class="token operator">*</span> <span class="token number">4096</span>
+
+<span class="token comment"># OUT测试</span>
+<span class="token keyword keyword-def">def</span> <span class="token function">test_cdc_out</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    send_count <span class="token operator">=</span> <span class="token number">0</span>
+    begin <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-while">while</span> send_count <span class="token operator">&lt;</span> test_maxsize<span class="token punctuation">:</span>
+        txdatalen <span class="token operator">=</span> test_serial<span class="token punctuation">.</span>write<span class="token punctuation">(</span>test_data<span class="token punctuation">)</span>
+        send_count <span class="token operator">+=</span> txdatalen
+    elapsed <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> begin
+    speed_mbps <span class="token operator">=</span> <span class="token punctuation">(</span>send_count <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">/</span> <span class="token number">1024</span><span class="token punctuation">)</span> <span class="token operator">/</span> elapsed
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string">"cdc out speed %.3f MB/s"</span> <span class="token operator">%</span> speed_mbps<span class="token punctuation">)</span>
+
+<span class="token comment"># IN测试</span>
+<span class="token keyword keyword-def">def</span> <span class="token function">test_cdc_in</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    read_count <span class="token operator">=</span> <span class="token number">0</span>
+    begin <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-while">while</span> read_count <span class="token operator">&lt;</span> test_maxsize<span class="token punctuation">:</span>
+        data <span class="token operator">=</span> test_serial<span class="token punctuation">.</span>read<span class="token punctuation">(</span>test_maxsize<span class="token punctuation">)</span>
+        read_count <span class="token operator">+=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    elapsed <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> begin
+    speed_mbps <span class="token operator">=</span> <span class="token punctuation">(</span>read_count <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">/</span> <span class="token number">1024</span><span class="token punctuation">)</span> <span class="token operator">/</span> elapsed
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string">"cdc in speed %.3f MB/s"</span> <span class="token operator">%</span> speed_mbps<span class="token punctuation">)</span>
+</code></pre><h2 id="53-测试步骤">5.3 测试步骤 </h2>
+<p>1、编译烧录固件到RZN2L开发板</p>
+<p>2、连接USB线到PC，确认设备枚举成功</p>
+<p>3、记录COM端口号（如COM11）</p>
+<p>4、运行测试脚本：</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>python test_cdc_speed.py COM11
+</code></pre><p>5、记录OUT和IN速度</p>
+<h1 id="六-性能测试结果">六、性能测试结果 </h1>
+<h2 id="61-cherryusb性能">6.1 CherryUSB性能 </h2>
+<h3 id="全速模式full-speed-12-mbps">全速模式（Full-Speed 12 Mbps） </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>=== USB CDC ACM ===
+  Module:  USB_IP0
+  Mode:    Peripheral
+  Speed:   Full-Speed (12 Mbps)
+  EP IN:   0x81 max=64
+  EP OUT:  0x02 max=64
+  Buffer:  RX=2048 TX=2048
+
+测试结果：
+cdc out speed 0.887 MB/s (10485760 B / 11.273 s)
+cdc in speed 0.902 MB/s (10526720 B / 11.134 s)
+</code></pre><h3 id="高速模式high-speed-480-mbps">高速模式（High-Speed 480 Mbps） </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>=== USB CDC ACM ===
+  Module:  USB_IP0
+  Mode:    Peripheral
+  Speed:   High-Speed (480 Mbps)
+  EP IN:   0x81 max=512
+  EP OUT:  0x02 max=512
+  Buffer:  RX=16384 TX=16384
+
+测试结果：
+cdc out speed 25.564 MB/s (10485760 B / 0.391 s)
+cdc in speed 14.797 MB/s (10526720 B / 0.676 s)
+</code></pre><h2 id="62-瑞萨原厂例程性能">6.2 瑞萨原厂例程性能 </h2>
+<h3 id="全速模式full-speed-12-mbps-1">全速模式（Full-Speed 12 Mbps） </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>[USB] Module: USB_IP0
+[USB] Mode: Peripheral
+[USB] Speed: Low-Speed
+[USB] DMA: OFF
+[USB] BENCH_BUF_SIZE: 4096
+
+测试结果：
+OUT: 0.16 MB/s (10485760 B in 61620 ms)
+IN:  0.89 MB/s (10485760 B in 11175 ms)
+</code></pre><h3 id="高速模式high-speed-480-mbps-1">高速模式（High-Speed 480 Mbps） </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>[USB] Module: USB_IP0
+[USB] Mode: Peripheral
+[USB] Speed: High-Speed
+[USB] DMA: OFF
+[USB] BENCH_BUF_SIZE: 4096
+
+测试结果：
+OUT: 5.84 MB/s (10485760 B in 1712 ms)
+IN:  19.65 MB/s (10485760 B in 509 ms)
+</code></pre><h2 id="63-性能对比">6.3 性能对比 </h2>
+<h3 id="全速模式对比full-speed-12-mbps">全速模式对比（Full-Speed 12 Mbps） </h3>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>CherryUSB</th>
+<th>瑞萨原厂</th>
+<th>对比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OUT (主机→设备)</td>
+<td>0.887 MB/s</td>
+<td>0.16 MB/s</td>
+<td><strong>CherryUSB快5.5倍</strong></td>
+</tr>
+<tr>
+<td>IN (设备→主机)</td>
+<td>0.902 MB/s</td>
+<td>0.89 MB/s</td>
+<td>基本持平</td>
+</tr>
+</tbody>
+</table>
+<h3 id="高速模式对比high-speed-480-mbps">高速模式对比（High-Speed 480 Mbps） </h3>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>CherryUSB</th>
+<th>瑞萨原厂</th>
+<th>对比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OUT (主机→设备)</td>
+<td>25.564 MB/s</td>
+<td>8.25 MB/s</td>
+<td><strong>CherryUSB快3.1倍</strong></td>
+</tr>
+<tr>
+<td>IN (设备→主机)</td>
+<td>14.797 MB/s</td>
+<td>19.36 MB/s</td>
+<td>瑞萨快1.3倍</td>
+</tr>
+</tbody>
+</table>
+<p><strong>性能分析：</strong></p>
+<ul>
+<li><strong>全速模式</strong>：OUT方向CherryUSB大幅领先（5.5倍），IN方向基本持平</li>
+<li><strong>高速模式</strong>：OUT方向CherryUSB领先3.1倍，IN方向瑞萨原厂略优</li>
+<li><strong>整体表现</strong>：CherryUSB在OUT方向（主机发送到设备）性能优势明显</li>
+</ul>
+<h1 id="七-移植要点">七、移植要点 </h1>
+<h2 id="71-关键配置">7.1 关键配置 </h2>
+<p><code>cherryusb_config.h</code>中的关键配置：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">USBD_IRQHandler</span>               <span class="token expression">USB_interrupt_override_IRQHandler</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">USBD_BASE</span>                     <span class="token expression">R_USBF_BASE</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CONFIG_USBDEV_EP_NUM</span>          <span class="token expression"><span class="token number">10</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CONFIG_USBDEV_RX_BUFSIZE</span>      <span class="token expression"><span class="token number">2048</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CONFIG_USBDEV_TX_BUFSIZE</span>      <span class="token expression"><span class="token number">2048</span></span></span>
+</code></pre><h2 id="72-中断处理">7.2 中断处理 </h2>
+<p>RZN2L的USB中断需要特殊处理，通过<code>usb_interrupt_override.c</code>覆盖默认中断：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token keyword keyword-void">void</span> <span class="token function">usb_interrupt_init</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 配置GIC中断</span>
+    <span class="token function">R_BSP_IrqCfgEnable</span><span class="token punctuation">(</span>USB_INT_IRQn<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-void">void</span> <span class="token function">USB_interrupt_override_IRQHandler</span><span class="token punctuation">(</span><span class="token keyword keyword-void">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-extern">extern</span> <span class="token keyword keyword-void">void</span> <span class="token function">USBD_IRQHandler</span><span class="token punctuation">(</span><span class="token class-name">uint8_t</span> busid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">USBD_IRQHandler</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="73-描述符配置">7.3 描述符配置 </h2>
+<p>CDC ACM描述符需要根据实际需求配置：</p>
+<pre data-role="codeBlock" data-info="c" class="language-c c"><code><span class="token comment">// 端点配置</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CDC_IN_EP</span>       <span class="token expression"><span class="token number">0x81</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CDC_OUT_EP</span>      <span class="token expression"><span class="token number">0x02</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CDC_INT_EP</span>      <span class="token expression"><span class="token number">0x83</span></span></span>
+
+<span class="token comment">// 全速端点大小</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CDC_MAX_MPS_FS</span>  <span class="token expression"><span class="token number">64</span></span></span>
+<span class="token comment">// 高速端点大小</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CDC_MAX_MPS_HS</span>  <span class="token expression"><span class="token number">512</span></span></span>
+</code></pre><h1 id="八-总结">八、总结 </h1>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>移植难度</td>
+<td>中等，需实现HAL层和中断处理</td>
+</tr>
+<tr>
+<td>代码量</td>
+<td>约20KB（含CDC类）</td>
+</tr>
+<tr>
+<td>全速性能</td>
+<td>OUT 0.887 MB/s, IN 0.902 MB/s</td>
+</tr>
+<tr>
+<td>高速性能</td>
+<td>OUT 25.564 MB/s, IN 14.797 MB/s</td>
+</tr>
+<tr>
+<td>优势</td>
+<td>OUT方向性能优秀，代码轻量，移植简单</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>需要高性能USB传输的嵌入式应用</td>
+</tr>
+</tbody>
+</table>
+<p><strong>核心要点：</strong></p>
+<p>1、CherryUSB移植主要工作在HAL层，需实现<code>usb_dc_rzn2l.c</code>中的底层驱动</p>
+<p>2、中断处理需要特殊覆盖，确保USB中断正确触发</p>
+<p>3、高速模式下性能显著优于全速，建议优先使用高速模式</p>
+<p>4、OUT方向性能提升明显，适合大量数据接收场景</p>
+<h1 id="九-附录">九、附录 </h1>
+<h2 id="测试环境">测试环境 </h2>
+<ul>
+<li><strong>MCU</strong>：Renesas RZN2L</li>
+<li><strong>内核</strong>：Cortex-R52 @ 400MHz</li>
+<li><strong>编译器</strong>：ARM GCC 13.3.1</li>
+<li><strong>IDE</strong>：e2studio</li>
+<li><strong>USB连接</strong>：USB Type-C</li>
+<li><strong>测试数据量</strong>：10MB</li>
+</ul>
+<h2 id="文件结构">文件结构 </h2>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>27_rzn2l_cherryusb_port/
+├── rzn2l_cherryusb_port/          # CherryUSB移植工程
+│   ├── cherryusb_port/            # CherryUSB库和移植文件
+│   ├── src/                       # 应用代码
+│   ├── rzn_gen/                   # FSP生成的配置
+│   ├── script/                    # 链接脚本
+│   └── tools/                     # 测试工具
+└── RZN2L_RSK_usb_pcdc/            # 瑞萨原厂例程（对比用）
+    ├── src/                       # 应用代码
+    ├── rzn/                       # FSP库
+    └── tools/                     # 测试工具
+</code></pre><h2 id="相关链接">相关链接 </h2>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CherryUSB仓库</td>
+<td><a href="https://github.com/cherry-embedded/CherryUSB">https://github.com/cherry-embedded/CherryUSB</a></td>
+</tr>
+<tr>
+<td>RZN2L产品页</td>
+<td><a href="https://www.renesas.cn/zh/products/rz-n2l">https://www.renesas.cn/zh/products/rz-n2l</a></td>
+</tr>
+<tr>
+<td>FSP文档</td>
+<td><a href="https://github.com/renesas/rzn-fsp/releases/tag/v2.0.0">https://github.com/renesas/rzn-fsp/releases/tag/v2.0.0</a></td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('div.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('div.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('div.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>
