@@ -3,9 +3,9 @@
 **/Release/
 **/Debug_local/
 **/.settings/
-*/video*/
 */.arts/
 */.codeartsdoer/
+*/video*
 
 # Prerequisites
 *.d
@@ -62,3 +62,8 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# e2studio launch configurations (user-specific)
+*.elf.launch
+*.jlink
+**/JLinkLog.log
