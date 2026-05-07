@@ -3,6 +3,8 @@
 **/Release/
 **/Debug_local/
 **/.settings/
+.arts
+.codeartsdoer
 */.arts/
 */.codeartsdoer/
 */video*
