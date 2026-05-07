@@ -1,3 +1,4 @@
+// Copyright (c) 2026 chenkaka. MIT licensed.
 /**
  * @file usb_dc_rzn2l.c
  * @brief RZ/N2L USB Device Controller HAL for CherryUSB

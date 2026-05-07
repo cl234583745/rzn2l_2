@@ -1,3 +1,4 @@
+// Copyright (c) 2026 chenkaka. MIT licensed.
 /**
  * @file usb_interrupt_override.h
  * @brief USB中断覆盖接口

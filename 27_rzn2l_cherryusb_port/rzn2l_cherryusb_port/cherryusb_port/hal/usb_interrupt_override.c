@@ -1,3 +1,4 @@
+// Copyright (c) 2026 chenkaka. MIT licensed.
 /**
  * @file usb_interrupt_override.c
  * @brief USB中断处理 - 适配FSP框架

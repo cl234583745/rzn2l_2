@@ -1,3 +1,4 @@
+// Copyright (c) 2026 chenkaka. MIT licensed.
 /**
  * @file usb_reg_rzn2l.h
  * @brief RZ/N2L USB寄存器宏定义 - 使用FSP官方类型
