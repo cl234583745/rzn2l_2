@@ -1,0 +1,28 @@
+# Build outputs
+build/
+build_gcc/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Compiler dependency files
+*.d
+
+# Binary / object outputs
+*.o
+*.obj
+*.elf
+*.hex
+*.bin
+*.srec
+*.sbd
+*.map
+
+# IDE / editor noise
+.vscode/
+.DS_Store
+Thumbs.db
